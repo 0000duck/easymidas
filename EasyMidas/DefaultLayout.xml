@@ -1,0 +1,30 @@
+﻿<DockingWindowsLayout>
+  <ToolWindows>
+    <ToolWindow key="ColorPicker" state="Docked" visible="True" />
+    <ToolWindow key="RotateCanvas" state="Docked" visible="True" />
+    <ToolWindow key="ColorPalette" state="Docked" visible="True" />
+  </ToolWindows>
+  <DockHost width="744" height="600">
+    <HorizontalGroup width="744" height="600">
+      <VerticalGroup width="540" height="600">
+        <ClientHost />
+        <ToolWindow key="ColorPalette" width="540" height="200" />
+      </VerticalGroup>
+      <VerticalGroup width="200" height="600">
+        <ToolWindow key="ColorPicker" width="200" height="298" />
+        <ToolWindow key="RotateCanvas" width="200" height="298" />
+      </VerticalGroup>
+    </HorizontalGroup>
+  </DockHost>
+  <FloatingWindows>
+    <FloatingWindow x="132" y="174" width="300" height="300">
+      <ToolWindow key="ColorPicker" width="292" height="274" />
+    </FloatingWindow>
+    <FloatingWindow x="154" y="203" width="300" height="300">
+      <ToolWindow key="RotateCanvas" width="292" height="274" />
+    </FloatingWindow>
+    <FloatingWindow x="176" y="232" width="300" height="300">
+      <ToolWindow key="ColorPalette" width="292" height="274" />
+    </FloatingWindow>
+  </FloatingWindows>
+</DockingWindowsLayout>

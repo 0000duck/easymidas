@@ -1,0 +1,382 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{85F79B40-A84D-42C5-83F5-FBA17EAA385E}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EasyMidas</RootNamespace>
+    <AssemblyName>EasyMidas</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ExcelLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>include\ExcelLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK">
+      <HintPath>include\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.GLControl, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>include\OpenTK.GLControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Design" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Xceed.DockingWindows, Version=2.1.10304.10260, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.DockingWindows.Design, Version=2.1.10304.10260, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL" />
+    <Reference Include="Xceed.DockingWindows.Layout, Version=2.1.10304.10260, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Editors, Version=2.5.10304.10260, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Grid, Version=3.8.10304.10260, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.UI, Version=1.3.10304.10260, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Validation, Version=1.2.10304.10260, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CheckElem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckElem.Designer.cs">
+      <DependentUpon>CheckElem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CheckSteelBeam.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckSteelBeam.Designer.cs">
+      <DependentUpon>CheckSteelBeam.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DesignWindow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DesignWindow.Designer.cs">
+      <DependentUpon>DesignWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Import3D3SExcelFiles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Import3D3SExcelFiles.Designer.cs">
+      <DependentUpon>Import3D3SExcelFiles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoadComForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoadComForm.Designer.cs">
+      <DependentUpon>LoadComForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MessageTools.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MessageTools.Designer.cs">
+      <DependentUpon>MessageTools.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModelForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ModelForm.Designer.cs">
+      <DependentUpon>ModelForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Post\DelaunayTrans.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Post\DelaunayTrans.Designer.cs">
+      <DependentUpon>DelaunayTrans.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Post\NodeForceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Post\NodeForceForm.Designer.cs">
+      <DependentUpon>NodeForceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Post\QueryResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Post\QueryResults.Designer.cs">
+      <DependentUpon>QueryResults.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Post\SetCheckingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Post\SetCheckingForm.Designer.cs">
+      <DependentUpon>SetCheckingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Post\UCSetCompType.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Post\UCSetCompType.Designer.cs">
+      <DependentUpon>UCSetCompType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Post\UCSetLength.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Post\UCSetLength.Designer.cs">
+      <DependentUpon>UCSetLength.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Post\SetSecDesignPara.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Post\SetSecDesignPara.Designer.cs">
+      <DependentUpon>SetSecDesignPara.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Post\UCSetBetam.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Post\UCSetBetam.Designer.cs">
+      <DependentUpon>UCSetBetam.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Post\UCSetQuakeAdjustFator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Post\UCSetQuakeAdjustFator.Designer.cs">
+      <DependentUpon>UCSetQuakeAdjustFator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PREP\ModifyNodeF.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PREP\ModifyNodeF.Designer.cs">
+      <DependentUpon>ModifyNodeF.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SecEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SecEditForm.Designer.cs">
+      <DependentUpon>SecEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SectionForm.Designer.cs">
+      <DependentUpon>SectionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SerializerProgress.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StruGroupTools.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StruGroupTools.Designer.cs">
+      <DependentUpon>StruGroupTools.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TableForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TableForm.Designer.cs">
+      <DependentUpon>TableForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ToolPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ToolPanel.Designer.cs">
+      <DependentUpon>ToolPanel.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="CheckElem.resx">
+      <DependentUpon>CheckElem.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CheckSteelBeam.resx">
+      <DependentUpon>CheckSteelBeam.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DesignWindow.resx">
+      <DependentUpon>DesignWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Import3D3SExcelFiles.resx">
+      <DependentUpon>Import3D3SExcelFiles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoadComForm.resx">
+      <DependentUpon>LoadComForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MessageTools.resx">
+      <DependentUpon>MessageTools.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModelForm.resx">
+      <DependentUpon>ModelForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Post\DelaunayTrans.resx">
+      <DependentUpon>DelaunayTrans.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Post\NodeForceForm.resx">
+      <DependentUpon>NodeForceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Post\QueryResults.resx">
+      <DependentUpon>QueryResults.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Post\SetCheckingForm.resx">
+      <DependentUpon>SetCheckingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Post\UCSetCompType.resx">
+      <DependentUpon>UCSetCompType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Post\UCSetLength.resx">
+      <DependentUpon>UCSetLength.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Post\SetSecDesignPara.resx">
+      <DependentUpon>SetSecDesignPara.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Post\UCSetBetam.resx">
+      <DependentUpon>UCSetBetam.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Post\UCSetQuakeAdjustFator.resx">
+      <DependentUpon>UCSetQuakeAdjustFator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PREP\ModifyNodeF.resx">
+      <DependentUpon>ModifyNodeF.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SecEditForm.resx">
+      <DependentUpon>SecEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SectionForm.resx">
+      <DependentUpon>SectionForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="StruGroupTools.resx">
+      <DependentUpon>StruGroupTools.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TableForm.resx">
+      <DependentUpon>TableForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ToolPanel.resx">
+      <DependentUpon>ToolPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MidasGenModel\MidasGenModel.csproj">
+      <Project>{733A5DA0-4D5D-43D7-9614-DE6F7EF5E09B}</Project>
+      <Name>MidasGenModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DefaultLayout.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\Select by Prop.png" />
+    <None Include="Resources\MIDASGEN.png" />
+    <None Include="Resources\New Document1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
