@@ -23,7 +23,12 @@ namespace EasyMidas
         public CheckRes CheckTable;//截面验算结果表
         public BCheckModel CheckModel;//截面验算参数数据
         public bool GLLoaded = false;//指示是否GL控件已被加载
-        public int x = 0;//测试用：三角形位置
+        
+        //绘图控制数据
+        public bool hasAxis = true;//指示是否显示坐标轴
+        static PointF angle = new PointF();//转角
+        static PointF last = new PointF();//最后一次转角
+        static Point offset = new Point();//鼠标偏移量
         #endregion
 
         public ModelForm1()
@@ -68,7 +73,7 @@ namespace EasyMidas
         #endregion
         #region GL控件相关方法和事件处理函数
         private void Render()
-        {
+        {           
             //初始化屏幕
             //1.清理屏幕           
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
@@ -86,11 +91,16 @@ namespace EasyMidas
             //4.视口设置
             Matrix4 lookat = Matrix4.LookAt(-3, -4, 4, 0, 0, 0, 0, 0, 1);
             GL.LoadMatrix(ref lookat);//加载视口矩阵
+            GL.Rotate(angle.X, 1, 0, 0);//旋转物体
+            GL.Rotate(angle.Y, 0, 0, 1);
             //显示设置
             //5.显示设置
 
             //绘图
-            DrawAxis();//画坐标轴
+            if (hasAxis)
+            {
+                DrawAxis();//画坐标轴
+            }           
             //绘图最后：swapBuffers()
             glControl1.SwapBuffers();//调换缓存
         }
@@ -194,5 +204,23 @@ namespace EasyMidas
         }
 
         #endregion
+
+        private void glControl1_MouseDown(object sender, MouseEventArgs e)
+        {
+            offset = e.Location;
+            last.X = angle.X; last.Y = angle.Y;
+        }
+
+        private void glControl1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (e.Y - offset.Y > 0) angle.X = last.X + e.Y - offset.Y;
+                else angle.X = last.X - offset.Y + e.Y;
+                if (e.X - offset.X > 0) angle.Y = last.Y + e.X - offset.X;
+                else angle.Y = last.Y - offset.X + e.X;
+            }
+            glControl1.Refresh();
+        }
     }
 }

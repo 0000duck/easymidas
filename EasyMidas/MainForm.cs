@@ -832,5 +832,12 @@ namespace EasyMidas
             mnf.ShowDialog();
             
         }
+
+        //显示关闭坐标轴
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            bool bt=ModelForm.hasAxis;
+            ModelForm.hasAxis = !bt;
+        }
     }
 }
