@@ -13,6 +13,7 @@ using MidasGenModel.Design;
 using OpenTK.Graphics.OpenGL;
 using OpenTK;
 using OpenTK.Graphics;
+using MidasGenModel.Geometry3d;
 
 namespace EasyMidas
 {
@@ -29,6 +30,12 @@ namespace EasyMidas
         static PointF angle = new PointF();//转角
         static PointF last = new PointF();//最后一次转角
         static Point offset = new Point();//鼠标偏移量
+
+        public float Eye_distance = 4;//相机与物体的距离
+        public bool hasElem = false;//是否显示单元模型
+        static float PerpectAngle = MathHelper.PiOver4;//透视角度
+        static float DisNear = 1;//景深控制近
+        static float DisFar = 160;//景深控制远
         #endregion
 
         public ModelForm1()
@@ -89,7 +96,8 @@ namespace EasyMidas
                 GL.Color3(Color.SeaGreen);
             //视口设置
             //4.视口设置
-            Matrix4 lookat = Matrix4.LookAt(-3, -4, 4, 0, 0, 0, 0, 0, 1);
+            Matrix4 lookat = Matrix4.LookAt(-Eye_distance, -Eye_distance,
+                Eye_distance, 0, 0, 0, 0, 0, 1);
             GL.LoadMatrix(ref lookat);//加载视口矩阵
             GL.Rotate(angle.X, 1, 0, 0);//旋转物体
             GL.Rotate(angle.Y, 0, 0, 1);
@@ -100,7 +108,22 @@ namespace EasyMidas
             if (hasAxis)
             {
                 DrawAxis();//画坐标轴
-            }           
+            }
+            if (hasElem)
+            {
+                //循环显示每个线单元
+                foreach (KeyValuePair<int, Element> elem in CurModel.elements)
+                {
+                    if (elem.Value.TYPE != ElemType.BEAM)
+                        continue;
+                    FrameElement bm = elem.Value as FrameElement;
+                    Point3d pt1 = CurModel.nodes[bm.I].Location;
+                    Point3d pt2 = CurModel.nodes[bm.J].Location;
+                    //显示单元
+                    DrawElem((float)pt1.X, (float)pt1.Y, (float)pt1.Z,
+                        (float)pt2.X, (float)pt2.Y, (float)pt2.Z);
+                }
+            }
             //绘图最后：swapBuffers()
             glControl1.SwapBuffers();//调换缓存
         }
@@ -120,6 +143,19 @@ namespace EasyMidas
             GL.Color3(Color.Blue);
             GL.Vertex3(0.0f, 0.0f, 0.0f);
             GL.Vertex3(0.0f, 0.0f, 1.0f);
+            GL.End();
+        }
+        /// <summary>
+        /// 绘制单元
+        /// </summary>
+        private void DrawElem(float ix,float iy,float iz,
+            float jx,float jy,float jz)
+        {
+            GL.LineWidth(2);//线宽
+            GL.Begin(PrimitiveType.Lines);
+            GL.Color3(Color.Gold);
+            GL.Vertex3(ix, iy, iz);
+            GL.Vertex3(jx, jy, jz);
             GL.End();
         }
 
@@ -186,8 +222,8 @@ namespace EasyMidas
             //设置3D绘图画布
             float aspect_ratio=Width/(float)Height;//求得控件宽高比
             //三维透视矩阵
-            Matrix4 perpective = Matrix4.CreatePerspectiveFieldOfView(MathHelper.PiOver4,
-                aspect_ratio, 1, 64);
+            Matrix4 perpective = Matrix4.CreatePerspectiveFieldOfView(PerpectAngle,
+                aspect_ratio,DisNear, DisFar);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref perpective);//加载透视矩阵
         }

@@ -839,5 +839,11 @@ namespace EasyMidas
             bool bt=ModelForm.hasAxis;
             ModelForm.hasAxis = !bt;
         }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            ModelForm.hasElem = true;
+            ModelForm.Eye_distance = 50;
+        }
     }
 }
