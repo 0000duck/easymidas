@@ -14,6 +14,7 @@ using OpenTK.Graphics.OpenGL;
 using OpenTK;
 using OpenTK.Graphics;
 using MidasGenModel.Geometry3d;
+using EasyMidas.OpenGL;
 
 namespace EasyMidas
 {
@@ -27,9 +28,7 @@ namespace EasyMidas
         
         //绘图控制数据
         public bool hasAxis = true;//指示是否显示坐标轴
-        static PointF angle = new PointF();//转角
-        static PointF last = new PointF();//最后一次转角
-        static Point offset = new Point();//鼠标偏移量
+        private ArcBall _ArcBall;//轨迹球类        
 
         public float Eye_distance = 4;//相机与物体的距离
         public bool hasElem = false;//是否显示单元模型
@@ -99,8 +98,10 @@ namespace EasyMidas
             Matrix4 lookat = Matrix4.LookAt(-Eye_distance, -Eye_distance,
                 Eye_distance, 0, 0, 0, 0, 0, 1);
             GL.LoadMatrix(ref lookat);//加载视口矩阵
-            GL.Rotate(angle.X, 1, 0, 0);//旋转物体
-            GL.Rotate(angle.Y, 0, 0, 1);
+            //GL.Rotate(angle.X, 1, 0, 0);//旋转物体
+            //GL.Rotate(angle.Y, 0, 0, 1);
+
+            _ArcBall.TransformMatrix();//更新轨迹球
             //显示设置
             //5.显示设置
 
@@ -182,11 +183,6 @@ namespace EasyMidas
             GL.MatrixMode(MatrixMode.Projection);//当前矩阵为投影矩阵
             GL.LoadIdentity();//单位化
 
-            //设置二维视口用GL.Ortho
-            // Bottom-left corner pixel has coordinate (0, 0)
-            //GL.Ortho(-w / 2, w / 2, -h / 2, h / 2, -1, 1); 
-            //GL.Viewport(0, 0, w, h); // Use all of the glControl painting area
-
             //设置三维视口用GL
             
             
@@ -226,6 +222,10 @@ namespace EasyMidas
                 aspect_ratio,DisNear, DisFar);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref perpective);//加载透视矩阵
+            //创建轨迹球
+            _ArcBall = new ArcBall(-Eye_distance, -Eye_distance,
+                Eye_distance, 0, 0, 0, 0, 0, 1);
+            _ArcBall.SetBounds(Width, Height);//设置高宽
         }
         #endregion
 
@@ -243,20 +243,21 @@ namespace EasyMidas
 
         private void glControl1_MouseDown(object sender, MouseEventArgs e)
         {
-            offset = e.Location;
-            last.X = angle.X; last.Y = angle.Y;
+            _ArcBall.MouseDown(e.X, e.Y);
         }
 
         private void glControl1_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
-                if (e.Y - offset.Y > 0) angle.X = last.X + e.Y - offset.Y;
-                else angle.X = last.X - offset.Y + e.Y;
-                if (e.X - offset.X > 0) angle.Y = last.Y + e.X - offset.X;
-                else angle.Y = last.Y - offset.X + e.X;
+                _ArcBall.MouseMove(e.X, e.Y);//更新鼠标位置
             }
             glControl1.Refresh();
+        }
+
+        private void glControl1_MouseUp(object sender, MouseEventArgs e)
+        {
+            _ArcBall.MouseUp(e.X, e.Y);
         }
     }
 }

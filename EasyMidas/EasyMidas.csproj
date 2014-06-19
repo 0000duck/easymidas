@@ -143,6 +143,7 @@
     <Compile Include="ModelForm.Designer.cs">
       <DependentUpon>ModelForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="OpenGL\ArcBall.cs" />
     <Compile Include="Post\DelaunayTrans.cs">
       <SubType>Form</SubType>
     </Compile>
