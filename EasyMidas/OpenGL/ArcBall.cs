@@ -14,7 +14,7 @@ namespace EasyMidas.OpenGL
     public class ArcBall
     {
         bool mouseDownFlag;//鼠标按下指示
-        float _angle, _length, _radiusRadius;//转角，长度，轨迹球半径
+        float _angle, _radiusRadius;//转角，长度，轨迹球半径
         //转动矩阵
         double[] _lastTransform = new Double[16] { 
             1, 0, 0, 0,
@@ -31,10 +31,13 @@ namespace EasyMidas.OpenGL
         float _translateX;
 
         private float _scale = 1.0f;//缩放因子，目前未使用
+        private float _rRatio = 0.4f;//用于调整轨迹球半径大小，长宽最小值的倍数
+        private float _angRatio = 1.0f;//用于调整转动的大小
 
         private Vector3 _vectorCenterEye;//物体指向眼的向量
         private Vector3 _vectorUp;//相机向上向量
         private Vector3 _vectorRight;//相机向右向量
+
 
         /// <summary>
         /// 构造函数
@@ -54,13 +57,16 @@ namespace EasyMidas.OpenGL
         {
             SetCamera(eyex, eyey, eyez, centerx, centery, centerz, upx, upy, upz);
         }
+        /// <summary>
+        /// 根据视口宽度设置轨迹球的半径
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
         public void SetBounds(int width, int height)
         {
             this._width = width; this._height = height;
-            _length = width > height ? width : height;
-            var rx = (width / 2) / _length;
-            var ry = (height / 2) / _length;
-            _radiusRadius = (float)(rx * rx + ry * ry);
+            float minH=width < height ? width : height;
+            _radiusRadius = _rRatio * minH;//轨迹球半径取0.4倍的最小视口宽
         }
 
         public void MouseDown(int x, int y)
@@ -69,18 +75,29 @@ namespace EasyMidas.OpenGL
 
             mouseDownFlag = true;
         }
-
+        /// <summary>
+        /// 由屏幕x，y位置求得轨迹球曲面上的点
+        /// </summary>
+        /// <param name="x">屏幕位置点x</param>
+        /// <param name="y">屏幕位置点y</param>
+        /// <returns>当前点的单位向量</returns>
         private Vector3 GetArcBallPosition(int x, int y)
         {
-            var rx = (x - _width / 2) / _length;
-            var ry = (_height / 2 - y) / _length;
-            var zz = _radiusRadius - rx * rx - ry * ry;
-            var rz = (zz > 0 ? Math.Sqrt(zz) : 0);
-            var result = new Vector3(
+            var rx = x - _width / 2;
+            var ry = _height / 2 - y;
+
+            var zz = _radiusRadius*_radiusRadius - rx * rx - ry * ry;
+            var zz1 = Math.Pow(_radiusRadius, 2) / 2 - rx * rx - ry * ry;
+            var zz2 = Math.Pow(_radiusRadius,2)/2 / 
+                Math.Sqrt(Math.Pow(rx,2)+Math.Pow(ry,2));
+            var rz = (zz1 > 0 ? Math.Sqrt(zz) : zz2);
+
+            Vector3 result = new Vector3(
                 (float)(rx * _vectorRight.X + ry * _vectorUp.X + rz * _vectorCenterEye.X),
                 (float)(rx * _vectorRight.Y + ry * _vectorUp.Y + rz * _vectorCenterEye.Y),
                 (float)(rx * _vectorRight.Z + ry * _vectorUp.Z + rz * _vectorCenterEye.Z)
                 );
+            result.Normalize();
             return result;
         }
 
@@ -93,7 +110,7 @@ namespace EasyMidas.OpenGL
                 var cosAngle = Vector3.Dot(_startPosition,_endPosition) / (_startPosition.Length * _endPosition.Length);
                 if (cosAngle > 1) { cosAngle = 1; }
                 else if (cosAngle < -1) { cosAngle = -1; }
-                var angle = 10 * (float)(Math.Acos(cosAngle) / Math.PI * 180);
+                var angle = _angRatio * (float)(Math.Acos(cosAngle) / Math.PI * 180);
                 System.Threading.Interlocked.Exchange(ref _angle, angle);
                 _normalVector =Vector3.Cross(_startPosition,_endPosition);
                 _startPosition = _endPosition;

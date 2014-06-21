@@ -46,7 +46,8 @@ namespace EasyMidas
             //初始化控件
             this.State = ToolWindowState.Mdi;
             this.Key = "Model";
-            
+            //添加鼠标中键滚动事件
+            this.MouseWheel += new MouseEventHandler(this.OnMouseWheel);
         }
         #region 窗口事件
         //重载窗口OnLoad事件
@@ -241,6 +242,7 @@ namespace EasyMidas
 
         #endregion
 
+        #region 鼠标响应事件
         private void glControl1_MouseDown(object sender, MouseEventArgs e)
         {
             _ArcBall.MouseDown(e.X, e.Y);
@@ -259,5 +261,25 @@ namespace EasyMidas
         {
             _ArcBall.MouseUp(e.X, e.Y);
         }
+        //鼠标中键滚动
+        private void OnMouseWheel(object sender, MouseEventArgs e)
+        {
+            if (e.Delta > 0)
+            {
+                _ArcBall.Scale = _ArcBall.Scale + 0.5f;
+            }
+            else if (e.Delta < 0)
+            {
+                if (_ArcBall.Scale < 0.6f)
+                    return;
+                _ArcBall.Scale = _ArcBall.Scale - 0.5f;
+            }
+        }
+
+        private void glControl1_MouseEnter(object sender, EventArgs e)
+        {
+            this.Focus();
+        }
+        #endregion
     }
 }
