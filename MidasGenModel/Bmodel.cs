@@ -3286,6 +3286,7 @@ namespace MidasGenModel.model
             }
             writer.WriteLine();
             TipOut.Text = "Ben:节点坐标表导出完成!";//信息提示
+
             //节点边界条件
             writer.WriteLine("# Define Constraint");
             foreach (KeyValuePair<int, BConstraint> suport in this.constraint)
@@ -3310,18 +3311,55 @@ namespace MidasGenModel.model
                 writer.WriteLine("fix {0} {1} {2} {3} {4} {5} {6}",
                     NODE, Lab ,Lab2, Lab3 , Lab4 , Lab5,Lab6);               
             }
-
-            //梁单元表
-            
-            writer.WriteLine();
-            //梁单元截面指定表
-           
             writer.WriteLine();
 
+            //梁单元方向定义
+            writer.WriteLine("# Transformation");
+            //方向1：vecxz=(0,0,1)，用于不与z轴平行的单元
+            writer.WriteLine("geomTransf Linear 1 0 0 1");
+            //方向2：vecxz=(1,0,0),用于与z轴平行的单元
+            writer.WriteLine("geomTransf Linear 2 1 0 0");
+            writer.WriteLine();
             
+            //梁单元定义
+            writer.WriteLine("# Define Beam Elements");
+            foreach (KeyValuePair<int, Element> elem in this.elements)
+            {
+                //按单元类型分类输出
+                switch (elem.Value.TYPE)
+                {
+                    case ElemType.BEAM:
+                        FrameElement fe=elem.Value as FrameElement;
+                        double A = sections[fe.iPRO].Area;//面积
+                        double E = mats[fe.iMAT].Elast;//弹性模量
+                        double G = mats[fe.iMAT].G;//剪切模量
+                        double J = sections[fe.iPRO].Ixx;//扭转贯性矩
+                        double Iy = sections[fe.iPRO].Iyy;//惯性矩
+                        double Iz = sections[fe.iPRO].Izz;//惯性矩
+                        //element elasticBeamColumn $eleTag $iNode $jNode $A $E $G $J $Iy $Iz $transfTag <-mass $massDens> <-cMass>
+                        writer.WriteLine("element elasticBeamColumn {0} {1} {2} {3}  {4} {5} {6} {7} {8} 1",
+                            fe.iEL,fe.I,fe.J,A,E,G,J,Iy,Iz);
+                        break;
+                    case ElemType.TRUSS:
+                        writer.WriteLine("# Truss Elem:{0}",elem.Value.iEL);
+                        break;
+                    case ElemType.PLATE:
+                        writer.WriteLine("# Plate Elem:{0}", elem.Value.iEL);
+                        break;
+                    case ElemType.TENSTR:
+                        writer.WriteLine("# Tenstr Elem:{0}", elem.Value.iEL);
+                        break;
+                    case ElemType.COMPTR:
+                        writer.WriteLine("# Comptr Elem:{0}", elem.Value.iEL);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            writer.WriteLine();
+            //关闭文件
             writer.Close();
             stream.Close();
-
             return true;
         }
         #endregion

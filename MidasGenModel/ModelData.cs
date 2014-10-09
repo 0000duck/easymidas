@@ -3473,6 +3473,13 @@ namespace MidasGenModel.model
             get { return _Poisn; }
         }
         /// <summary>
+        /// 剪切模量，按各向均质材料由弹模和泊松比计算
+        /// </summary>
+        public double G
+        {
+            get { return _Elast / (2 * (1 + _Poisn)); }
+        }
+        /// <summary>
         /// 线膨胀系数
         /// </summary>
         public double Thermal
