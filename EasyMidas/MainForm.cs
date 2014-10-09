@@ -486,8 +486,30 @@ namespace EasyMidas
                 }
             }
         }
-       
+        /// <summary>
+        /// 导出OpenSeesTCL文件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Menu_to_openSeeStcl_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Title = "请输入OpenSees TCL文件存储位置";
+            sfd.Filter = "OpenSees Tcl 文件(*.tcl)|*.tcl|All files (*.*)|*.*";
 
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                if (ModelForm.CurModel.WriteToOpenSees(sfd.FileName, ref this.MessageLabel))
+                {
+                    MessageTool.tb_out.AppendText(Environment.NewLine + "  [OpenSees Tcl文件]OpenSees模型输出成功！");
+                }
+                else
+                {
+                    MessageTool.tb_out.AppendText(Environment.NewLine + "$$$OpenSees模型文件输出错误$$$");
+                }
+            }
+        }
+       
         private void 结构组处理工具ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!this.HasToolWindow(_modelKey))
@@ -845,5 +867,7 @@ namespace EasyMidas
             ModelForm.hasElem = true;
             ModelForm.Eye_distance = 50;
         }
+
+
     }
 }

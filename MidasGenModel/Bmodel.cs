@@ -41,7 +41,8 @@ namespace MidasGenModel.model
         /// <summary>
         /// 约束信息
         /// </summary>
-        public List<BConstraint> constraint;
+        public SortedList<int, BConstraint> constraint;
+        //public List<BConstraint> constraint;
 
         /// <summary>
         /// 荷载工况列表
@@ -188,7 +189,7 @@ namespace MidasGenModel.model
             sections = new SortedList<int, BSections>();
             thickness = new SortedList<int, BThickness>();
 
-            constraint = new List<BConstraint>();
+            constraint = new SortedList<int,BConstraint> ();
 
             STLDCASE = new List<BLoadCase>();
             _LoadCombTable = new BLoadCombTable();//荷载组合表
@@ -499,7 +500,7 @@ namespace MidasGenModel.model
             sections = new SortedList<int, BSections>();
             thickness = new SortedList<int, BThickness>();
 
-            constraint = new List<BConstraint>();
+            constraint = new SortedList<int,BConstraint> ();
 
             STLDCASE = new List<BLoadCase>();
             _LoadCombTable = new BLoadCombTable();//荷载组合表
@@ -797,7 +798,7 @@ namespace MidasGenModel.model
         }
         #endregion
 
-        #region model类输入输出接口方法
+        #region model类输入接口方法
         /// <summary>
         /// 读取mgt文件信息
         /// </summary>
@@ -1259,17 +1260,11 @@ namespace MidasGenModel.model
                 {
                     //进行边界条件读取
                     BConstraint support = new BConstraint();
+                    List<int> nodes = new List<int>();
                     temp = line.Split(',');
-                    if (temp[0].Trim().Contains(" "))
-                    {
-                        temp1 = temp[0].Trim().Split(' ');//节点列表
-                        support.node_list.AddRange(temp1);
-                    }
-                    else
-                    {
-                        support.node_list.Add(temp[0]);
-                    }
-
+                    //当前行指示节点集合
+                    nodes = Tools.SelectCollection.StringToList(temp[0].Trim());
+                                        
                     //读取约束情况
                     for (int i = 0; i < temp[1].Trim().Length; i++)
                     {
@@ -1298,8 +1293,21 @@ namespace MidasGenModel.model
                             }
                         }
                     }
-
-                    constraint.Add(support);//添加到模型数据库中
+                    //添加的数据库
+                    if (nodes.Count >0)
+                    {
+                        foreach (int nn in nodes)
+                        {
+                            BConstraint bs = new BConstraint();
+                            bs.copySupports(support);
+                            bs.Node = nn;
+                            this.constraint.Add(nn, bs);
+                        }
+                    }
+                    else 
+                    {
+                        //未处理
+                    }
 
                 }
                 #endregion
@@ -2056,6 +2064,198 @@ namespace MidasGenModel.model
                 }
             }
         }
+
+        /// <summary>
+        /// 读取MIDAS输出的梁单元内力结果入模型
+        /// </summary>
+        /// <param name="MidasFile">MIDAS输出的单元内力表，单位默认为kN,m</param>
+        public void ReadElemForces(string MidasForceFile)
+        {
+            string line = null;//行文本
+            string[] curdata = null;//当前数据表存储变量
+            int curNum = 0;//当前单元号
+            string curLC = null;//当前工况名
+            double[] tempDouble = new double[6];
+
+            int i = 0;
+
+            FileStream stream = File.Open(MidasForceFile, FileMode.Open, FileAccess.Read);
+            StreamReader reader = new StreamReader(stream);
+            line = reader.ReadLine();
+
+            for (line = reader.ReadLine(); line != null; line = reader.ReadLine())
+            {
+                curdata = line.Split("\t".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);//字符串分割
+                curNum = int.Parse(curdata[0], System.Globalization.NumberStyles.Number);//当前单元号
+                curLC = curdata[1];//当前工况名称
+
+                //取得内力数据
+                for (int k = 0; k < 6; k++)
+                {
+                    tempDouble[k] = double.Parse(curdata[k + 3], System.Globalization.NumberStyles.Float);
+                }
+                //建立截面内力
+                SecForce sec1 = new SecForce(tempDouble[0], tempDouble[3], tempDouble[1],
+                    tempDouble[2], tempDouble[4], tempDouble[5]);
+
+                #region 往模型数据结构中添加
+                if (this.elemforce.ContainsKey(curNum))//如果已有当前单元
+                {
+                    if (this.elemforce[curNum].hasLC(curLC))//如果已有当前组合
+                    {
+                        SortedList<string, ElemForce> tempEF = this.elemforce[curNum].LCForces;
+                        ;
+                        if (curdata[2].StartsWith("I"))
+                        {
+                            tempEF[curLC].SetElemForce(sec1, 0);
+                        }
+                        else if (curdata[2].StartsWith("J"))
+                        {
+                            tempEF[curLC].SetElemForce(sec1, 8);
+                        }
+                        else if (curdata[2] == "1/4")
+                        {
+                            tempEF[curLC].SetElemForce(sec1, 2);
+                        }
+                        else if (curdata[2] == "2/4")
+                        {
+                            tempEF[curLC].SetElemForce(sec1, 4);
+                        }
+                        else if (curdata[2] == "3/4")
+                        {
+                            tempEF[curLC].SetElemForce(sec1, 6);
+                        }
+
+                        this.elemforce[curNum].LCForces = tempEF;//反回的到模型数据库中
+                    }
+                    else
+                    {
+                        ElemForce ef = new ElemForce();
+                        if (curdata[2].StartsWith("I"))
+                        {
+                            ef.SetElemForce(sec1, 0);
+                        }
+                        else if (curdata[2].StartsWith("J"))
+                        {
+                            ef.SetElemForce(sec1, 8);
+                        }
+                        else if (curdata[2] == "1/4")
+                        {
+                            ef.SetElemForce(sec1, 2);
+                        }
+                        else if (curdata[2] == "2/4")
+                        {
+                            ef.SetElemForce(sec1, 4);
+                        }
+                        else if (curdata[2] == "3/4")
+                        {
+                            ef.SetElemForce(sec1, 6);
+                        }
+                        this.elemforce[curNum].add_LCForce(curLC, ef);
+                    }
+                }
+                else
+                {
+                    ElemForce ef = new ElemForce();
+
+                    if (curdata[2].StartsWith("I"))
+                    {
+                        ef.SetElemForce(sec1, 0);
+                    }
+                    else if (curdata[2].StartsWith("J"))
+                    {
+                        ef.SetElemForce(sec1, 8);
+                    }
+                    else if (curdata[2] == "1/4")
+                    {
+                        ef.SetElemForce(sec1, 2);
+                    }
+                    else if (curdata[2] == "2/4")
+                    {
+                        ef.SetElemForce(sec1, 4);
+                    }
+                    else if (curdata[2] == "3/4")
+                    {
+                        ef.SetElemForce(sec1, 6);
+                    }
+
+                    BElemForceTable eft = new BElemForceTable();
+                    eft.add_LCForce(curLC, ef);
+                    this.elemforce.Add(curNum, eft);
+                }
+                #endregion
+                i++;
+            }
+            reader.Close();
+        }
+
+        /// <summary>
+        /// 读取Midas输出的Truss单元内力信息
+        /// </summary>
+        /// <param name="MidasTrussForceOut">桁架单元内力表，单位默认为kN</param>
+        public void ReadTrussForces(string MidasTrussForceOut)
+        {
+            string line = null;//行文本
+            string[] curdata = null;//当前数据表存储变量
+            int curNum = 0;//当前单元号
+            string curLC = null;//当前工况名
+            double[] tempDouble = new double[2];
+
+            int i = 0;
+
+            FileStream stream = File.Open(MidasTrussForceOut, FileMode.Open, FileAccess.Read);
+            StreamReader reader = new StreamReader(stream);
+            line = reader.ReadLine();
+
+            for (line = reader.ReadLine(); line != null; line = reader.ReadLine())
+            {
+                curdata = line.Split("\t".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);//字符串分割
+                curNum = int.Parse(curdata[0], System.Globalization.NumberStyles.Number);//当前单元号
+                curLC = curdata[1];//当前工况名称
+                //取得内力数据
+                for (int k = 0; k < 2; k++)
+                {
+                    tempDouble[k] = double.Parse(curdata[k + 2], System.Globalization.NumberStyles.Float);
+                }
+
+                //建立截面内力
+                SecForce sec1 = new SecForce(tempDouble[0], 0, 0, 0, 0, 0);//I截面内力
+                SecForce sec2 = new SecForce(tempDouble[1], 0, 0, 0, 0, 0);//J截面内力
+
+                #region 往模型数据结构中添加
+                if (this.elemforce.ContainsKey(curNum))//如果已有当前单元
+                {
+                    if (this.elemforce[curNum].hasLC(curLC))//如果已有当前组合
+                    {
+                        SortedList<string, ElemForce> tempEF = this.elemforce[curNum].LCForces;
+                        tempEF[curLC].SetElemForce(sec1, sec2);
+                        this.elemforce[curNum].LCForces = tempEF;//反回的到模型数据库中
+                    }
+                    else
+                    {
+                        ElemForce ef = new ElemForce();
+                        ef.SetElemForce(sec1, sec2);
+                        this.elemforce[curNum].add_LCForce(curLC, ef);
+                    }
+                }
+                else
+                {
+                    ElemForce ef = new ElemForce();
+                    ef.SetElemForce(sec1, sec2);
+                    BElemForceTable eft = new BElemForceTable();
+                    eft.add_LCForce(curLC, ef);
+                    this.elemforce.Add(curNum, eft);
+                }
+                #endregion
+
+                i++;
+            }
+
+            reader.Close();
+        }
+        #endregion
+
+        #region model类输出接口方法
         /// <summary>
         /// 写出ANSYS命令流文件
         /// </summary>
@@ -2271,47 +2471,29 @@ namespace MidasGenModel.model
             writer.WriteLine("\n!约束条件");
             #region 一般固定边界输出
             writer.WriteLine("\n!一般固定边界条件");
-            foreach (BConstraint nodesuport in this.constraint)
+            foreach (KeyValuePair<int, BConstraint> suport in this.constraint)
             {
-                foreach (string nodeslist in nodesuport.node_list)
-                {
-                    //apdl命令格式如下：
-                    //D, NODE, Lab, VALUE, VALUE2, NEND, NINC, Lab2, Lab3, Lab4, Lab5, Lab6
-                    string NODE = "", Lab = "", NEND = "", NINC = "", Lab2 = "", Lab3 = "", Lab4 = "", Lab5 = "", Lab6 = "";
-                    if (nodeslist.Contains("by") && nodeslist.Contains("to"))
-                    {
-                        NODE = nodeslist.Remove(nodeslist.IndexOf("to"));
-                        NEND = nodeslist.Substring(nodeslist.IndexOf("to") + 2, nodeslist.IndexOf("by") - nodeslist.IndexOf("to") - 2);
-                        NINC = nodeslist.Substring(nodeslist.IndexOf("by") + 2);
+                BConstraint nodesuport = suport.Value;
+                //apdl命令格式如下：
+                //D, NODE, Lab, VALUE, VALUE2, NEND, NINC, Lab2, Lab3, Lab4, Lab5, Lab6
+                string NODE = nodesuport.Node.ToString(), 
+                    Lab = "", NEND = "", NINC = "", Lab2 = "", Lab3 = "", Lab4 = "", Lab5 = "", Lab6 = "";
 
-                    }
-                    else if (nodeslist.Contains("to"))
-                    {
-                        NODE = nodeslist.Remove(nodeslist.IndexOf("to"));
-                        NEND = nodeslist.Substring(nodeslist.IndexOf("to") + 2);
-                    }
-                    else
-                    {
-                        NODE = nodeslist;
-                    }
+                if (nodesuport.UX == true)
+                    Lab = "ux";
+                if (nodesuport.UY == true)
+                    Lab2 = "uy";
+                if (nodesuport.UZ == true)
+                    Lab3 = "uz";
+                if (nodesuport.RX == true)
+                    Lab4 = "rotx";
+                if (nodesuport.RY == true)
+                    Lab5 = "roty";
+                if (nodesuport.RZ == true)
+                    Lab6 = "rotz";
 
-
-                    if (nodesuport.UX == true)
-                        Lab = "ux";
-                    if (nodesuport.UY == true)
-                        Lab2 = "uy";
-                    if (nodesuport.UZ == true)
-                        Lab3 = "uz";
-                    if (nodesuport.RX == true)
-                        Lab4 = "rotx";
-                    if (nodesuport.RY == true)
-                        Lab5 = "roty";
-                    if (nodesuport.RZ == true)
-                        Lab6 = "rotz";
-
-                    writer.WriteLine("d," + NODE + "," + Lab + ",,," + NEND + "," + NINC + "," + Lab2 + "," + Lab3 + "," + Lab4 + "," + Lab5
-                        + "," + Lab6);
-                }
+                writer.WriteLine("d," + NODE + "," + Lab + ",,," + NEND + "," + NINC + "," + Lab2 + "," + Lab3 + "," + Lab4 + "," + Lab5
+                    + "," + Lab6);               
             }
             #endregion
             #region 刚性连接输出
@@ -3071,193 +3253,76 @@ namespace MidasGenModel.model
 
             return true;
         }
-        /// <summary>
-        /// 读取MIDAS输出的梁单元内力结果入模型
-        /// </summary>
-        /// <param name="MidasFile">MIDAS输出的单元内力表，单位默认为kN,m</param>
-        public void ReadElemForces(string MidasForceFile)
-        {
-            string line = null;//行文本
-            string[] curdata = null;//当前数据表存储变量
-            int curNum = 0;//当前单元号
-            string curLC = null;//当前工况名
-            double[] tempDouble = new double[6];
-
-            int i = 0;
-
-            FileStream stream = File.Open(MidasForceFile, FileMode.Open, FileAccess.Read);
-            StreamReader reader = new StreamReader(stream);
-            line = reader.ReadLine();
-
-            for (line = reader.ReadLine(); line != null; line = reader.ReadLine())
-            {
-                curdata = line.Split("\t".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);//字符串分割
-                curNum = int.Parse(curdata[0], System.Globalization.NumberStyles.Number);//当前单元号
-                curLC = curdata[1];//当前工况名称
-
-                //取得内力数据
-                for (int k = 0; k < 6; k++)
-                {
-                    tempDouble[k] = double.Parse(curdata[k + 3], System.Globalization.NumberStyles.Float);
-                }
-                //建立截面内力
-                SecForce sec1 = new SecForce(tempDouble[0], tempDouble[3], tempDouble[1],
-                    tempDouble[2], tempDouble[4], tempDouble[5]);
-
-                #region 往模型数据结构中添加
-                if (this.elemforce.ContainsKey(curNum))//如果已有当前单元
-                {
-                    if (this.elemforce[curNum].hasLC(curLC))//如果已有当前组合
-                    {
-                        SortedList<string, ElemForce> tempEF = this.elemforce[curNum].LCForces;
-                        ;
-                        if (curdata[2].StartsWith("I"))
-                        {
-                            tempEF[curLC].SetElemForce(sec1, 0);
-                        }
-                        else if (curdata[2].StartsWith("J"))
-                        {
-                            tempEF[curLC].SetElemForce(sec1, 8);
-                        }
-                        else if (curdata[2] == "1/4")
-                        {
-                            tempEF[curLC].SetElemForce(sec1, 2);
-                        }
-                        else if (curdata[2] == "2/4")
-                        {
-                            tempEF[curLC].SetElemForce(sec1, 4);
-                        }
-                        else if (curdata[2] == "3/4")
-                        {
-                            tempEF[curLC].SetElemForce(sec1, 6);
-                        }
-
-                        this.elemforce[curNum].LCForces = tempEF;//反回的到模型数据库中
-                    }
-                    else
-                    {
-                        ElemForce ef = new ElemForce();
-                        if (curdata[2].StartsWith("I"))
-                        {
-                            ef.SetElemForce(sec1, 0);
-                        }
-                        else if (curdata[2].StartsWith("J"))
-                        {
-                            ef.SetElemForce(sec1, 8);
-                        }
-                        else if (curdata[2] == "1/4")
-                        {
-                            ef.SetElemForce(sec1, 2);
-                        }
-                        else if (curdata[2] == "2/4")
-                        {
-                            ef.SetElemForce(sec1, 4);
-                        }
-                        else if (curdata[2] == "3/4")
-                        {
-                            ef.SetElemForce(sec1, 6);
-                        }
-                        this.elemforce[curNum].add_LCForce(curLC, ef);
-                    }
-                }
-                else
-                {
-                    ElemForce ef = new ElemForce();
-
-                    if (curdata[2].StartsWith("I"))
-                    {
-                        ef.SetElemForce(sec1, 0);
-                    }
-                    else if (curdata[2].StartsWith("J"))
-                    {
-                        ef.SetElemForce(sec1, 8);
-                    }
-                    else if (curdata[2] == "1/4")
-                    {
-                        ef.SetElemForce(sec1, 2);
-                    }
-                    else if (curdata[2] == "2/4")
-                    {
-                        ef.SetElemForce(sec1, 4);
-                    }
-                    else if (curdata[2] == "3/4")
-                    {
-                        ef.SetElemForce(sec1, 6);
-                    }
-
-                    BElemForceTable eft = new BElemForceTable();
-                    eft.add_LCForce(curLC, ef);
-                    this.elemforce.Add(curNum, eft);
-                }
-                #endregion
-                i++;
-            }
-            reader.Close();
-        }
 
         /// <summary>
-        /// 读取Midas输出的Truss单元内力信息
+        /// 导出OpenSees TCL命令文件
         /// </summary>
-        /// <param name="MidasTrussForceOut">桁架单元内力表，单位默认为kN</param>
-        public void ReadTrussForces(string MidasTrussForceOut)
+        /// <param name="tclFile">文件绝对路径</param>
+        /// <param name="TipOut">过程提示信息</param>
+        /// <returns>是否成功</returns>
+        public bool WriteToOpenSees(string tclFile, ref ToolStripStatusLabel TipOut)
         {
-            string line = null;//行文本
-            string[] curdata = null;//当前数据表存储变量
-            int curNum = 0;//当前单元号
-            string curLC = null;//当前工况名
-            double[] tempDouble = new double[2];
+            FileStream stream = File.Open(tclFile, FileMode.Create);
+            StreamWriter writer = new StreamWriter(stream, Encoding.GetEncoding("gb2312"));
+            writer.WriteLine("# ---------------------------------------------------------------------------");
+            writer.WriteLine("# OpenSees_TCL_File.");
+            writer.WriteLine("# EasyMidas Created at:" + System.DateTime.Now.ToShortDateString() + "_" + System.DateTime.Now.ToShortTimeString());
+            writer.WriteLine("# http://www.lubanren.com");
+            writer.WriteLine("# ---------------------------------------------------------------------------");
+            writer.WriteLine();
 
-            int i = 0;
+            //模型控制
+            writer.WriteLine("wipe");
+            writer.WriteLine("# Create ModelBuilder");
+            writer.WriteLine("model basic -ndm 3 -ndf 6;");
+            writer.WriteLine();                   
 
-            FileStream stream = File.Open(MidasTrussForceOut, FileMode.Open, FileAccess.Read);
-            StreamReader reader = new StreamReader(stream);
-            line = reader.ReadLine();
-
-            for (line = reader.ReadLine(); line != null; line = reader.ReadLine())
+            //节点定义
+            writer.WriteLine("# Define NODAL COORDINATES");
+            foreach (KeyValuePair<int, Bnodes> nn in nodes)
             {
-                curdata = line.Split("\t".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);//字符串分割
-                curNum = int.Parse(curdata[0], System.Globalization.NumberStyles.Number);//当前单元号
-                curLC = curdata[1];//当前工况名称
-                //取得内力数据
-                for (int k = 0; k < 2; k++)
-                {
-                    tempDouble[k] = double.Parse(curdata[k + 2], System.Globalization.NumberStyles.Float);
-                }
+                writer.WriteLine("node {0} {1} {2} {3}",
+                    nn.Value.num, nn.Value.X, nn.Value.Y, nn.Value.Z);
+            }
+            writer.WriteLine();
+            TipOut.Text = "Ben:节点坐标表导出完成!";//信息提示
+            //节点边界条件
+            writer.WriteLine("# Define Constraint");
+            foreach (KeyValuePair<int, BConstraint> suport in this.constraint)
+            {
+                BConstraint nodesuport = suport.Value;
+                string NODE = nodesuport.Node.ToString(),
+                    Lab = "0", Lab2 = "0", Lab3 = "0", Lab4 = "0", Lab5 = "0", Lab6 = "0";
 
-                //建立截面内力
-                SecForce sec1 = new SecForce(tempDouble[0], 0, 0, 0, 0, 0);//I截面内力
-                SecForce sec2 = new SecForce(tempDouble[1], 0, 0, 0, 0, 0);//J截面内力
+                if (nodesuport.UX == true)
+                    Lab = "1";
+                if (nodesuport.UY == true)
+                    Lab2 = "1";
+                if (nodesuport.UZ == true)
+                    Lab3 = "1";
+                if (nodesuport.RX == true)
+                    Lab4 = "1";
+                if (nodesuport.RY == true)
+                    Lab5 = "1";
+                if (nodesuport.RZ == true)
+                    Lab6 = "1";
 
-                #region 往模型数据结构中添加
-                if (this.elemforce.ContainsKey(curNum))//如果已有当前单元
-                {
-                    if (this.elemforce[curNum].hasLC(curLC))//如果已有当前组合
-                    {
-                        SortedList<string, ElemForce> tempEF = this.elemforce[curNum].LCForces;
-                        tempEF[curLC].SetElemForce(sec1, sec2);
-                        this.elemforce[curNum].LCForces = tempEF;//反回的到模型数据库中
-                    }
-                    else
-                    {
-                        ElemForce ef = new ElemForce();
-                        ef.SetElemForce(sec1, sec2);
-                        this.elemforce[curNum].add_LCForce(curLC, ef);
-                    }
-                }
-                else
-                {
-                    ElemForce ef = new ElemForce();
-                    ef.SetElemForce(sec1, sec2);
-                    BElemForceTable eft = new BElemForceTable();
-                    eft.add_LCForce(curLC, ef);
-                    this.elemforce.Add(curNum, eft);
-                }
-                #endregion
-
-                i++;
+                writer.WriteLine("fix {0} {1} {2} {3} {4} {5} {6}",
+                    NODE, Lab ,Lab2, Lab3 , Lab4 , Lab5,Lab6);               
             }
 
-            reader.Close();
+            //梁单元表
+            
+            writer.WriteLine();
+            //梁单元截面指定表
+           
+            writer.WriteLine();
+
+            
+            writer.Close();
+            stream.Close();
+
+            return true;
         }
         #endregion
     }

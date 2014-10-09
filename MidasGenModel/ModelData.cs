@@ -3167,9 +3167,9 @@ namespace MidasGenModel.model
     public class BConstraint : Object
     {
         /// <summary>
-        /// 节点组
+        /// 节点号
         /// </summary>
-        public ArrayList node_list;
+        private int _node;
         private bool cUX;
         private bool cUY;
         private bool cUZ;
@@ -3177,6 +3177,14 @@ namespace MidasGenModel.model
         private bool cRY;
         private bool cRZ;
         //属性字段
+        /// <summary>
+        /// 节点号
+        /// </summary>
+        public int Node
+        {
+            get { return _node; }
+            set { _node = value; }
+        }
         /// <summary>
         /// 是否约束UX
         /// </summary>
@@ -3231,13 +3239,26 @@ namespace MidasGenModel.model
         /// </summary>
         public BConstraint()
         {
-            node_list = new ArrayList();
+            _node = 1;
             UX = false;
             UY = false;
             UZ = false;
             RX = false;
             RY = false;
             RZ = false;
+        }
+        /// <summary>
+        /// 复制另一个BConstraint的约束信息
+        /// </summary>
+        /// <param name="bc">包含约束信息的对象</param>
+        public void copySupports(BConstraint bc)
+        {
+            cUX = bc.cUX;
+            cUY = bc.cUY;
+            cUZ = bc.cUZ;
+            cRX = bc.cRX;
+            cRY = bc.cRY;
+            cRZ = bc.cRZ;
         }
     }
 
