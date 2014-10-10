@@ -542,6 +542,7 @@ namespace MidasGenModel.model
                 FrameElement fme = this.elements[iEle] as FrameElement;
                 Res = this.nodes[fme.I].VectorTo(this.nodes[fme.J]);
             }
+            Res.Normalize();//单位向量化
             return Res;
         }
 
@@ -3335,10 +3336,16 @@ namespace MidasGenModel.model
                         double G = mats[fe.iMAT].G;//剪切模量
                         double J = sections[fe.iPRO].Ixx;//扭转贯性矩
                         double Iy = sections[fe.iPRO].Iyy;//惯性矩
-                        double Iz = sections[fe.iPRO].Izz;//惯性矩
+                        double Iz = sections[fe.iPRO].Izz;
+                        double massDens = mats[fe.iMAT].Den * A;//梁单元单位长度质量
                         //element elasticBeamColumn $eleTag $iNode $jNode $A $E $G $J $Iy $Iz $transfTag <-mass $massDens> <-cMass>
-                        writer.WriteLine("element elasticBeamColumn {0} {1} {2} {3}  {4} {5} {6} {7} {8} 1",
-                            fe.iEL,fe.I,fe.J,A,E,G,J,Iy,Iz);
+                        string transTag = "1";
+                        Vector3 vecBeam=this.getFrameVec(fe.iEL);//梁单元方向向量
+                        double vec_L = Math.Sqrt(Math.Pow(vecBeam.X,2)+ Math.Pow(vecBeam.Y,2));
+                        if (vec_L < 0.001)//如果梁单元平行于全局z轴
+                            transTag = "2";
+                        writer.WriteLine("element elasticBeamColumn {0} {1} {2} {3} {4} {5} {6} {7} {8} {9} -mass {10}",
+                            fe.iEL,fe.I,fe.J,A,E,G,J,Iy,Iz,transTag,massDens);
                         break;
                     case ElemType.TRUSS:
                         writer.WriteLine("# Truss Elem:{0}",elem.Value.iEL);
