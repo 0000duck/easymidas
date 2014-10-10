@@ -1014,10 +1014,10 @@ namespace MidasGenModel.model
                                 mat.setProp(2.06e11, 0.3, 1.2e-5, 7850);
                                 break;
                             case MatType.CONC:
-                                mat.setProp(3e10, 0.2, 1e-5, 2500);//目前按C30输入
+                                mat.setProp(3e10, 0.2, 1e-5, 2549.5);//目前按C30输入
                                 break;
                             case MatType.SRC:
-                                mat.setProp(3e10, 0.2, 1e-5, 2500);//目前按C30输入
+                                mat.setProp(3e10, 0.2, 1e-5, 2549.5);//目前按C30输入
                                 break;
                             case MatType.USER:
                                 //mat.setProp(2.06e11, 0.3, 1.2e-5, 7850);
