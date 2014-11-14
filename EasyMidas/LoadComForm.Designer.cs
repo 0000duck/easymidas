@@ -35,8 +35,10 @@
             this.gv_LC = new Xceed.Grid.GridControl();
             this.dataRowTemplate1 = new Xceed.Grid.DataRow();
             this.columnManagerRow1 = new Xceed.Grid.ColumnManagerRow();
+            this.button1 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gv_LC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataRowTemplate1)).BeginInit();
@@ -56,22 +58,23 @@
             // 
             this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.groupBox1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 21);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(701, 409);
+            this.tabPage1.Size = new System.Drawing.Size(701, 408);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "基本组合";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Location = new System.Drawing.Point(457, 6);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(238, 397);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "工况系数表";
+            this.groupBox2.Text = "组合自动生成";
             // 
             // groupBox1
             // 
@@ -104,6 +107,15 @@
             // 
             this.columnManagerRow1.AllowSort = false;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(24, 368);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "生成";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // LoadComForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -119,6 +131,7 @@
             this.Text = "荷载组合";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gv_LC)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataRowTemplate1)).EndInit();
@@ -136,5 +149,6 @@
         private Xceed.Grid.GridControl gv_LC;
         private Xceed.Grid.DataRow dataRowTemplate1;
         private Xceed.Grid.ColumnManagerRow columnManagerRow1;
+        private System.Windows.Forms.Button button1;
     }
 }
