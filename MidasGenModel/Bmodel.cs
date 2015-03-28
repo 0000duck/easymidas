@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using System.Data.SQLite;
 using MidasGenModel.Design;
 using MidasGenModel.Geometry3d;
 using MidasGenModel.DelaunayTriangulator;
@@ -3367,6 +3368,36 @@ namespace MidasGenModel.model
             //关闭文件
             writer.Close();
             stream.Close();
+            return true;
+        }
+        /// <summary>
+        /// 导出Sqlit数据库文件
+        /// </summary>
+        /// <param name="tclFile">文件绝对路径</param>
+        /// <param name="TipOut">过程提示信息</param>
+        /// <returns>是否成功</returns>
+        public bool WriteToSqliteDb(string dbFile, ref ToolStripStatusLabel Tipout)
+        {
+            SQLiteConnection.CreateFile(dbFile);//创建数据库文件
+
+            SQLiteConnection conn = new SQLiteConnection ();
+            SQLiteConnectionStringBuilder ssb = new SQLiteConnectionStringBuilder();
+            ssb.DataSource = dbFile;
+            conn.ConnectionString = ssb.ConnectionString;
+            using (conn)
+            {
+                SQLiteCommand comm = new SQLiteCommand(conn);
+                conn.Open();//打开数据库
+                string cmdString = "CREATE TABLE Bnodes(Num integer, X real, Y real, Z real)";
+                comm.CommandText = cmdString;
+                comm.ExecuteNonQuery();
+                //todo:批量插入内存数据入库；
+                string cmdInsert = "INSERT INTO Bnodes VALUES(1,2.0,3.0,5.0)";
+                comm.CommandText = cmdInsert;
+                comm.ExecuteNonQuery();
+                conn.Close();//关闭数据库
+            }
+
             return true;
         }
         #endregion

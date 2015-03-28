@@ -269,6 +269,30 @@ namespace EasyMidas
             }
         }
 
+        /// <summary>
+        /// 将数据文件另存为db文件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void 另存为dbToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!this.HasToolWindow("Model"))
+            {
+                MessageBox.Show("请先新建模型", "提示", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+
+            SaveFileDialog SFD = new SaveFileDialog();
+            SFD.Title = "选择文件路径";
+            SFD.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);//获取我的文档
+            SFD.Filter = "emb 文件(*.emb)|*.emb|All files (*.*)|*.*";
+
+            if (SFD.ShowDialog() == DialogResult.OK)
+            {
+                this.ModelForm.CurModel.WriteToSqliteDb(SFD.FileName, ref this.MessageLabel);
+            }
+        }
+
         private void 重读缓存模型ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ;
