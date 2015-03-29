@@ -5,9 +5,11 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.SQLite;
+using System.Data;
 using MidasGenModel.Design;
 using MidasGenModel.Geometry3d;
 using MidasGenModel.DelaunayTriangulator;
+using System.Data.Common;
 
 namespace MidasGenModel.model
 {
@@ -3392,9 +3394,33 @@ namespace MidasGenModel.model
                 comm.CommandText = cmdString;
                 comm.ExecuteNonQuery();
                 //todo:批量插入内存数据入库；
-                string cmdInsert = "INSERT INTO Bnodes VALUES(1,2.0,3.0,5.0)";
-                comm.CommandText = cmdInsert;
-                comm.ExecuteNonQuery();
+                //写出节点
+                DbTransaction trans = conn.BeginTransaction();//创建事务
+                try
+                {
+                    foreach (KeyValuePair<int, Bnodes> nn in nodes)
+                    {
+                        string cmdInsert = "INSERT INTO Bnodes (Num,X,Y,Z) VALUES(@id,@nx,@ny,@nz)";
+                        comm.CommandText = cmdInsert;
+                        comm.Parameters.Add("@id", DbType.Int32);
+                        comm.Parameters.Add("@nx", DbType.Double);
+                        comm.Parameters.Add("@ny", DbType.Double);
+                        comm.Parameters.Add("@nz", DbType.Double);
+
+                        comm.Parameters["@id"].Value = nn.Key;
+                        comm.Parameters["@nx"].Value = nn.Value.X;
+                        comm.Parameters["@ny"].Value = nn.Value.Y;
+                        comm.Parameters["@nz"].Value = nn.Value.Z;
+                        comm.ExecuteNonQuery();
+                    }
+                    trans.Commit();//提交事务
+                }
+                catch
+                {
+                    trans.Rollback();
+                    throw;
+                }
+                            
                 conn.Close();//关闭数据库
             }
 
