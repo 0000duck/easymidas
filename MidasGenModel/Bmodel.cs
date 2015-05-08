@@ -3382,6 +3382,72 @@ namespace MidasGenModel.model
         {
             SQLiteConnection.CreateFile(dbFile);//创建数据库文件
 
+            List<string> cmds=new List<string> ();
+            cmds.Add("CREATE TABLE Bnodes(Num integer, X real, Y real, Z real)");
+            cmds.Add("CREATE TABLE Belements(Num integer, Type text, iMat integer,iPro integer,iN1 integer, iN2 integer, Angle real)");
+            this.ExecuteSQL(dbFile, cmds);//创建表
+            Tipout.Text = "Ben:数据表创建完成!";
+
+            cmds.Clear();
+            foreach (KeyValuePair<int, Bnodes> nn in nodes)
+            {
+                string cmdInsert = string.Format("INSERT INTO Bnodes (Num,X,Y,Z) VALUES({0},{1},{2},{3})",
+                    nn.Key,nn.Value.X,nn.Value.Y,nn.Value.Z);
+                cmds.Add(cmdInsert);
+            }
+            this.ExecuteSQL(dbFile, cmds);//创建表
+            Tipout.Text = "Ben:节点数据写出完成!";
+
+            //SQLiteConnection conn = new SQLiteConnection ();
+            //SQLiteConnectionStringBuilder ssb = new SQLiteConnectionStringBuilder();
+            //ssb.DataSource = dbFile;
+            //conn.ConnectionString = ssb.ConnectionString;
+            //using (conn)
+            //{
+            //    SQLiteCommand comm = new SQLiteCommand(conn);
+            //    conn.Open();//打开数据库
+
+            //    //批量插入内存数据入库；
+            //    //写出节点
+            //    DbTransaction trans = conn.BeginTransaction();//创建事务
+            //    try
+            //    {
+            //        foreach (KeyValuePair<int, Bnodes> nn in nodes)
+            //        {
+            //            string cmdInsert = "INSERT INTO Bnodes (Num,X,Y,Z) VALUES(@id,@nx,@ny,@nz)";
+            //            comm.CommandText = cmdInsert;
+            //            comm.Parameters.Add("@id", DbType.Int32);
+            //            comm.Parameters.Add("@nx", DbType.Double);
+            //            comm.Parameters.Add("@ny", DbType.Double);
+            //            comm.Parameters.Add("@nz", DbType.Double);
+
+            //            comm.Parameters["@id"].Value = nn.Key;
+            //            comm.Parameters["@nx"].Value = nn.Value.X;
+            //            comm.Parameters["@ny"].Value = nn.Value.Y;
+            //            comm.Parameters["@nz"].Value = nn.Value.Z;
+            //            comm.ExecuteNonQuery();
+            //        }
+            //        trans.Commit();//提交事务
+            //    }
+            //    catch
+            //    {
+            //        trans.Rollback();
+            //        throw;
+            //    }
+                            
+            //    conn.Close();//关闭数据库
+            //}
+
+            return true;
+        }
+
+        /// <summary>
+        /// 执行sql非查询语句,仅针对sqlite数据库；
+        /// </summary>
+        /// <param name="sql">命令集，可以传递多条命令</param>
+        /// <param name="dbFile">数据库文件路径</param>
+        private void ExecuteSQL(string dbFile,List<string> sqls)
+        {
             SQLiteConnection conn = new SQLiteConnection ();
             SQLiteConnectionStringBuilder ssb = new SQLiteConnectionStringBuilder();
             ssb.DataSource = dbFile;
@@ -3389,30 +3455,16 @@ namespace MidasGenModel.model
             using (conn)
             {
                 SQLiteCommand comm = new SQLiteCommand(conn);
-                conn.Open();//打开数据库
-                string cmdString = "CREATE TABLE Bnodes(Num integer, X real, Y real, Z real)";
-                comm.CommandText = cmdString;
-                comm.ExecuteNonQuery();
-                //todo:批量插入内存数据入库；
-                //写出节点
+                conn.Open();//打开数据库             
                 DbTransaction trans = conn.BeginTransaction();//创建事务
                 try
                 {
-                    foreach (KeyValuePair<int, Bnodes> nn in nodes)
+                    //创建数据表
+                    foreach (string cmd in sqls)
                     {
-                        string cmdInsert = "INSERT INTO Bnodes (Num,X,Y,Z) VALUES(@id,@nx,@ny,@nz)";
-                        comm.CommandText = cmdInsert;
-                        comm.Parameters.Add("@id", DbType.Int32);
-                        comm.Parameters.Add("@nx", DbType.Double);
-                        comm.Parameters.Add("@ny", DbType.Double);
-                        comm.Parameters.Add("@nz", DbType.Double);
-
-                        comm.Parameters["@id"].Value = nn.Key;
-                        comm.Parameters["@nx"].Value = nn.Value.X;
-                        comm.Parameters["@ny"].Value = nn.Value.Y;
-                        comm.Parameters["@nz"].Value = nn.Value.Z;
+                        comm.CommandText = cmd;
                         comm.ExecuteNonQuery();
-                    }
+                    }                                      
                     trans.Commit();//提交事务
                 }
                 catch
@@ -3420,11 +3472,9 @@ namespace MidasGenModel.model
                     trans.Rollback();
                     throw;
                 }
-                            
+
                 conn.Close();//关闭数据库
             }
-
-            return true;
         }
         #endregion
     }
