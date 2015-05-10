@@ -3398,46 +3398,44 @@ namespace MidasGenModel.model
             this.ExecuteSQL(dbFile, cmds);//创建表
             Tipout.Text = "Ben:节点数据写出完成!";
 
-            //SQLiteConnection conn = new SQLiteConnection ();
-            //SQLiteConnectionStringBuilder ssb = new SQLiteConnectionStringBuilder();
-            //ssb.DataSource = dbFile;
-            //conn.ConnectionString = ssb.ConnectionString;
-            //using (conn)
-            //{
-            //    SQLiteCommand comm = new SQLiteCommand(conn);
-            //    conn.Open();//打开数据库
+            cmds.Clear();
+            foreach (KeyValuePair<int, Element> elem in this.elements)
+            {
+                //按单元类型分类输出
+                switch (elem.Value.TYPE)
+                {
+                    case ElemType.BEAM:
+                        FrameElement fe = elem.Value as FrameElement;
+                        string cmdInsert = string.Format("INSERT INTO Belements (Num,Type,iMat,iPro,iN1,iN2,Angle) VALUES({0},'{1}',{2},{3},{4},{5},{6})",
+                    fe.iEL,fe.TYPE.ToString(), fe.iMAT, fe.iPRO, fe.iNs[0], fe.iNs[1], fe.beta);
+                        cmds.Add(cmdInsert);
+                        break;
+                    case ElemType.TRUSS:
+                        //桁架单元写出
+                        break;
+                    case ElemType.PLATE:
+                        //桁架单元写出
+                        break;
+                    case ElemType.TENSTR:
+                        //桁架单元写出
+                        break;
+                    case ElemType.COMPTR:
+                        //桁架单元写出
+                        break;
+                    default:
+                        break;
+                }
+            }
+            this.ExecuteSQL(dbFile, cmds);//创建表
+            Tipout.Text = "Ben:单元数据写出完成!";
 
-            //    //批量插入内存数据入库；
-            //    //写出节点
-            //    DbTransaction trans = conn.BeginTransaction();//创建事务
-            //    try
-            //    {
-            //        foreach (KeyValuePair<int, Bnodes> nn in nodes)
-            //        {
-            //            string cmdInsert = "INSERT INTO Bnodes (Num,X,Y,Z) VALUES(@id,@nx,@ny,@nz)";
-            //            comm.CommandText = cmdInsert;
-            //            comm.Parameters.Add("@id", DbType.Int32);
-            //            comm.Parameters.Add("@nx", DbType.Double);
-            //            comm.Parameters.Add("@ny", DbType.Double);
-            //            comm.Parameters.Add("@nz", DbType.Double);
-
-            //            comm.Parameters["@id"].Value = nn.Key;
-            //            comm.Parameters["@nx"].Value = nn.Value.X;
-            //            comm.Parameters["@ny"].Value = nn.Value.Y;
-            //            comm.Parameters["@nz"].Value = nn.Value.Z;
-            //            comm.ExecuteNonQuery();
-            //        }
-            //        trans.Commit();//提交事务
-            //    }
-            //    catch
-            //    {
-            //        trans.Rollback();
-            //        throw;
-            //    }
-                            
-            //    conn.Close();//关闭数据库
-            //}
-
+            //todo:1.桁架单元、板单元数据写出
+            //todo:2.材料数据写出
+            //todo:3.截面数据写出
+            //todo:4.分组信息写出
+            //todo:5.单位信息写出
+            //todo:6.节点荷载信息写出
+            //todo:7.单元荷载信息写出
             return true;
         }
 
