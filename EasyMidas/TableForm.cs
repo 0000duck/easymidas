@@ -143,7 +143,7 @@ namespace EasyMidas
 
                 MessageTools mt = this.DockLayoutManager.ToolWindows["MessageTool"] as MessageTools;
                 string Sout = string.Format("**Excel文件保存至：{0}!", sfd.FileName);
-                mt.tb_out.AppendText(Environment.NewLine + Sout);
+                mt.Tb_out.AppendText(Environment.NewLine + Sout);
             }
         }
     }

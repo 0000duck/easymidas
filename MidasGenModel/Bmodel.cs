@@ -3378,15 +3378,18 @@ namespace MidasGenModel.model
         /// <param name="tclFile">文件绝对路径</param>
         /// <param name="TipOut">过程提示信息</param>
         /// <returns>是否成功</returns>
-        public bool WriteToSqliteDb(string dbFile, ref ToolStripStatusLabel Tipout)
+        public bool WriteToSqliteDb(string dbFile, ref ToolStripStatusLabel Tipout,ref TextBox TBout)
         {
             SQLiteConnection.CreateFile(dbFile);//创建数据库文件
 
             List<string> cmds=new List<string> ();
             cmds.Add("CREATE TABLE Bnodes(Num integer, X real, Y real, Z real)");
-            cmds.Add("CREATE TABLE Belements(Num integer, Type text, iMat integer,iPro integer,iN1 integer, iN2 integer, Angle real)");
+            cmds.Add(@"CREATE TABLE Belements(Num integer, Type text, iMat integer,iPro integer,
+iN1 integer, iN2 integer,iN3 integer,iN4 integer,iN5 integer,iN6 integer,iN7 integer,iN8 integer,
+Angle real,iSUB integer,iWID integer)");
             this.ExecuteSQL(dbFile, cmds);//创建表
-            Tipout.Text = "Ben:数据表创建完成!";
+            TBout.AppendText(string.Format("{0}[{1}]:",Environment.NewLine,DateTime.Now.ToLongTimeString()));
+            TBout.AppendText("数据表创建完成!");
 
             cmds.Clear();
             foreach (KeyValuePair<int, Bnodes> nn in nodes)
@@ -3396,7 +3399,8 @@ namespace MidasGenModel.model
                 cmds.Add(cmdInsert);
             }
             this.ExecuteSQL(dbFile, cmds);//创建表
-            Tipout.Text = "Ben:节点数据写出完成!";
+            TBout.AppendText(string.Format("{0}[{1}]:", Environment.NewLine, DateTime.Now.ToLongTimeString()));
+            TBout.AppendText("节点数据写出完成!");
 
             cmds.Clear();
             foreach (KeyValuePair<int, Element> elem in this.elements)
@@ -3405,37 +3409,39 @@ namespace MidasGenModel.model
                 switch (elem.Value.TYPE)
                 {
                     case ElemType.BEAM:
+                    case ElemType.TRUSS:
+                    case ElemType.TENSTR:
+                    case ElemType.COMPTR:
                         FrameElement fe = elem.Value as FrameElement;
-                        string cmdInsert = string.Format("INSERT INTO Belements (Num,Type,iMat,iPro,iN1,iN2,Angle) VALUES({0},'{1}',{2},{3},{4},{5},{6})",
+                        string cmdInsert = string.Format(@"INSERT INTO Belements (Num,Type,iMat,iPro,iN1,iN2,Angle) 
+VALUES({0},'{1}',{2},{3},{4},{5},{6})",
                     fe.iEL,fe.TYPE.ToString(), fe.iMAT, fe.iPRO, fe.iNs[0], fe.iNs[1], fe.beta);
                         cmds.Add(cmdInsert);
                         break;
-                    case ElemType.TRUSS:
-                        //桁架单元写出
-                        break;
                     case ElemType.PLATE:
-                        //桁架单元写出
-                        break;
-                    case ElemType.TENSTR:
-                        //桁架单元写出
-                        break;
-                    case ElemType.COMPTR:
-                        //桁架单元写出
-                        break;
+                        //板单元写出
+                        PlanarElement pe = elem.Value as PlanarElement;
+                        cmdInsert = string.Format(@"INSERT INTO Belements (Num,Type,iMat,iPro,iN1,iN2,iN3,iN4,iSUB,iWID) 
+VALUES({0},'{1}',{2},{3},{4},{5},{6},{7},{8},{9})",
+                        pe.iEL, pe.TYPE.ToString(), pe.iMAT, pe.iPRO, pe.iNs[0], pe.iNs[1], pe.iNs[2], pe.iNs[3], pe.iSUB, pe.iWID);
+                        cmds.Add(cmdInsert);                   
+                       break;
                     default:
                         break;
                 }
             }
             this.ExecuteSQL(dbFile, cmds);//创建表
-            Tipout.Text = "Ben:单元数据写出完成!";
 
-            //todo:1.桁架单元、板单元数据写出
+            TBout.AppendText(string.Format("{0}[{1}]:", Environment.NewLine, DateTime.Now.ToLongTimeString()));
+            TBout.AppendText("单元数据写出完成!");
+
             //todo:2.材料数据写出
             //todo:3.截面数据写出
             //todo:4.分组信息写出
             //todo:5.单位信息写出
             //todo:6.节点荷载信息写出
             //todo:7.单元荷载信息写出
+            Tipout.Text = "DB文件写出完成!";
             return true;
         }
 

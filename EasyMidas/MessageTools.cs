@@ -16,6 +16,12 @@ namespace EasyMidas
         {
             InitializeComponent();
         }
+        //信息输出框
+        public System.Windows.Forms.TextBox Tb_out
+        {
+            get { return tb_out; }
+            set { tb_out = value; }
+        }
 
         private void tb_out_TextChanged(object sender, EventArgs e)
         {

@@ -22,7 +22,7 @@ namespace EasyMidas
         {
             MainForm mmf = this.Owner as MainForm;//主窗口
             ModelForm1 mf = mmf.ModelForm;//模型窗口
-            TextBox messagebox = mmf.MessageTool.tb_out;
+            TextBox messagebox = mmf.MessageTool.Tb_out;
        
             MidasGenModel.model.Bmodel mm = mf.CurModel;
             //激活地震组合有问题
@@ -36,8 +36,8 @@ namespace EasyMidas
             List<int> eles = SelectCollection.StringToList(tb_Elems.Text);
             int num=eles.Count;//选择单元数
             int i=1;
-            mmf.MessageTool.tb_out.AppendText(Environment.NewLine+"************单元验算开始************");
-            mmf.MessageTool.tb_out.AppendText(Environment.NewLine+"  开始验算");
+            mmf.MessageTool.Tb_out.AppendText(Environment.NewLine+"************单元验算开始************");
+            mmf.MessageTool.Tb_out.AppendText(Environment.NewLine+"  开始验算");
             foreach (int ele in eles)
             {
                 mf.CheckTable.CheckElemByNum(ref mm, ele);
@@ -46,7 +46,7 @@ namespace EasyMidas
                 ReplaceLastLine(ref messagebox,info);
                 i++;
             }
-            mmf.MessageTool.tb_out.AppendText(Environment.NewLine+"************单元验算结束************");
+            mmf.MessageTool.Tb_out.AppendText(Environment.NewLine+"************单元验算结束************");
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace EasyMidas
         {
             MainForm mmf = this.Owner as MainForm;//主窗口
             ModelForm1 mf = mmf.ModelForm;
-            TextBox messagebox = mmf.MessageTool.tb_out;
+            TextBox messagebox = mmf.MessageTool.Tb_out;
 
             MidasGenModel.model.Bmodel mm = mf.CurModel;
             if (tb_Elems.Text.Length == 0)
@@ -86,8 +86,8 @@ namespace EasyMidas
             List<int> eles = SelectCollection.StringToList(tb_Elems.Text);
             int num = eles.Count;//选择单元数
             int i = 1;
-            mmf.MessageTool.tb_out.AppendText(Environment.NewLine + "************单元验算开始************");
-            mmf.MessageTool.tb_out.AppendText(Environment.NewLine + "  开始验算");
+            mmf.MessageTool.Tb_out.AppendText(Environment.NewLine + "************单元验算开始************");
+            mmf.MessageTool.Tb_out.AppendText(Environment.NewLine + "  开始验算");
             foreach (int ele in eles)
             {
                 //mf.CheckTable.CheckElemByNum(ref mm, ele);
@@ -99,10 +99,10 @@ namespace EasyMidas
                 mf.CheckTable.CheckElemByNum_N(ref mm, ele, ref mf.CheckModel);
                 string info = "   " + i.ToString() + " of " + num.ToString() + " 验算完成!";
                 //ReplaceLastLine(ref messagebox, info);
-                mmf.MessageTool.tb_out.AppendText(Environment.NewLine+info);
+                mmf.MessageTool.Tb_out.AppendText(Environment.NewLine+info);
                 i++;
             }
-            mmf.MessageTool.tb_out.AppendText(Environment.NewLine + "************单元验算结束************");
+            mmf.MessageTool.Tb_out.AppendText(Environment.NewLine + "************单元验算结束************");
            
         }
     }

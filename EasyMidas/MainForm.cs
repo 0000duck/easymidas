@@ -289,7 +289,8 @@ namespace EasyMidas
 
             if (SFD.ShowDialog() == DialogResult.OK)
             {
-                this.ModelForm.CurModel.WriteToSqliteDb(SFD.FileName, ref this.MessageLabel);
+                TextBox tb = this.MessageTool.Tb_out;//输出信息窗口
+                this.ModelForm.CurModel.WriteToSqliteDb(SFD.FileName, ref this.MessageLabel,ref tb);
             }
         }
 
@@ -424,18 +425,18 @@ namespace EasyMidas
             {
                 if (ModelForm.CurModel.WriteToInp(sfd.FileName, 2))
                 {
-                    MessageTool.tb_out.AppendText(Environment.NewLine + "  [Inp文件]Ansys主模型输出成功！");
+                    MessageTool.Tb_out.AppendText(Environment.NewLine + "  [Inp文件]Ansys主模型输出成功！");
                 }
                 else
                 {
-                    MessageTool.tb_out.AppendText(Environment.NewLine + "$$$Ansys文件输出错误$$$");
+                    MessageTool.Tb_out.AppendText(Environment.NewLine + "$$$Ansys文件输出错误$$$");
                 }
 
                 //荷载转化为质量宏
                 string InpPath = Path.GetDirectoryName(sfd.FileName);
                 if (ModelForm.CurModel.WriteAnsysMarc_Load2Mass(InpPath))
                 {
-                    MessageTool.tb_out.AppendText(Environment.NewLine +
+                    MessageTool.Tb_out.AppendText(Environment.NewLine +
                         "  [宏文件]荷载转化为质量输出成功！");
                 }
             }
@@ -456,11 +457,11 @@ namespace EasyMidas
             {
                 if (ModelForm.CurModel.WriteToMGT(sfd.FileName,ref this.MessageLabel))
                 {
-                    MessageTool.tb_out.AppendText(Environment.NewLine + "  [mgt文件]Midas/gen模型输出成功！");
+                    MessageTool.Tb_out.AppendText(Environment.NewLine + "  [mgt文件]Midas/gen模型输出成功！");
                 }
                 else
                 {
-                    MessageTool.tb_out.AppendText(Environment.NewLine + "$$$Midas/gen文件输出错误$$$");
+                    MessageTool.Tb_out.AppendText(Environment.NewLine + "$$$Midas/gen文件输出错误$$$");
                 }
             }
         }
@@ -479,11 +480,11 @@ namespace EasyMidas
             {
                 if (ModelForm.CurModel.WriteTo3D3STxt(sfd.FileName, ref this.MessageLabel))
                 {
-                    MessageTool.tb_out.AppendText(Environment.NewLine + "  [3D3S文件]3D3S v10.1模型输出成功！");
+                    MessageTool.Tb_out.AppendText(Environment.NewLine + "  [3D3S文件]3D3S v10.1模型输出成功！");
                 }
                 else
                 {
-                    MessageTool.tb_out.AppendText(Environment.NewLine + "$$$3D3S模型文件输出错误$$$");
+                    MessageTool.Tb_out.AppendText(Environment.NewLine + "$$$3D3S模型文件输出错误$$$");
                 }
             }
         }
@@ -502,11 +503,11 @@ namespace EasyMidas
             {
                 if (ModelForm.CurModel.WriteToS2KTxt(sfd.FileName, ref this.MessageLabel))
                 {
-                    MessageTool.tb_out.AppendText(Environment.NewLine + "  [Sap2000文件]Sap2000模型输出成功！");
+                    MessageTool.Tb_out.AppendText(Environment.NewLine + "  [Sap2000文件]Sap2000模型输出成功！");
                 }
                 else
                 {
-                    MessageTool.tb_out.AppendText(Environment.NewLine + "$$$Sap2000模型文件输出错误$$$");
+                    MessageTool.Tb_out.AppendText(Environment.NewLine + "$$$Sap2000模型文件输出错误$$$");
                 }
             }
         }
@@ -525,11 +526,11 @@ namespace EasyMidas
             {
                 if (ModelForm.CurModel.WriteToOpenSees(sfd.FileName, ref this.MessageLabel))
                 {
-                    MessageTool.tb_out.AppendText(Environment.NewLine + "  [OpenSees Tcl文件]OpenSees模型输出成功！");
+                    MessageTool.Tb_out.AppendText(Environment.NewLine + "  [OpenSees Tcl文件]OpenSees模型输出成功！");
                 }
                 else
                 {
-                    MessageTool.tb_out.AppendText(Environment.NewLine + "$$$OpenSees模型文件输出错误$$$");
+                    MessageTool.Tb_out.AppendText(Environment.NewLine + "$$$OpenSees模型文件输出错误$$$");
                 }
             }
         }
@@ -591,10 +592,10 @@ namespace EasyMidas
             BLoadTable blt = cf.CurModel.LoadTable;
             SortedList<int, BNLoad> NLD = blt.NLoadData["DL"] as SortedList<int, BNLoad>;
 
-            MessageTool.tb_out.AppendText(Environment.NewLine + "DL工况下节点荷载号如下：");
+            MessageTool.Tb_out.AppendText(Environment.NewLine + "DL工况下节点荷载号如下：");
             foreach (int n in NLD.Keys)
             {
-                MessageTool.tb_out.AppendText(" "+n.ToString());
+                MessageTool.Tb_out.AppendText(" "+n.ToString());
             }
         }
 
@@ -605,7 +606,7 @@ namespace EasyMidas
             //如果单元选择数为0，作出提示
             if (eles.Count == 0)
             {
-                MessageTool.tb_out.AppendText(Environment.NewLine + "*Error*:未选择单元!");
+                MessageTool.Tb_out.AppendText(Environment.NewLine + "*Error*:未选择单元!");
                 return;
             }
             if (!this.HasToolWindow(_modelKey))
@@ -619,8 +620,8 @@ namespace EasyMidas
             {
                 FrameElement cele = cm.elements[ele] as FrameElement;
                 string outs=string.Format("++++++单元号：{0}++++++",ele);
-                MessageTool.tb_out.AppendText(Environment.NewLine + outs);
-                MessageTool.tb_out.AppendText(Environment.NewLine + cele.DPs.ToString());
+                MessageTool.Tb_out.AppendText(Environment.NewLine + outs);
+                MessageTool.Tb_out.AppendText(Environment.NewLine + cele.DPs.ToString());
             }
         }
 
@@ -785,7 +786,7 @@ namespace EasyMidas
             //如果单元选择数为0，作出提示
             if (eles.Count == 0)
             {
-                MessageTool.tb_out.AppendText(Environment.NewLine + "*Error*:未选择单元!");
+                MessageTool.Tb_out.AppendText(Environment.NewLine + "*Error*:未选择单元!");
                 return;
             }
             if (!this.HasToolWindow(_modelKey))
@@ -801,12 +802,12 @@ namespace EasyMidas
             {
                 FrameElement cele = cm.elements[ele] as FrameElement;
                 string outs = string.Format("++++++单元号：{0}  组合:{1}++++++", ele,com);
-                MessageTool.tb_out.AppendText(Environment.NewLine);
-                MessageTool.tb_out.AppendText(outs);
+                MessageTool.Tb_out.AppendText(Environment.NewLine);
+                MessageTool.Tb_out.AppendText(outs);
                 ElemForce EFcom = cm.CalElemForceComb(myCom, ele);
-                MessageTool.tb_out.AppendText(Environment.NewLine+"[i]--" + EFcom.Force_i.ToString());
-                MessageTool.tb_out.AppendText(Environment.NewLine + "[4/8]--" + EFcom.Force_48.ToString());
-                MessageTool.tb_out.AppendText(Environment.NewLine + "[j]--" + EFcom.Force_j.ToString());
+                MessageTool.Tb_out.AppendText(Environment.NewLine+"[i]--" + EFcom.Force_i.ToString());
+                MessageTool.Tb_out.AppendText(Environment.NewLine + "[4/8]--" + EFcom.Force_48.ToString());
+                MessageTool.Tb_out.AppendText(Environment.NewLine + "[j]--" + EFcom.Force_j.ToString());
             }
             #endregion
         }
@@ -820,7 +821,7 @@ namespace EasyMidas
             string myFile = Path.Combine(CurDir, "CodeCheck_bySec.txt");
             //输出验算结果
             CodeCheck.WriteAllCheckRes(ref mm, ref CR, myFile);
-            MessageTool.tb_out.AppendText(Environment.NewLine+"验算文件写出到："+myFile);
+            MessageTool.Tb_out.AppendText(Environment.NewLine+"验算文件写出到："+myFile);
             //用记事本打开
             System.Diagnostics.Process.Start("notepad.exe", myFile);
         }
@@ -834,7 +835,7 @@ namespace EasyMidas
             string myFile = Path.Combine(CurDir, "CodeCheck_byEle.txt");
             //输出验算结果
             CodeCheck.WriteAllCheckRes2(ref mm, ref CR, myFile);
-            MessageTool.tb_out.AppendText(Environment.NewLine + "验算文件写出到：" + myFile);
+            MessageTool.Tb_out.AppendText(Environment.NewLine + "验算文件写出到：" + myFile);
             //用记事本打开
             System.Diagnostics.Process.Start("notepad.exe", myFile);
         }
@@ -847,7 +848,7 @@ namespace EasyMidas
             List<int> eles = SelectCollection.StringToList(this.cb_selectEle.Text);//选择单元
             if (eles.Count == 0)
             {
-                MessageTool.tb_out.AppendText(Environment.NewLine + "*Error*:未选择单元!");
+                MessageTool.Tb_out.AppendText(Environment.NewLine + "*Error*:未选择单元!");
                 return;
             }
             TableForm tf = new TableForm();

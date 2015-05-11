@@ -89,9 +89,9 @@ namespace EasyMidas
             //输出命令行
             string t1 = string.Format("{0}{1}个节点荷载已经进行了放大!", 
                 Environment.NewLine,Num_modified);
-            this.MessTool.tb_out.AppendText(t1);
+            this.MessTool.Tb_out.AppendText(t1);
             string t2 = string.Format("{0}下面输出3d3s10.1版本文本文件:",Environment.NewLine);
-            this.MessTool.tb_out.AppendText(t2);
+            this.MessTool.Tb_out.AppendText(t2);
             int nodeloadlibN = 4599;//目前节点荷载库中节点荷载序号
             string lctype="0";//临时变量：工况类型0,1,2
             foreach (int nn in nodes)
@@ -106,8 +106,8 @@ namespace EasyMidas
                         bnl.FX,bnl.FY,bnl.FZ,bnl.MX,bnl.MY,bnl.MZ);
                     string s2 = string.Format("{0}APL {1} {2}",Environment.NewLine,
                         nn,nodeloadlibN++);
-                    this.MessTool.tb_out.AppendText(s1);
-                    this.MessTool.tb_out.AppendText(s2);
+                    this.MessTool.Tb_out.AppendText(s1);
+                    this.MessTool.Tb_out.AppendText(s2);
                 }
 
             }

@@ -34,7 +34,7 @@ namespace EasyMidas.Post
             #region 输入错误判断
             if (eles.Count == 0)
             {
-                mf.MessageTool.tb_out.AppendText(Environment.NewLine + "*Error*:未选择单元!");
+                mf.MessageTool.Tb_out.AppendText(Environment.NewLine + "*Error*:未选择单元!");
                 return;
             }
             if (cf == null || cf.IsDisposed)

@@ -39,7 +39,7 @@ namespace EasyMidas.Post
             get
             {
                 MainForm mmf = this.Owner as MainForm;//主窗口
-                return  mmf.MessageTool.tb_out;
+                return  mmf.MessageTool.Tb_out;
             }
         }
 

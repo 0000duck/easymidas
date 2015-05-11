@@ -34,7 +34,7 @@ namespace EasyMidas
 
             MainForm mmf = this.Owner as MainForm;//主窗口
             ModelForm1 mf = mmf.ModelForm;
-            TextBox messagebox = mmf.MessageTool.tb_out;//信息窗口
+            TextBox messagebox = mmf.MessageTool.Tb_out;//信息窗口
 
             Bmodel MyModel=new Bmodel();//模型数据库
 
