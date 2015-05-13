@@ -3387,9 +3387,11 @@ namespace MidasGenModel.model
             cmds.Add(@"CREATE TABLE Belements(Num integer, Type text, iMat integer,iPro integer,
 iN1 integer, iN2 integer,iN3 integer,iN4 integer,iN5 integer,iN6 integer,iN7 integer,iN8 integer,
 Angle real,iSUB integer,iWID integer)");
+            cmds.Add(@"CREATE TABLE Bmaterial(Num integer,Type text,MName text,
+ELAST real,POISN real,THERMAL real,DEN real)");//材料表
             this.ExecuteSQL(dbFile, cmds);//创建表
             TBout.AppendText(string.Format("{0}[{1}]:",Environment.NewLine,DateTime.Now.ToLongTimeString()));
-            TBout.AppendText("数据表创建完成!");
+            TBout.AppendText("数据表创建完成...");
 
             cmds.Clear();
             foreach (KeyValuePair<int, Bnodes> nn in nodes)
@@ -3400,7 +3402,7 @@ Angle real,iSUB integer,iWID integer)");
             }
             this.ExecuteSQL(dbFile, cmds);//创建表
             TBout.AppendText(string.Format("{0}[{1}]:", Environment.NewLine, DateTime.Now.ToLongTimeString()));
-            TBout.AppendText("节点数据写出完成!");
+            TBout.AppendText("节点数据写出完成...");
 
             cmds.Clear();
             foreach (KeyValuePair<int, Element> elem in this.elements)
@@ -3431,11 +3433,22 @@ VALUES({0},'{1}',{2},{3},{4},{5},{6},{7},{8},{9})",
                 }
             }
             this.ExecuteSQL(dbFile, cmds);//创建表
-
             TBout.AppendText(string.Format("{0}[{1}]:", Environment.NewLine, DateTime.Now.ToLongTimeString()));
-            TBout.AppendText("单元数据写出完成!");
+            TBout.AppendText("单元数据写出完成...");
 
-            //todo:2.材料数据写出
+            cmds.Clear();
+            foreach (KeyValuePair<int, BMaterial> mat in this.mats)
+            {
+                BMaterial mmat=mat.Value;
+                string cmdInsert = string.Format(@"INSERT INTO Bmaterial (Num,Type,MName,ELAST,POISN,THERMAL,DEN) 
+VALUES({0},'{1}','{2}',{3},{4},{5},{6})",
+                    mmat.iMAT,mmat.TYPE.ToString(),mmat.MNAME,mmat.Elast,mmat.Poisn,mmat.Thermal,mmat.Den);
+                cmds.Add(cmdInsert);
+            }
+            this.ExecuteSQL(dbFile, cmds);//创建表
+            TBout.AppendText(string.Format("{0}[{1}]:", Environment.NewLine, DateTime.Now.ToLongTimeString()));
+            TBout.AppendText("材料数据写出完成...");
+
             //todo:3.截面数据写出
             //todo:4.分组信息写出
             //todo:5.单位信息写出
