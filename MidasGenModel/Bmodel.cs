@@ -3389,6 +3389,8 @@ iN1 integer, iN2 integer,iN3 integer,iN4 integer,iN5 integer,iN6 integer,iN7 int
 Angle real,iSUB integer,iWID integer)");
             cmds.Add(@"CREATE TABLE Bmaterial(Num integer,Type text,MName text,
 ELAST real,POISN real,THERMAL real,DEN real)");//材料表
+            cmds.Add(@"CREATE TABLE Bsection(Num integer PRIMARY KEY,Type text,SName text,bSD integer,
+SHAPE text,SECdata BLOB)");//截面表
             this.ExecuteSQL(dbFile, cmds);//创建表
             TBout.AppendText(string.Format("{0}[{1}]:",Environment.NewLine,DateTime.Now.ToLongTimeString()));
             TBout.AppendText("数据表创建完成...");
@@ -3449,7 +3451,20 @@ VALUES({0},'{1}','{2}',{3},{4},{5},{6})",
             TBout.AppendText(string.Format("{0}[{1}]:", Environment.NewLine, DateTime.Now.ToLongTimeString()));
             TBout.AppendText("材料数据写出完成...");
 
-            //todo:3.截面数据写出
+            cmds.Clear();
+            foreach (KeyValuePair<int, BSections> sec in this.sections)
+            {
+                BSections ssec = sec.Value;
+                int ibSD=ssec.bsd ? 1:0;
+                string cmdInsert = string.Format(@"INSERT INTO Bsection (Num,Type,SName,bSD,SHAPE) 
+VALUES({0},'{1}','{2}',{3},'{4}')",
+                    ssec.Num,ssec.TYPE.ToString(),ssec.Name,ibSD,ssec.SSHAPE.ToString());
+                cmds.Add(cmdInsert);
+            }
+            this.ExecuteSQL(dbFile, cmds);//插入表
+            TBout.AppendText(string.Format("{0}[{1}]:", Environment.NewLine, DateTime.Now.ToLongTimeString()));
+            TBout.AppendText("截面数据写出完成...");
+
             //todo:4.分组信息写出
             //todo:5.单位信息写出
             //todo:6.节点荷载信息写出
