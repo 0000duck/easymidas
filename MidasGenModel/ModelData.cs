@@ -4306,6 +4306,43 @@ namespace MidasGenModel.model
         {
             get { return _EleList; }
         }
+        /// <summary>
+        /// 节点列表(用豆号格式化)
+        /// </summary>
+        public string FormatNodeList
+        {
+            get {
+                string res = null;
+                if (_NodeList.Count == 0)
+                    return null;
+                foreach (int nn in _NodeList)
+                {
+                    if (res!=null)
+                        res += ",";
+                    res = res + nn.ToString();    
+                }
+                return res;
+            }
+        }
+        /// <summary>
+        /// 单元列表（(用豆号格式化)）
+        /// </summary>
+        public string FormatEleList
+        {
+            get
+            {
+                string res = null;
+                if (_EleList.Count==0)
+                    return null;
+                foreach (int nn in _EleList)
+                {
+                    if (res != null)
+                        res += ",";
+                    res = res + nn.ToString();  
+                }
+                return res;
+            }
+        }
         #endregion
         #region 构造函数
         /// <summary>

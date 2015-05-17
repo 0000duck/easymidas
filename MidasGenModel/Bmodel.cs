@@ -3391,6 +3391,9 @@ Angle real,iSUB integer,iWID integer)");
 ELAST real,POISN real,THERMAL real,DEN real)");//材料表
             cmds.Add(@"CREATE TABLE Bsection(Num integer PRIMARY KEY,Type text,SName text,bSD integer,
 SHAPE text,SECdata BLOB)");//截面表
+            cmds.Add("CREATE TABLE BGroup(ID integer PRIMARY KEY,Name text)");//分组表
+            cmds.Add("CREATE TABLE Bnodegroup(GID integer,NNum integer)");//节点组对应关系表
+            cmds.Add("CREATE TABLE Belegroup(GID integer,ENum integer)");//单元组对应关系表
             this.ExecuteSQL(dbFile, cmds);//创建表
             TBout.AppendText(string.Format("{0}[{1}]:",Environment.NewLine,DateTime.Now.ToLongTimeString()));
             TBout.AppendText("数据表创建完成...");
@@ -3465,7 +3468,38 @@ VALUES({0},'{1}','{2}',{3},'{4}')",
             TBout.AppendText(string.Format("{0}[{1}]:", Environment.NewLine, DateTime.Now.ToLongTimeString()));
             TBout.AppendText("截面数据写出完成...");
 
-            //todo:4.分组信息写出
+            cmds.Clear();
+            foreach (KeyValuePair<string, BSGroup> gg in this.StruGroups)
+            {
+                int iGroup = this.StruGroups.IndexOfKey(gg.Key)+1;//分组索引
+                string cmdInsert = string.Format("INSERT INTO BGroup (ID,Name) VALUES({0},'{1}')",
+                    iGroup,gg.Key);
+                cmds.Add(cmdInsert);
+                List<int> nl = gg.Value.NodeList;//节点列表
+                List<int> el = gg.Value.EleList;//单元列表
+                if (nl.Count>0)
+                {
+                    foreach (int nn in nl)
+                    {
+                        cmdInsert = string.Format("INSERT INTO Bnodegroup (GID,NNum) VALUES({0},{1})",
+                    iGroup,nn);
+                    cmds.Add(cmdInsert);
+                    }
+                }
+                if (el.Count > 0)
+                {
+                    foreach (int ee in el)
+                    {
+                        cmdInsert = string.Format("INSERT INTO Belegroup (GID,ENum) VALUES({0},{1})",
+                    iGroup, ee);
+                        cmds.Add(cmdInsert);
+                    }
+                }
+            }
+            this.ExecuteSQL(dbFile, cmds);//插入表
+            TBout.AppendText(string.Format("{0}[{1}]:", Environment.NewLine, DateTime.Now.ToLongTimeString()));
+            TBout.AppendText("分组信息写出完成...");
+
             //todo:5.单位信息写出
             //todo:6.节点荷载信息写出
             //todo:7.单元荷载信息写出
