@@ -3383,6 +3383,7 @@ namespace MidasGenModel.model
             SQLiteConnection.CreateFile(dbFile);//创建数据库文件
 
             List<string> cmds=new List<string> ();
+            cmds.Add("CREATE TABLE BUnit(FORCE text, LENGTH text, HEAT text, TEMPER text)");//单位系统
             cmds.Add("CREATE TABLE Bnodes(Num integer, X real, Y real, Z real)");
             cmds.Add(@"CREATE TABLE Belements(Num integer, Type text, iMat integer,iPro integer,
 iN1 integer, iN2 integer,iN3 integer,iN4 integer,iN5 integer,iN6 integer,iN7 integer,iN8 integer,
@@ -3398,6 +3399,11 @@ SHAPE text,SECdata BLOB)");//截面表
             TBout.AppendText(string.Format("{0}[{1}]:",Environment.NewLine,DateTime.Now.ToLongTimeString()));
             TBout.AppendText("数据表创建完成...");
 
+            cmds.Clear();
+            cmds.Add(string.Format("INSERT INTO BUnit VALUES('{0}','{1}','{2}','{3}')",
+                this.UNIT.Force,this.UNIT.Length,this.UNIT.Heat,this.UNIT.Temper));
+            this.ExecuteSQL(dbFile, cmds);//创建单位系统表
+            
             cmds.Clear();
             foreach (KeyValuePair<int, Bnodes> nn in nodes)
             {
@@ -3500,7 +3506,6 @@ VALUES({0},'{1}','{2}',{3},'{4}')",
             TBout.AppendText(string.Format("{0}[{1}]:", Environment.NewLine, DateTime.Now.ToLongTimeString()));
             TBout.AppendText("分组信息写出完成...");
 
-            //todo:5.单位信息写出
             //todo:6.节点荷载信息写出
             //todo:7.单元荷载信息写出
             Tipout.Text = "DB文件写出完成!";
