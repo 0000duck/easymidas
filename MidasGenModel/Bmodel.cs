@@ -3395,6 +3395,7 @@ SHAPE text,SECdata BLOB)");//截面表
             cmds.Add("CREATE TABLE BGroup(ID integer PRIMARY KEY,Name text)");//分组表
             cmds.Add("CREATE TABLE Bnodegroup(GID integer,NNum integer)");//节点组对应关系表
             cmds.Add("CREATE TABLE Belegroup(GID integer,ENum integer)");//单元组对应关系表
+            cmds.Add("CREATE TABLE Bloadcase(ID integer PRIMARY KEY,Name text)");//荷载工况表
             this.ExecuteSQL(dbFile, cmds);//创建表
             TBout.AppendText(string.Format("{0}[{1}]:",Environment.NewLine,DateTime.Now.ToLongTimeString()));
             TBout.AppendText("数据表创建完成...");
@@ -3505,6 +3506,18 @@ VALUES({0},'{1}','{2}',{3},'{4}')",
             this.ExecuteSQL(dbFile, cmds);//插入表
             TBout.AppendText(string.Format("{0}[{1}]:", Environment.NewLine, DateTime.Now.ToLongTimeString()));
             TBout.AppendText("分组信息写出完成...");
+
+            cmds.Clear();
+            foreach (string Lc in this.LoadTable.LCList)
+            {
+                int iLc = this.LoadTable.LCList.IndexOf(Lc) + 1;//分组索引
+                string cmdInsert = string.Format("INSERT INTO Bloadcase (ID,Name) VALUES({0},'{1}')",
+                    iLc, Lc);
+                cmds.Add(cmdInsert);
+            }
+            this.ExecuteSQL(dbFile, cmds);//插入表
+            TBout.AppendText(string.Format("{0}[{1}]:", Environment.NewLine, DateTime.Now.ToLongTimeString()));
+            TBout.AppendText("工况表写出完成...");
 
             //todo:6.节点荷载信息写出
             //todo:7.单元荷载信息写出
