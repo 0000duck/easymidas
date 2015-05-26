@@ -3396,6 +3396,8 @@ SHAPE text,SECdata BLOB)");//截面表
             cmds.Add("CREATE TABLE Bnodegroup(GID integer,NNum integer)");//节点组对应关系表
             cmds.Add("CREATE TABLE Belegroup(GID integer,ENum integer)");//单元组对应关系表
             cmds.Add("CREATE TABLE Bloadcase(ID integer PRIMARY KEY,Name text)");//荷载工况表
+            cmds.Add(@"CREATE TABLE Bconload(ID integer PRIMARY KEY,LCID integer,NNum integer,FX real,FY real,FZ real,
+MX real,MY real,MZ real,GROUPID integer)");//节点荷载表
             this.ExecuteSQL(dbFile, cmds);//创建表
             TBout.AppendText(string.Format("{0}[{1}]:",Environment.NewLine,DateTime.Now.ToLongTimeString()));
             TBout.AppendText("数据表创建完成...");
@@ -3519,7 +3521,26 @@ VALUES({0},'{1}','{2}',{3},'{4}')",
             TBout.AppendText(string.Format("{0}[{1}]:", Environment.NewLine, DateTime.Now.ToLongTimeString()));
             TBout.AppendText("工况表写出完成...");
 
-            //todo:6.节点荷载信息写出
+            cmds.Clear();
+            int iConLoad = 1;//索引
+            foreach (DictionaryEntry DE in this.LoadTable.NLoadData)
+            {
+                int iLC = this.LoadTable.IndexOf(DE.Key.ToString())+1;
+                SortedList<int, BNLoad> bnl=DE.Value as SortedList<int,BNLoad>;//工况的荷载列表
+                foreach(KeyValuePair<int, BNLoad> nl in bnl)
+                {
+                    BNLoad cnl=nl.Value;
+                    string cmdInsert = string.Format(@"INSERT INTO Bconload (ID,LCID,NNum,FX,FY,FZ,MX,MY,MZ) 
+VALUES({0},{1},{2},{3},{4},{5},{6},{7},{8})",
+                    iConLoad, iLC,cnl.iNode,cnl.FX,cnl.FY,cnl.FZ,cnl.MX,cnl.MY,cnl.MZ);
+                    cmds.Add(cmdInsert);
+                    iConLoad++;
+                }               
+            }
+            this.ExecuteSQL(dbFile, cmds);//插入表
+            TBout.AppendText(string.Format("{0}[{1}]:", Environment.NewLine, DateTime.Now.ToLongTimeString()));
+            TBout.AppendText("节点荷载表写出完成...");
+            //todo:6.荷载分组表写出
             //todo:7.单元荷载信息写出
             Tipout.Text = "DB文件写出完成!";
             return true;

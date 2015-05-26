@@ -1713,6 +1713,21 @@ namespace MidasGenModel.model
                 this._NLoadData.Add(nodeload.LC, loadTable);//添加新的组合表
             }
         }
+        /// <summary>
+        /// 查询荷载工况名称对应的工况表索引
+        /// </summary>
+        /// <param name="LcName">工况名</param>
+        /// <returns>索引号，从0开始，以LCList属性返回的列表顺序为准</returns>
+        public int IndexOf(string LcName)
+        {
+            List<string> lcl = this.LCList;
+            if (lcl.Contains(LcName))
+            {
+                return lcl.IndexOf(LcName);
+            }
+            else
+                return -1;
+        }
         #endregion
     }
     #endregion
