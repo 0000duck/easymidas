@@ -38,12 +38,10 @@
             this.stusProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.开始ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.新建ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.保存模型ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.重读缓存模型ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.导入ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.导入Mgt模型文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.midas梁单元内力ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItem_TrussForceIn = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
@@ -56,6 +54,7 @@
             this.Menu_to3D3S = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_to_Sap2000File = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
+            this.另存为dbToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.前处理ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.荷载组合编辑ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.截面特性ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -94,15 +93,17 @@
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.前于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.bt_NewDoc = new System.Windows.Forms.ToolStripButton();
-            this.bt_ReadMGT = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tb_selectByEle = new System.Windows.Forms.ToolStripButton();
             this.cb_selectEle = new System.Windows.Forms.ToolStripComboBox();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.另存为dbToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bt_NewDoc = new System.Windows.Forms.ToolStripButton();
+            this.bt_ReadMGT = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.tb_selectByEle = new System.Windows.Forms.ToolStripButton();
+            this.新建ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.导入Mgt模型文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -189,14 +190,6 @@
             this.开始ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.开始ToolStripMenuItem.Text = "文件";
             // 
-            // 新建ToolStripMenuItem
-            // 
-            this.新建ToolStripMenuItem.Image = global::EasyMidas.Properties.Resources.NewDocument;
-            this.新建ToolStripMenuItem.Name = "新建ToolStripMenuItem";
-            this.新建ToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.新建ToolStripMenuItem.Text = "新建模型";
-            this.新建ToolStripMenuItem.Click += new System.EventHandler(this.新建ToolStripMenuItem_Click);
-            // 
             // 保存模型ToolStripMenuItem
             // 
             this.保存模型ToolStripMenuItem.Name = "保存模型ToolStripMenuItem";
@@ -227,15 +220,6 @@
             this.导入ToolStripMenuItem.Name = "导入ToolStripMenuItem";
             this.导入ToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.导入ToolStripMenuItem.Text = "导入";
-            // 
-            // 导入Mgt模型文件ToolStripMenuItem
-            // 
-            this.导入Mgt模型文件ToolStripMenuItem.BackColor = System.Drawing.SystemColors.Control;
-            this.导入Mgt模型文件ToolStripMenuItem.Image = global::EasyMidas.Properties.Resources.MIDASGEN;
-            this.导入Mgt模型文件ToolStripMenuItem.Name = "导入Mgt模型文件ToolStripMenuItem";
-            this.导入Mgt模型文件ToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.导入Mgt模型文件ToolStripMenuItem.Text = "导入*.Mgt模型文件";
-            this.导入Mgt模型文件ToolStripMenuItem.Click += new System.EventHandler(this.读取MgtToolStripMenuItem_Click);
             // 
             // midas梁单元内力ToolStripMenuItem
             // 
@@ -321,6 +305,13 @@
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
             this.toolStripSeparator10.Size = new System.Drawing.Size(199, 6);
+            // 
+            // 另存为dbToolStripMenuItem
+            // 
+            this.另存为dbToolStripMenuItem.Name = "另存为dbToolStripMenuItem";
+            this.另存为dbToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.另存为dbToolStripMenuItem.Text = "另存为db[测试]";
+            this.另存为dbToolStripMenuItem.Click += new System.EventHandler(this.另存为dbToolStripMenuItem_Click);
             // 
             // 前处理ToolStripMenuItem
             // 
@@ -606,52 +597,25 @@
             // 
             // toolStrip1
             // 
+            this.toolStrip1.AutoSize = false;
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(25, 25);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.bt_NewDoc,
             this.bt_ReadMGT,
+            this.toolStripButton3,
             this.toolStripSeparator1,
             this.tb_selectByEle,
             this.cb_selectEle});
             this.toolStrip1.Location = new System.Drawing.Point(0, 25);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(654, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(654, 32);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
-            // 
-            // bt_NewDoc
-            // 
-            this.bt_NewDoc.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bt_NewDoc.Image = global::EasyMidas.Properties.Resources.NewDocument;
-            this.bt_NewDoc.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.bt_NewDoc.Name = "bt_NewDoc";
-            this.bt_NewDoc.Size = new System.Drawing.Size(23, 22);
-            this.bt_NewDoc.Text = "新建模型";
-            this.bt_NewDoc.Click += new System.EventHandler(this.新建ToolStripMenuItem_Click);
-            // 
-            // bt_ReadMGT
-            // 
-            this.bt_ReadMGT.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bt_ReadMGT.Image = global::EasyMidas.Properties.Resources.MIDASGEN;
-            this.bt_ReadMGT.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.bt_ReadMGT.Name = "bt_ReadMGT";
-            this.bt_ReadMGT.Size = new System.Drawing.Size(23, 22);
-            this.bt_ReadMGT.Text = "导入Midas(*.mgt)文件";
-            this.bt_ReadMGT.Click += new System.EventHandler(this.读取MgtToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // tb_selectByEle
-            // 
-            this.tb_selectByEle.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tb_selectByEle.Image = global::EasyMidas.Properties.Resources.Select_by_Prop;
-            this.tb_selectByEle.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tb_selectByEle.Name = "tb_selectByEle";
-            this.tb_selectByEle.Size = new System.Drawing.Size(23, 22);
-            this.tb_selectByEle.Text = "按属性选择单元";
-            this.tb_selectByEle.ToolTipText = "按属性选择单元";
             // 
             // cb_selectEle
             // 
@@ -669,9 +633,9 @@
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
             this.toolStripButton2});
-            this.toolStrip2.Location = new System.Drawing.Point(630, 50);
+            this.toolStrip2.Location = new System.Drawing.Point(630, 57);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(24, 446);
+            this.toolStrip2.Size = new System.Drawing.Size(24, 439);
             this.toolStrip2.TabIndex = 5;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -695,12 +659,62 @@
             this.toolStripButton2.Text = "显示模型";
             this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
-            // 另存为dbToolStripMenuItem
+            // bt_NewDoc
             // 
-            this.另存为dbToolStripMenuItem.Name = "另存为dbToolStripMenuItem";
-            this.另存为dbToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.另存为dbToolStripMenuItem.Text = "另存为db[测试]";
-            this.另存为dbToolStripMenuItem.Click += new System.EventHandler(this.另存为dbToolStripMenuItem_Click);
+            this.bt_NewDoc.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bt_NewDoc.Image = global::EasyMidas.Properties.Resources.NewDocument;
+            this.bt_NewDoc.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.bt_NewDoc.Name = "bt_NewDoc";
+            this.bt_NewDoc.Size = new System.Drawing.Size(23, 22);
+            this.bt_NewDoc.Text = "新建模型";
+            this.bt_NewDoc.Click += new System.EventHandler(this.新建ToolStripMenuItem_Click);
+            // 
+            // bt_ReadMGT
+            // 
+            this.bt_ReadMGT.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bt_ReadMGT.Image = global::EasyMidas.Properties.Resources.MIDASGEN;
+            this.bt_ReadMGT.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.bt_ReadMGT.Name = "bt_ReadMGT";
+            this.bt_ReadMGT.Size = new System.Drawing.Size(23, 22);
+            this.bt_ReadMGT.Text = "导入Midas(*.mgt)文件";
+            this.bt_ReadMGT.Click += new System.EventHandler(this.读取MgtToolStripMenuItem_Click);
+            // 
+            // toolStripButton3
+            // 
+            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton3.Image = global::EasyMidas.Properties.Resources.db_save_as;
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton3.Text = "模型另存为*.edb文件";
+            this.toolStripButton3.Click += new System.EventHandler(this.另存为dbToolStripMenuItem_Click);
+            // 
+            // tb_selectByEle
+            // 
+            this.tb_selectByEle.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tb_selectByEle.Image = global::EasyMidas.Properties.Resources.Select_by_Prop;
+            this.tb_selectByEle.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tb_selectByEle.Name = "tb_selectByEle";
+            this.tb_selectByEle.Size = new System.Drawing.Size(23, 22);
+            this.tb_selectByEle.Text = "按属性选择单元";
+            this.tb_selectByEle.ToolTipText = "按属性选择单元";
+            // 
+            // 新建ToolStripMenuItem
+            // 
+            this.新建ToolStripMenuItem.Image = global::EasyMidas.Properties.Resources.NewDocument;
+            this.新建ToolStripMenuItem.Name = "新建ToolStripMenuItem";
+            this.新建ToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.新建ToolStripMenuItem.Text = "新建模型";
+            this.新建ToolStripMenuItem.Click += new System.EventHandler(this.新建ToolStripMenuItem_Click);
+            // 
+            // 导入Mgt模型文件ToolStripMenuItem
+            // 
+            this.导入Mgt模型文件ToolStripMenuItem.BackColor = System.Drawing.SystemColors.Control;
+            this.导入Mgt模型文件ToolStripMenuItem.Image = global::EasyMidas.Properties.Resources.MIDASGEN;
+            this.导入Mgt模型文件ToolStripMenuItem.Name = "导入Mgt模型文件ToolStripMenuItem";
+            this.导入Mgt模型文件ToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.导入Mgt模型文件ToolStripMenuItem.Text = "导入*.Mgt模型文件";
+            this.导入Mgt模型文件ToolStripMenuItem.Click += new System.EventHandler(this.读取MgtToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -807,6 +821,7 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_to_openSeeStcl;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
         private System.Windows.Forms.ToolStripMenuItem 另存为dbToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton toolStripButton3;
     }
 }
 

@@ -351,6 +351,7 @@
     <Content Include="DefaultLayout.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\db-save-as.png" />
     <None Include="Resources\Select by Prop.png" />
     <None Include="Resources\MIDASGEN.png" />
     <None Include="Resources\New Document1.png" />

@@ -3397,7 +3397,9 @@ SHAPE text,SECdata BLOB)");//截面表
             cmds.Add("CREATE TABLE Belegroup(GID integer,ENum integer)");//单元组对应关系表
             cmds.Add("CREATE TABLE Bloadcase(ID integer PRIMARY KEY,Name text)");//荷载工况表
             cmds.Add(@"CREATE TABLE Bconload(ID integer PRIMARY KEY,LCID integer,NNum integer,FX real,FY real,FZ real,
-MX real,MY real,MZ real,GROUPID integer)");//节点荷载表
+MX real,MY real,MZ real,LGROUP text)");//节点荷载表
+            cmds.Add(@"CREATE TABLE Bbeamload(ID integer PRIMARY KEY,LCID integer,ENum integer,CMD text,D1 real,P1 real,D2 real,
+P2 real,D3 real,P3 real,D4 real,P4 real,LGROUP text,TYPE text,DIR text,bPROJ integer,bECCEN integer)");//单元荷载表
             this.ExecuteSQL(dbFile, cmds);//创建表
             TBout.AppendText(string.Format("{0}[{1}]:",Environment.NewLine,DateTime.Now.ToLongTimeString()));
             TBout.AppendText("数据表创建完成...");
@@ -3530,9 +3532,9 @@ VALUES({0},'{1}','{2}',{3},'{4}')",
                 foreach(KeyValuePair<int, BNLoad> nl in bnl)
                 {
                     BNLoad cnl=nl.Value;
-                    string cmdInsert = string.Format(@"INSERT INTO Bconload (ID,LCID,NNum,FX,FY,FZ,MX,MY,MZ) 
-VALUES({0},{1},{2},{3},{4},{5},{6},{7},{8})",
-                    iConLoad, iLC,cnl.iNode,cnl.FX,cnl.FY,cnl.FZ,cnl.MX,cnl.MY,cnl.MZ);
+                    string cmdInsert = string.Format(@"INSERT INTO Bconload (ID,LCID,NNum,FX,FY,FZ,MX,MY,MZ,LGROUP) 
+VALUES({0},{1},{2},{3},{4},{5},{6},{7},{8},'{9}')",
+                    iConLoad, iLC,cnl.iNode,cnl.FX,cnl.FY,cnl.FZ,cnl.MX,cnl.MY,cnl.MZ,cnl.Group);
                     cmds.Add(cmdInsert);
                     iConLoad++;
                 }               
@@ -3540,8 +3542,32 @@ VALUES({0},{1},{2},{3},{4},{5},{6},{7},{8})",
             this.ExecuteSQL(dbFile, cmds);//插入表
             TBout.AppendText(string.Format("{0}[{1}]:", Environment.NewLine, DateTime.Now.ToLongTimeString()));
             TBout.AppendText("节点荷载表写出完成...");
-            //todo:6.荷载分组表写出
-            //todo:7.单元荷载信息写出
+
+            cmds.Clear();
+            int iBeamLoad = 1;//索引
+            foreach (DictionaryEntry DE in this.LoadTable.BLoadData)
+            {
+                int iLC = this.LoadTable.IndexOf(DE.Key.ToString()) + 1;
+                SortedList<int,BBLoad> bbl = DE.Value as SortedList<int, BBLoad>;//工况的荷载列表
+                foreach (KeyValuePair<int, BBLoad> bl in bbl)
+                {
+                    BBLoad cbl = bl.Value;
+                    int ibPro=cbl.bPROJ ? 1:0;
+                    int ibEcc=cbl.bECCEN ? 1:0;
+                    string cmdInsert = string.Format(@"INSERT INTO Bbeamload (ID,LCID,ENum,D1,P1,D2,P2,D3,P3,D4,P4,LGROUP,
+CMD,TYPE,DIR,bPROJ,bECCEN) VALUES({0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},'{11}',
+'{12}','{13}','{14}',{15},{16})",
+                    iBeamLoad, iLC, cbl.ELEM_num, cbl.getD(1), cbl.getP(1), cbl.getD(2), cbl.getP(2),
+                    cbl.getD(3), cbl.getP(3),cbl.getD(4),cbl.getP(4),cbl.Group,
+                    cbl.CMD,cbl.TYPE.ToString(),cbl.Dir.ToString(),ibPro,ibEcc);
+                    cmds.Add(cmdInsert);
+                    iBeamLoad++;
+                }
+            }
+            this.ExecuteSQL(dbFile, cmds);//插入表
+            TBout.AppendText(string.Format("{0}[{1}]:", Environment.NewLine, DateTime.Now.ToLongTimeString()));
+            TBout.AppendText("梁单元荷载表写出完成...");
+
             Tipout.Text = "DB文件写出完成!";
             return true;
         }
