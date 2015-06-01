@@ -63,6 +63,26 @@ namespace EasyMidas.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap _3d_modelling {
+            get {
+                object obj = ResourceManager.GetObject("_3d_modelling", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap _object {
+            get {
+                object obj = ResourceManager.GetObject("_object", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap db_save_as {
             get {
                 object obj = ResourceManager.GetObject("db-save-as", resourceCulture);
@@ -95,7 +115,7 @@ namespace EasyMidas.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Select_by_Prop {
             get {
-                object obj = ResourceManager.GetObject("Select by Prop", resourceCulture);
+                object obj = ResourceManager.GetObject("Select_by_Prop", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
