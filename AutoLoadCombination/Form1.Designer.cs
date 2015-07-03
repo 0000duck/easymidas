@@ -30,12 +30,18 @@
         {
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.comboBox_DL = new System.Windows.Forms.ComboBox();
             this.tb_DL = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.comboBox_LL = new System.Windows.Forms.ComboBox();
             this.tb_LL = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.comboBox_W = new System.Windows.Forms.ComboBox();
             this.tb_W1 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
@@ -46,25 +52,22 @@
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.comboBox_Ev = new System.Windows.Forms.ComboBox();
+            this.tb_Ez = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.tb_E2 = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.comboBox_Eh = new System.Windows.Forms.ComboBox();
             this.tb_E1 = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
-            this.comboBox_W = new System.Windows.Forms.ComboBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.comboBox_DL = new System.Windows.Forms.ComboBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.comboBox_LL = new System.Windows.Forms.ComboBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.comboBox_Eh = new System.Windows.Forms.ComboBox();
-            this.tb_E2 = new System.Windows.Forms.TextBox();
-            this.tb_Ez = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.comboBox_Ev = new System.Windows.Forms.ComboBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.tbout = new System.Windows.Forms.TextBox();
+            this.gridOut = new Xceed.Grid.GridControl();
+            this.groupByRow1 = new Xceed.Grid.GroupByRow();
+            this.columnManagerRow1 = new Xceed.Grid.ColumnManagerRow();
+            this.dataRowTemplate1 = new Xceed.Grid.DataRow();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -73,6 +76,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridOut)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.columnManagerRow1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataRowTemplate1)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -97,6 +103,29 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "恒载指定";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(219, 30);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(41, 12);
+            this.label10.TabIndex = 9;
+            this.label10.Text = "类型：";
+            // 
+            // comboBox_DL
+            // 
+            this.comboBox_DL.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_DL.FormattingEnabled = true;
+            this.comboBox_DL.Items.AddRange(new object[] {
+            "静力(ST)",
+            "组合(CB)",
+            "反应谱(RS)",
+            "偶然偏心反应谱(ES)"});
+            this.comboBox_DL.Location = new System.Drawing.Point(266, 27);
+            this.comboBox_DL.Name = "comboBox_DL";
+            this.comboBox_DL.Size = new System.Drawing.Size(106, 20);
+            this.comboBox_DL.TabIndex = 8;
             // 
             // tb_DL
             // 
@@ -127,6 +156,29 @@
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "活载指定";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(219, 30);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(41, 12);
+            this.label11.TabIndex = 9;
+            this.label11.Text = "类型：";
+            // 
+            // comboBox_LL
+            // 
+            this.comboBox_LL.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_LL.FormattingEnabled = true;
+            this.comboBox_LL.Items.AddRange(new object[] {
+            "静力(ST)",
+            "组合(CB)",
+            "反应谱(RS)",
+            "偶然偏心反应谱(ES)"});
+            this.comboBox_LL.Location = new System.Drawing.Point(266, 27);
+            this.comboBox_LL.Name = "comboBox_LL";
+            this.comboBox_LL.Size = new System.Drawing.Size(106, 20);
+            this.comboBox_LL.TabIndex = 8;
             // 
             // tb_LL
             // 
@@ -159,6 +211,29 @@
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "风荷载指定";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(163, 32);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(41, 12);
+            this.label9.TabIndex = 7;
+            this.label9.Text = "类型：";
+            // 
+            // comboBox_W
+            // 
+            this.comboBox_W.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_W.FormattingEnabled = true;
+            this.comboBox_W.Items.AddRange(new object[] {
+            "静力(ST)",
+            "组合(CB)",
+            "反应谱(RS)",
+            "偶然偏心反应谱(ES)"});
+            this.comboBox_W.Location = new System.Drawing.Point(210, 29);
+            this.comboBox_W.Name = "comboBox_W";
+            this.comboBox_W.Size = new System.Drawing.Size(106, 20);
+            this.comboBox_W.TabIndex = 4;
             // 
             // tb_W1
             // 
@@ -263,12 +338,93 @@
             this.groupBox5.Controls.Add(this.label7);
             this.groupBox5.Controls.Add(this.numericUpDown3);
             this.groupBox5.Controls.Add(this.label8);
+            this.groupBox5.Enabled = false;
             this.groupBox5.Location = new System.Drawing.Point(12, 362);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(458, 141);
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "地震作用指定";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(22, 83);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(317, 12);
+            this.label15.TabIndex = 15;
+            this.label15.Text = "----------------------------------------------------";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(138, 111);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(41, 12);
+            this.label14.TabIndex = 14;
+            this.label14.Text = "类型：";
+            // 
+            // comboBox_Ev
+            // 
+            this.comboBox_Ev.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_Ev.FormattingEnabled = true;
+            this.comboBox_Ev.Items.AddRange(new object[] {
+            "静力(ST)",
+            "组合(CB)",
+            "反应谱(RS)",
+            "偶然偏心反应谱(ES)"});
+            this.comboBox_Ev.Location = new System.Drawing.Point(185, 108);
+            this.comboBox_Ev.Name = "comboBox_Ev";
+            this.comboBox_Ev.Size = new System.Drawing.Size(106, 20);
+            this.comboBox_Ev.TabIndex = 13;
+            // 
+            // tb_Ez
+            // 
+            this.tb_Ez.Location = new System.Drawing.Point(93, 108);
+            this.tb_Ez.Name = "tb_Ez";
+            this.tb_Ez.Size = new System.Drawing.Size(39, 21);
+            this.tb_Ez.TabIndex = 12;
+            this.tb_Ez.Text = "Ez";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(22, 111);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(65, 12);
+            this.label13.TabIndex = 11;
+            this.label13.Text = "竖向地震：";
+            // 
+            // tb_E2
+            // 
+            this.tb_E2.Location = new System.Drawing.Point(138, 59);
+            this.tb_E2.Name = "tb_E2";
+            this.tb_E2.Size = new System.Drawing.Size(39, 21);
+            this.tb_E2.TabIndex = 10;
+            this.tb_E2.Text = "E2";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(154, 30);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(41, 12);
+            this.label12.TabIndex = 9;
+            this.label12.Text = "类型：";
+            // 
+            // comboBox_Eh
+            // 
+            this.comboBox_Eh.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_Eh.FormattingEnabled = true;
+            this.comboBox_Eh.Items.AddRange(new object[] {
+            "静力(ST)",
+            "组合(CB)",
+            "反应谱(RS)",
+            "偶然偏心反应谱(ES)"});
+            this.comboBox_Eh.Location = new System.Drawing.Point(201, 27);
+            this.comboBox_Eh.Name = "comboBox_Eh";
+            this.comboBox_Eh.Size = new System.Drawing.Size(106, 20);
+            this.comboBox_Eh.TabIndex = 8;
             // 
             // tb_E1
             // 
@@ -308,169 +464,22 @@
             this.label8.TabIndex = 0;
             this.label8.Text = "水平地震数：";
             // 
-            // comboBox_W
+            // gridOut
             // 
-            this.comboBox_W.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox_W.FormattingEnabled = true;
-            this.comboBox_W.Items.AddRange(new object[] {
-            "静力(ST)",
-            "组合(CB)",
-            "反应谱(RS)",
-            "偶然偏心反应谱(ES)"});
-            this.comboBox_W.Location = new System.Drawing.Point(210, 29);
-            this.comboBox_W.Name = "comboBox_W";
-            this.comboBox_W.Size = new System.Drawing.Size(106, 20);
-            this.comboBox_W.TabIndex = 4;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(163, 32);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(41, 12);
-            this.label9.TabIndex = 7;
-            this.label9.Text = "类型：";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(219, 30);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(41, 12);
-            this.label10.TabIndex = 9;
-            this.label10.Text = "类型：";
-            // 
-            // comboBox_DL
-            // 
-            this.comboBox_DL.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox_DL.FormattingEnabled = true;
-            this.comboBox_DL.Items.AddRange(new object[] {
-            "静力(ST)",
-            "组合(CB)",
-            "反应谱(RS)",
-            "偶然偏心反应谱(ES)"});
-            this.comboBox_DL.Location = new System.Drawing.Point(266, 27);
-            this.comboBox_DL.Name = "comboBox_DL";
-            this.comboBox_DL.Size = new System.Drawing.Size(106, 20);
-            this.comboBox_DL.TabIndex = 8;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(219, 30);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(41, 12);
-            this.label11.TabIndex = 9;
-            this.label11.Text = "类型：";
-            // 
-            // comboBox_LL
-            // 
-            this.comboBox_LL.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox_LL.FormattingEnabled = true;
-            this.comboBox_LL.Items.AddRange(new object[] {
-            "静力(ST)",
-            "组合(CB)",
-            "反应谱(RS)",
-            "偶然偏心反应谱(ES)"});
-            this.comboBox_LL.Location = new System.Drawing.Point(266, 27);
-            this.comboBox_LL.Name = "comboBox_LL";
-            this.comboBox_LL.Size = new System.Drawing.Size(106, 20);
-            this.comboBox_LL.TabIndex = 8;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(154, 30);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(41, 12);
-            this.label12.TabIndex = 9;
-            this.label12.Text = "类型：";
-            // 
-            // comboBox_Eh
-            // 
-            this.comboBox_Eh.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox_Eh.FormattingEnabled = true;
-            this.comboBox_Eh.Items.AddRange(new object[] {
-            "静力(ST)",
-            "组合(CB)",
-            "反应谱(RS)",
-            "偶然偏心反应谱(ES)"});
-            this.comboBox_Eh.Location = new System.Drawing.Point(201, 27);
-            this.comboBox_Eh.Name = "comboBox_Eh";
-            this.comboBox_Eh.Size = new System.Drawing.Size(106, 20);
-            this.comboBox_Eh.TabIndex = 8;
-            // 
-            // tb_E2
-            // 
-            this.tb_E2.Location = new System.Drawing.Point(138, 59);
-            this.tb_E2.Name = "tb_E2";
-            this.tb_E2.Size = new System.Drawing.Size(39, 21);
-            this.tb_E2.TabIndex = 10;
-            this.tb_E2.Text = "E2";
-            // 
-            // tb_Ez
-            // 
-            this.tb_Ez.Location = new System.Drawing.Point(93, 108);
-            this.tb_Ez.Name = "tb_Ez";
-            this.tb_Ez.Size = new System.Drawing.Size(39, 21);
-            this.tb_Ez.TabIndex = 12;
-            this.tb_Ez.Text = "Ez";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(22, 111);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(65, 12);
-            this.label13.TabIndex = 11;
-            this.label13.Text = "竖向地震：";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(138, 111);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(41, 12);
-            this.label14.TabIndex = 14;
-            this.label14.Text = "类型：";
-            // 
-            // comboBox_Ev
-            // 
-            this.comboBox_Ev.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox_Ev.FormattingEnabled = true;
-            this.comboBox_Ev.Items.AddRange(new object[] {
-            "静力(ST)",
-            "组合(CB)",
-            "反应谱(RS)",
-            "偶然偏心反应谱(ES)"});
-            this.comboBox_Ev.Location = new System.Drawing.Point(185, 108);
-            this.comboBox_Ev.Name = "comboBox_Ev";
-            this.comboBox_Ev.Size = new System.Drawing.Size(106, 20);
-            this.comboBox_Ev.TabIndex = 13;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(22, 83);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(317, 12);
-            this.label15.TabIndex = 15;
-            this.label15.Text = "----------------------------------------------------";
-            // 
-            // tbout
-            // 
-            this.tbout.Location = new System.Drawing.Point(490, 12);
-            this.tbout.Multiline = true;
-            this.tbout.Name = "tbout";
-            this.tbout.Size = new System.Drawing.Size(294, 491);
-            this.tbout.TabIndex = 6;
+            this.gridOut.DataRowTemplate = this.dataRowTemplate1;
+            this.gridOut.FixedHeaderRows.Add(this.groupByRow1);
+            this.gridOut.FixedHeaderRows.Add(this.columnManagerRow1);
+            this.gridOut.Location = new System.Drawing.Point(485, 12);
+            this.gridOut.Name = "gridOut";
+            this.gridOut.Size = new System.Drawing.Size(487, 491);
+            this.gridOut.TabIndex = 7;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(796, 568);
-            this.Controls.Add(this.tbout);
+            this.ClientSize = new System.Drawing.Size(984, 568);
+            this.Controls.Add(this.gridOut);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -492,8 +501,10 @@
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridOut)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.columnManagerRow1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataRowTemplate1)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -535,7 +546,10 @@
         private System.Windows.Forms.TextBox tb_E2;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ComboBox comboBox_Eh;
-        private System.Windows.Forms.TextBox tbout;
+        private Xceed.Grid.GridControl gridOut;
+        private Xceed.Grid.DataRow dataRowTemplate1;
+        private Xceed.Grid.GroupByRow groupByRow1;
+        private Xceed.Grid.ColumnManagerRow columnManagerRow1;
     }
 }
 
