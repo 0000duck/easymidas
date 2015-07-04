@@ -225,14 +225,24 @@ namespace MidasGenModel.model
         /// 荷载工况类型
         /// </summary>
         public LCType LCType;
+        private ANAL _ANALType;//荷载计算条件种类
         /// <summary>
-        /// 按名称实例化荷载工况（默认类型为User）
+        /// 荷载计算条件种类：静力，反应谱等
+        /// </summary>
+        public ANAL ANALType
+        {
+            get { return _ANALType; }
+            set { _ANALType = value; }
+        }
+        /// <summary>
+        /// 按名称实例化荷载工况（默认类型为User;计算条件类型为ST）
         /// </summary>
         /// <param name="Name">工况名</param>
         public BLoadCase(string Name)
         {
             LCName = Name;
             LCType = LCType.USER;
+            _ANALType = ANAL.ST;
         }
     }
 
@@ -242,19 +252,54 @@ namespace MidasGenModel.model
     [Serializable]
     public class BLCFactGroup:ICloneable
     {
+        private ANAL _ANAL;
         /// <summary>
         /// 单位荷载条件的种类
         /// </summary>
-        public ANAL ANAL;
+        public ANAL ANAL
+        {
+            get { return _ANAL; }
+            set { _ANAL = value; }
+        }
+        private string _LCNAME;
         /// <summary>
         /// 工况名称
         /// </summary>
-        public string  LCNAME;
+        public string LCNAME
+        {
+            get { return _LCNAME; }
+            set { _LCNAME = value; }
+        }
+        private double _FACT;
         /// <summary>
         /// 单位荷载条件的荷载系数
         /// </summary>
-        public double FACT;
+        public double FACT
+        {
+            get { return _FACT; }
+            set { _FACT = value; }
+        }
 
+        /// <summary>
+        /// 默认构造函数
+        /// </summary>
+        public BLCFactGroup()
+        {
+            _ANAL = ANAL.ST;
+            _LCNAME = null;
+            _FACT = 0;
+        }
+        /// <summary>
+        /// 由荷载工况和系数生成
+        /// </summary>
+        /// <param name="lc">荷载工况</param>
+        /// <param name="f">系数</param>
+        public BLCFactGroup(BLoadCase lc,double f)
+        {
+            _ANAL = lc.ANALType;
+            _LCNAME = lc.LCName;
+            _FACT = f;
+        }
         /// <summary>
         /// 深拷贝
         /// </summary>
@@ -293,6 +338,7 @@ namespace MidasGenModel.model
         public LCKind KIND
         {
             get { return _KIND; }
+            set { _KIND = value; }
         }
         /// <summary>
         /// 荷载组合描述
@@ -348,6 +394,10 @@ namespace MidasGenModel.model
         /// </summary>
         public BLoadComb()
         {
+            _bACTIVE = true;
+            _KIND = LCKind.GEN;
+            _bES = false;
+            _iTYPE = 0;
             _LoadCombData = new List<BLCFactGroup>();
         }
         #region 方法函数
@@ -488,6 +538,31 @@ namespace MidasGenModel.model
     }
 
     /// <summary>
+    /// 荷载基本组合
+    /// </summary>
+    [Serializable]
+    public class BLoadCombG : BLoadComb
+    {
+        private LCType _CtrLC;
+        /// <summary>
+        /// 控制组合类型
+        /// </summary>
+        public LCType CtrLC
+        {
+            get { return _CtrLC; }
+            set { _CtrLC = value; }
+        }
+        /// <summary>
+        /// 默认构造函数
+        /// </summary>
+        /// <param name="ctrlc">控制工况</param>
+        public BLoadCombG(LCType ctrlc):base()
+        {
+            _CtrLC = ctrlc;//控制工况
+        }
+    }
+
+    /// <summary>
     /// 荷载组合表
     /// </summary>
     [Serializable]
@@ -576,6 +651,33 @@ namespace MidasGenModel.model
                     _LoadCombData_G.Add(com.NAME, com);
                     break; 
                 case LCKind.STEEL: 
+                    _ComSteel.Add(com.NAME);
+                    _LoadCombData_S.Add(com.NAME, com);
+                    break;
+                case LCKind.CONC:
+                    _ComCon.Add(com.NAME);
+                    _LoadCombData_C.Add(com.NAME, com);
+                    break;
+                default: break;
+            }
+        }
+        /// <summary>
+        /// 添加荷载组合数据入表
+        /// 强制添加，组合名将自动修改
+        /// </summary>
+        /// <param name="com"></param>
+        public void AddEnforce(BLoadComb com)
+        {
+            int Count = this.getCount(com.KIND);
+            com.NAME = string.Format("LC{0}", Count + 1);
+            //记录原始组合顺序
+            switch (com.KIND)
+            {
+                case LCKind.GEN:
+                    _ComGen.Add(com.NAME);
+                    _LoadCombData_G.Add(com.NAME, com);
+                    break;
+                case LCKind.STEEL:
                     _ComSteel.Add(com.NAME);
                     _LoadCombData_S.Add(com.NAME, com);
                     break;
@@ -680,6 +782,26 @@ namespace MidasGenModel.model
                     return _LoadCombData_C[Name] as BLoadComb;
                 default:
                     return null;
+            }
+        }
+
+        /// <summary>
+        /// 取得当前表中组合数量
+        /// </summary>
+        /// <param name="kind">组合类型</param>
+        /// <returns>数</returns>
+        public int getCount(LCKind kind)
+        {
+            switch (kind)
+            {
+                case LCKind.GEN:
+                    return _LoadCombData_G.Count;
+                case LCKind.STEEL:
+                    return _LoadCombData_S.Count;
+                case LCKind.CONC:
+                    return _LoadCombData_C.Count;
+                default:
+                    return 0;
             }
         }
         #endregion
