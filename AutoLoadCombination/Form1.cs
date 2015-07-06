@@ -55,11 +55,17 @@ namespace AutoLoadCombination
             LC = new BLoadCase("T2");
             LC.LCType = LCType.T;
             List_TL.Add(LC);
+
+            //结果表格显示初始化
+            initGridOut();
+
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             CreatLoadComb();
+            //显示数据
+            gridOut.DataSource = BLT.ComList_G;
         }
         /// <summary>
         /// todo:自动生成荷载组合
@@ -78,28 +84,53 @@ namespace AutoLoadCombination
             double Fi_TL = 0.6;//温度作用组合值系数
 
             //由活载控制的基本组合
-            BLoadCombG LComb = new BLoadCombG(LCType.L);
-            LComb.NAME = "C1";
-            LComb.KIND=LCKind.GEN;
-            LComb.DESC = "活载控制";
-            foreach(BLoadCase lc in List_DL)//恒
+
+            List<BLoadCase[]> c1 = PermutationAndCombination<BLoadCase>.GetCombination(List_LL.ToArray(), 1);
+            List<BLoadCase[]> c2 = PermutationAndCombination<BLoadCase>.GetCombination(List_LL.ToArray(), 2);
+
+            List<BLoadCase[]> c = new List<BLoadCase[]> ();
+            c.AddRange(c1);
+            c.AddRange(c2);
+
+            for (int i = 0; i < c.Count; i++)
             {
-                BLCFactGroup lcf_DL = new BLCFactGroup(lc,Rg_DL);
-                LComb.AddLCFactGroup(lcf_DL);
-            }
-            foreach (BLoadCase zlc in List_LL)//活
-            {
-                BLCFactGroup lcf_zLL = new BLCFactGroup(zlc, Rg_LL * Lamd_LL);
-                LComb.AddLCFactGroup(lcf_zLL);//添加控制活荷载工况
-                foreach (BLoadCase lc in List_LL)
+                BLoadCombG LComb = new BLoadCombG(LCType.L);
+                LComb.NAME = "C1";
+                LComb.KIND = LCKind.GEN;
+                LComb.DESC = "活载控制";
+                foreach (BLoadCase lc in List_DL)//恒
                 {
-                    if (lc == zlc)
-                        continue;
-                    BLCFactGroup lcf_LL = new BLCFactGroup(lc, Rg_LL * Lamd_LL * Fi_LL);
-                    LComb.AddLCFactGroup(lcf_LL);//添加组合活荷载
+                    BLCFactGroup lcf_DL = new BLCFactGroup(lc, Rg_DL);
+                    LComb.AddLCFactGroup(lcf_DL);
                 }
+
+                foreach (BLoadCase zlc in c[i])//活
+                {
+
+                    BLCFactGroup lcf_zLL = new BLCFactGroup(zlc, Rg_LL * Lamd_LL);
+                    LComb.AddLCFactGroup(lcf_zLL);//添加控制活荷载工况
+                    //foreach (BLoadCase lc in List_LL)
+                    //{
+                    //    if (lc == zlc)
+                    //        continue;
+                    //    BLCFactGroup lcf_LL = new BLCFactGroup(lc, Rg_LL * Lamd_LL * Fi_LL);
+                    //    LComb.AddLCFactGroup(lcf_LL);//添加组合活荷载
+                    //}
+                    
+                }
+
                 BLT.AddEnforce(LComb);//有问题
-            }
+            }            
+        }
+
+        /// <summary>
+        /// 初始化结果显示
+        /// </summary>
+        private void initGridOut()
+        {
+            gridOut.ReadOnly = true;
+            //数据绑定
+            gridOut.DataSource = BLT.ComList_G;
         }
     }
 }

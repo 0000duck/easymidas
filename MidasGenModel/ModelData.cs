@@ -216,16 +216,28 @@ namespace MidasGenModel.model
     /// </summary>
     [Serializable]
     public class BLoadCase
-    {
+    {        
+        private string _LCName;
+        private LCType _LCType;
+        private ANAL _ANALType;//荷载计算条件种类
         /// <summary>
         /// 荷载工况名称
         /// </summary>
-        public string LCName;
+        public string LCName
+        {
+            get { return _LCName; }
+            set { _LCName = value; }
+        }        
+        
         /// <summary>
         /// 荷载工况类型
         /// </summary>
-        public LCType LCType;
-        private ANAL _ANALType;//荷载计算条件种类
+        public LCType LCType
+        {
+            get { return _LCType; }
+            set { _LCType = value; }
+        }
+        
         /// <summary>
         /// 荷载计算条件种类：静力，反应谱等
         /// </summary>
@@ -233,6 +245,15 @@ namespace MidasGenModel.model
         {
             get { return _ANALType; }
             set { _ANALType = value; }
+        }
+        /// <summary>
+        /// 无参数构造函数
+        /// </summary>
+        public BLoadCase()
+        {
+            LCName = null;
+            LCType = LCType.USER;
+            _ANALType = ANAL.ST;
         }
         /// <summary>
         /// 按名称实例化荷载工况（默认类型为User;计算条件类型为ST）
@@ -250,25 +271,23 @@ namespace MidasGenModel.model
     /// 荷载工况组和系数对
     /// </summary>
     [Serializable]
-    public class BLCFactGroup:ICloneable
+    public class BLCFactGroup:BLoadCase,ICloneable
     {
-        private ANAL _ANAL;
         /// <summary>
         /// 单位荷载条件的种类
         /// </summary>
         public ANAL ANAL
         {
-            get { return _ANAL; }
-            set { _ANAL = value; }
+            get { return base.ANALType; }
+            set { base.ANALType = value; }
         }
-        private string _LCNAME;
         /// <summary>
         /// 工况名称
         /// </summary>
         public string LCNAME
         {
-            get { return _LCNAME; }
-            set { _LCNAME = value; }
+            get { return base.LCName; }
+            set { base.LCName = value; }
         }
         private double _FACT;
         /// <summary>
@@ -284,9 +303,7 @@ namespace MidasGenModel.model
         /// 默认构造函数
         /// </summary>
         public BLCFactGroup()
-        {
-            _ANAL = ANAL.ST;
-            _LCNAME = null;
+        {     
             _FACT = 0;
         }
         /// <summary>
@@ -296,8 +313,9 @@ namespace MidasGenModel.model
         /// <param name="f">系数</param>
         public BLCFactGroup(BLoadCase lc,double f)
         {
-            _ANAL = lc.ANALType;
-            _LCNAME = lc.LCName;
+            base.ANALType = lc.ANALType;
+            base.LCName = lc.LCName;
+            base.LCType = lc.LCType;
             _FACT = f;
         }
         /// <summary>
@@ -442,6 +460,25 @@ namespace MidasGenModel.model
             _iTYPE=0;
             _DESC="";
             _LoadCombData.Clear();//移除所有元素
+        }
+        /// <summary>
+        /// 依据荷载类型去除工况系数组
+        /// </summary>
+        /// <param name="type">工况类型</param>
+        public void ClearLC_Type(LCType type)
+        {
+            List<BLCFactGroup> ir = new List<BLCFactGroup>();//要删除的项
+
+            foreach (BLCFactGroup bfg in _LoadCombData)
+            {
+                if (bfg.LCType == type)
+                {
+                    ir.Add(bfg);
+                }
+            }
+
+            foreach (BLCFactGroup blc in ir)
+                _LoadCombData.Remove(blc);
         }
 
         /// <summary>
@@ -618,6 +655,21 @@ namespace MidasGenModel.model
         public Hashtable LoadCombData_C
         {
             get { return _LoadCombData_C; }
+        }
+        /// <summary>
+        /// 基本组合数据表
+        /// </summary>
+        public List<BLoadCombG> ComList_G
+        {
+            get
+            {
+                List<BLoadCombG> res = new List<BLoadCombG>();
+                foreach (string cn in _ComGen)
+                {
+                    res.Add(_LoadCombData_G[cn] as BLoadCombG);
+                }
+                return res;
+            }
         }
         #endregion
         #region 构造函数

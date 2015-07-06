@@ -65,9 +65,9 @@
             this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.gridOut = new Xceed.Grid.GridControl();
+            this.dataRowTemplate1 = new Xceed.Grid.DataRow();
             this.groupByRow1 = new Xceed.Grid.GroupByRow();
             this.columnManagerRow1 = new Xceed.Grid.ColumnManagerRow();
-            this.dataRowTemplate1 = new Xceed.Grid.DataRow();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -77,8 +77,8 @@
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridOut)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.columnManagerRow1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataRowTemplate1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.columnManagerRow1)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -502,8 +502,8 @@
             this.groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridOut)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.columnManagerRow1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataRowTemplate1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.columnManagerRow1)).EndInit();
             this.ResumeLayout(false);
 
         }
