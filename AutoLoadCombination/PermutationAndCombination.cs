@@ -201,5 +201,27 @@ namespace AutoLoadCombination
             GetCombination(ref list, t, 0, n, temp);
             return list;
         }
+        /// <summary>
+        /// 将数组中n个元素每个为主排列一次
+        /// </summary>
+        /// <param name="t">数组</param>
+        /// <returns>排列后的列表</returns>
+        public static List<T[]> GetPermutationOne(T[] t)
+        {
+            List<T[]> list = new List<T[]>();
+            list.Add(t);
+            if (t.Length <= 1)
+            {
+                return list;
+            }
+            for (int i = 1; i < t.Length; i++)
+            {
+                T[] NewT=new T[t.Length];
+                Array.Copy(t, NewT, t.Length);
+                Swap(ref NewT[0], ref NewT[i]);
+                list.Add(NewT);
+            }
+            return list;
+        }
     }
 }

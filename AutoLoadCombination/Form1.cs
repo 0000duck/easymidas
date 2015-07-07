@@ -40,6 +40,10 @@ namespace AutoLoadCombination
             LC.LCType = LCType.L;
             List_LL.Add(LC);
 
+            //LC = new BLoadCase("L3");
+            //LC.LCType = LCType.L;
+            //List_LL.Add(LC);
+
             LC = new BLoadCase("W1");
             LC.LCType = LCType.W;
             List_WL.Add(LC);
@@ -72,6 +76,8 @@ namespace AutoLoadCombination
         /// </summary>
         private void CreatLoadComb()
         {
+            //todo:清除BLT表中所有组合
+
             double Rg_DL = 1.2;//恒载分项系数（不利）
             double Rgc_DL = 1.35;//恒载控制时分项系数
             double Rgn_DL = 1.0;//恒载有利时，不大于1.0
@@ -85,12 +91,22 @@ namespace AutoLoadCombination
 
             //由活载控制的基本组合
 
-            List<BLoadCase[]> c1 = PermutationAndCombination<BLoadCase>.GetCombination(List_LL.ToArray(), 1);
-            List<BLoadCase[]> c2 = PermutationAndCombination<BLoadCase>.GetCombination(List_LL.ToArray(), 2);
-
             List<BLoadCase[]> c = new List<BLoadCase[]> ();
-            c.AddRange(c1);
-            c.AddRange(c2);
+            for(int i=1;i<=List_LL.Count;i++)
+            {
+                List<BLoadCase[]> ci = PermutationAndCombination<BLoadCase>.GetCombination(List_LL.ToArray(), i);
+                if (i == 1)
+                { 
+                    c.AddRange(ci);
+                    continue;
+                }               
+                //按主控制工况进行办换顺序
+                foreach(BLoadCase[] cc in ci)
+                {
+                    List<BLoadCase[]> cn = PermutationAndCombination<BLoadCase>.GetPermutationOne(cc);
+                    c.AddRange(cn);
+                }                
+            }
 
             for (int i = 0; i < c.Count; i++)
             {
@@ -104,11 +120,14 @@ namespace AutoLoadCombination
                     LComb.AddLCFactGroup(lcf_DL);
                 }
 
+                int num_LL = c[i].Length;
+
+                BLCFactGroup lcf_zLL = new BLCFactGroup(c[i][0], Rg_LL * Lamd_LL);
+                LComb.AddLCFactGroup(lcf_zLL);//添加控制活荷载工况
+
                 foreach (BLoadCase zlc in c[i])//活
                 {
-
-                    BLCFactGroup lcf_zLL = new BLCFactGroup(zlc, Rg_LL * Lamd_LL);
-                    LComb.AddLCFactGroup(lcf_zLL);//添加控制活荷载工况
+                    
                     //foreach (BLoadCase lc in List_LL)
                     //{
                     //    if (lc == zlc)
