@@ -21,44 +21,10 @@ namespace AutoLoadCombination
         public Form1()
         {
             InitializeComponent();
-            this.comboBox_W.SelectedIndex = 0;
-            this.comboBox_DL.SelectedIndex = 0;
-            this.comboBox_LL.SelectedIndex = 0;
-            this.comboBox_Eh.SelectedIndex = 2;
-            this.comboBox_Ev.SelectedIndex = 2;
-
-            //定义各工况名          
-            BLoadCase LC = new BLoadCase("DL");
-            LC.LCType = LCType.D;
-            List_DL.Add(LC);
-
-            LC = new BLoadCase("L1");
-            LC.LCType = LCType.L;
-            List_LL.Add(LC);
-
-            LC = new BLoadCase("L2");
-            LC.LCType = LCType.L;
-            List_LL.Add(LC);
-
-            //LC = new BLoadCase("L3");
-            //LC.LCType = LCType.L;
-            //List_LL.Add(LC);
-
-            LC = new BLoadCase("W1");
-            LC.LCType = LCType.W;
-            List_WL.Add(LC);
-
-            LC = new BLoadCase("W2");
-            LC.LCType = LCType.W;
-            List_WL.Add(LC);
-
-            LC = new BLoadCase("T1");
-            LC.LCType = LCType.T;
-            List_TL.Add(LC);
-
-            LC = new BLoadCase("T2");
-            LC.LCType = LCType.T;
-            List_TL.Add(LC);
+            initForm();//初始化控件显示
+            
+           //定义各工况名          
+            updateInput();
 
             //结果表格显示初始化
             initGridOut();
@@ -92,11 +58,15 @@ namespace AutoLoadCombination
             double Fi_TL = 0.6;//温度作用组合值系数
 
             //由活载控制的基本组合
+            List<BLoadCase> List_V = new List<BLoadCase>();//所有可变荷载工况列表
+            List_V.AddRange(List_LL);//活
+            List_V.AddRange(List_WL);//风
+            List_V.AddRange(List_TL);//温
 
             List<BLoadCase[]> c = new List<BLoadCase[]> ();//可变荷载组合列表
-            for(int i=1;i<=List_LL.Count;i++)
+            for(int i=1;i<=List_V.Count;i++)
             {
-                List<BLoadCase[]> ci = PermutationAndCombination<BLoadCase>.GetCombination(List_LL.ToArray(), i);
+                List<BLoadCase[]> ci = PermutationAndCombination<BLoadCase>.GetCombination(List_V.ToArray(), i);
                 if (i == 1)
                 { 
                     c.AddRange(ci);
@@ -109,13 +79,13 @@ namespace AutoLoadCombination
                     c.AddRange(cn);
                 }                
             }
-            //生成完整组合`
+            //生成完整组合
             for (int i = 0; i < c.Count; i++)
             {
-                BLoadCombG LComb = new BLoadCombG(LCType.L);
-                LComb.NAME = "C1";
+                LCType ctrT= c[i][0].LCType;//控制工况类型
+                BLoadCombG LComb = new BLoadCombG(ctrT);
+                LComb.NAME = "C1";//临时取个名
                 LComb.KIND = LCKind.GEN;
-                LComb.DESC = "活载控制";
                 foreach (BLoadCase lc in List_DL)//恒
                 {
                     BLCFactGroup lcf_DL = new BLCFactGroup(lc, Rg_DL);
@@ -135,6 +105,8 @@ namespace AutoLoadCombination
                         LComb.AddLCFactGroup(lcf_LL);//添加组合活荷载
                     }
                 }
+
+                LComb.DESC = LComb.ToString();//指定组合描述
                 BLT.AddEnforce(LComb);
             }            
         }
@@ -148,6 +120,38 @@ namespace AutoLoadCombination
             //数据绑定
             gridOut.DataSource = BLT.getComTable_G();
             gridOut.Columns[1].Width = 200;
+        }
+
+        /// <summary>
+        /// 初始化控件
+        /// </summary>
+        private void initForm()
+        {
+            this.comboBox_W.SelectedIndex = 0;
+            this.comboBox_DL.SelectedIndex = 0;
+            this.comboBox_LL.SelectedIndex = 0;
+            this.comboBox_Eh.SelectedIndex = 2;
+            this.comboBox_Ev.SelectedIndex = 2;
+        }
+        /// <summary>
+        /// 更新输入数据
+        /// </summary>
+        private void updateInput()
+        {
+            BLoadCase LC = new BLoadCase(tb_DL.Text);
+            LC.ANALType = (comboBox_DL.SelectedIndex == 0) ? ANAL.ST : ANAL.CB;
+            LC.LCType = LCType.D;
+            List_DL.Add(LC);
+
+            LC = new BLoadCase(tb_LL.Text);
+            LC.ANALType = (comboBox_LL.SelectedIndex == 0) ? ANAL.ST : ANAL.CB;
+            LC.LCType = LCType.L;
+            List_LL.Add(LC);
+
+            LC = new BLoadCase(tb_W1.Text);
+            LC.ANALType = (comboBox_W.SelectedIndex==0) ? ANAL.ST : ANAL.CB;
+            LC.LCType = LCType.W;
+            List_WL.Add(LC);
         }
     }
 }

@@ -331,7 +331,7 @@ namespace MidasGenModel.model
         /// 输出工况系数组的一般描述
         /// </summary>
         /// <returns>描述字符串</returns>
-        public string ToString()
+        public override string ToString()
         {
             string res = string.Format("{0}×{1}",_FACT,LCType.ToString());
             return res;
@@ -585,7 +585,7 @@ namespace MidasGenModel.model
         /// 输出当前组合的直观描述
         /// </summary>
         /// <returns>描述字符串</returns>
-        public string ToString()
+        public override string ToString()
         {
             string res = null;
             for (int i = 0; i < _LoadCombData.Count; i++)

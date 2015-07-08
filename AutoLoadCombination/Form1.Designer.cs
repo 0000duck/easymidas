@@ -119,9 +119,7 @@
             this.comboBox_DL.FormattingEnabled = true;
             this.comboBox_DL.Items.AddRange(new object[] {
             "静力(ST)",
-            "组合(CB)",
-            "反应谱(RS)",
-            "偶然偏心反应谱(ES)"});
+            "组合(CB)"});
             this.comboBox_DL.Location = new System.Drawing.Point(266, 27);
             this.comboBox_DL.Name = "comboBox_DL";
             this.comboBox_DL.Size = new System.Drawing.Size(106, 20);
@@ -172,9 +170,7 @@
             this.comboBox_LL.FormattingEnabled = true;
             this.comboBox_LL.Items.AddRange(new object[] {
             "静力(ST)",
-            "组合(CB)",
-            "反应谱(RS)",
-            "偶然偏心反应谱(ES)"});
+            "组合(CB)"});
             this.comboBox_LL.Location = new System.Drawing.Point(266, 27);
             this.comboBox_LL.Name = "comboBox_LL";
             this.comboBox_LL.Size = new System.Drawing.Size(106, 20);
@@ -227,9 +223,7 @@
             this.comboBox_W.FormattingEnabled = true;
             this.comboBox_W.Items.AddRange(new object[] {
             "静力(ST)",
-            "组合(CB)",
-            "反应谱(RS)",
-            "偶然偏心反应谱(ES)"});
+            "组合(CB)"});
             this.comboBox_W.Location = new System.Drawing.Point(210, 29);
             this.comboBox_W.Name = "comboBox_W";
             this.comboBox_W.Size = new System.Drawing.Size(106, 20);
