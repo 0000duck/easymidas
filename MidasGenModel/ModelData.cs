@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using System.Data;
 using MidasGenModel.Design;
 using MidasGenModel.Geometry3d;
 
@@ -326,6 +327,15 @@ namespace MidasGenModel.model
         {
             return this.MemberwiseClone();
         }
+        /// <summary>
+        /// 输出工况系数组的一般描述
+        /// </summary>
+        /// <returns>描述字符串</returns>
+        public string ToString()
+        {
+            string res = string.Format("{0}×{1}",_FACT,LCType.ToString());
+            return res;
+        }
     }
     /// <summary>
     /// 荷载组合类
@@ -571,6 +581,21 @@ namespace MidasGenModel.model
             }
             return res;
         }
+        /// <summary>
+        /// 输出当前组合的直观描述
+        /// </summary>
+        /// <returns>描述字符串</returns>
+        public string ToString()
+        {
+            string res = null;
+            for (int i = 0; i < _LoadCombData.Count; i++)
+            {
+                res += _LoadCombData[i].ToString();
+                if (i != _LoadCombData.Count - 1)
+                    res += "+";
+            }
+            return res; 
+        }
         #endregion
     }
 
@@ -769,6 +794,29 @@ namespace MidasGenModel.model
                 }
             }
         }
+        /// <summary>
+        /// 清空组合列表
+        /// </summary>
+        /// <param name="kind">表类型</param>
+        public void ClearComb(LCKind kind)
+        {
+            switch (kind)
+            {
+                case LCKind.GEN:
+                    _ComGen.Clear();
+                    _LoadCombData_G.Clear();
+                    break;
+                case LCKind.STEEL:
+                    _ComSteel.Clear();
+                    _LoadCombData_S.Clear();
+                    break;
+                case LCKind.CONC:
+                    _ComCon.Clear();
+                    _LoadCombData_C.Clear();
+                    break;
+                default: break;
+            }
+        }
 
         /// <summary>
         /// 设置组合激活状态
@@ -855,6 +903,28 @@ namespace MidasGenModel.model
                 default:
                     return 0;
             }
+        }
+        /// <summary>
+        /// 取得基本组合数据表用于显示
+        /// </summary>
+        /// <returns>数据表结果</returns>
+        public DataTable getComTable_G()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("名称",Type.GetType("System.String"));
+            dt.Columns.Add("描述", Type.GetType("System.String"));
+            dt.Columns.Add("控制工况", Type.GetType("System.String"));
+            foreach (string cn in _ComGen)
+            {
+                DataRow dr = dt.NewRow();
+                dr[0] = cn;
+                BLoadCombG curCom= _LoadCombData_G[cn] as BLoadCombG;
+                dr[1] = curCom.ToString();
+                dr[2] = curCom.CtrLC.ToString();
+                dt.Rows.Add(dr);
+            }
+            
+            return dt;
         }
         #endregion
     }
