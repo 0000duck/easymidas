@@ -44,12 +44,12 @@
             this.comboBox_W = new System.Windows.Forms.ComboBox();
             this.tb_W1 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.npd_WL = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.tb_T1 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.npd_TL = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.label15 = new System.Windows.Forms.Label();
@@ -71,9 +71,9 @@
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.npd_WL)).BeginInit();
             this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.npd_TL)).BeginInit();
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridOut)).BeginInit();
@@ -199,7 +199,7 @@
             this.groupBox3.Controls.Add(this.comboBox_W);
             this.groupBox3.Controls.Add(this.tb_W1);
             this.groupBox3.Controls.Add(this.label4);
-            this.groupBox3.Controls.Add(this.numericUpDown1);
+            this.groupBox3.Controls.Add(this.npd_WL);
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Location = new System.Drawing.Point(12, 160);
             this.groupBox3.Name = "groupBox3";
@@ -246,17 +246,18 @@
             this.label4.TabIndex = 5;
             this.label4.Text = "工况名：";
             // 
-            // numericUpDown1
+            // npd_WL
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(93, 28);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(39, 21);
-            this.numericUpDown1.TabIndex = 4;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.npd_WL.Location = new System.Drawing.Point(93, 28);
+            this.npd_WL.Name = "npd_WL";
+            this.npd_WL.Size = new System.Drawing.Size(39, 21);
+            this.npd_WL.TabIndex = 4;
+            this.npd_WL.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
+            this.npd_WL.ValueChanged += new System.EventHandler(this.npd_WL_ValueChanged);
             // 
             // label3
             // 
@@ -271,7 +272,7 @@
             // 
             this.groupBox4.Controls.Add(this.tb_T1);
             this.groupBox4.Controls.Add(this.label5);
-            this.groupBox4.Controls.Add(this.numericUpDown2);
+            this.groupBox4.Controls.Add(this.npd_TL);
             this.groupBox4.Controls.Add(this.label6);
             this.groupBox4.Location = new System.Drawing.Point(12, 261);
             this.groupBox4.Name = "groupBox4";
@@ -297,13 +298,13 @@
             this.label5.TabIndex = 5;
             this.label5.Text = "工况名：";
             // 
-            // numericUpDown2
+            // npd_TL
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(93, 28);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(39, 21);
-            this.numericUpDown2.TabIndex = 4;
-            this.numericUpDown2.Value = new decimal(new int[] {
+            this.npd_TL.Location = new System.Drawing.Point(93, 28);
+            this.npd_TL.Name = "npd_TL";
+            this.npd_TL.Size = new System.Drawing.Size(39, 21);
+            this.npd_TL.TabIndex = 4;
+            this.npd_TL.Value = new decimal(new int[] {
             1,
             0,
             0,
@@ -488,10 +489,10 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.npd_WL)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.npd_TL)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
@@ -513,13 +514,13 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown npd_WL;
         private System.Windows.Forms.TextBox tb_W1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.TextBox tb_T1;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.NumericUpDown npd_TL;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.TextBox tb_E1;

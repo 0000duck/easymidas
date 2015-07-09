@@ -14,7 +14,24 @@ namespace AutoLoadCombination
     {
         private DataTable _FTable;
         private double _Rg_DL;//不控制时恒载分项系数（不利）
+        /// <summary>
+        /// 不控制时恒载分项系数（不利）
+        /// </summary>
+        public double Rg_DL
+        {
+            get { return _Rg_DL; }
+            set { _Rg_DL = value; }
+        }
+
         private double _Rgn_DL;//不控制时恒载分项系数(有利)
+        /// <summary>
+        /// 不控制时恒载分项系数(有利)
+        /// </summary>
+        public double Rgn_DL
+        {
+            get { return _Rgn_DL; }
+            set { _Rgn_DL = value; }
+        }
         /// <summary>
         /// 默认构造函数，按规范生成默认的系数
         /// </summary>
@@ -23,6 +40,7 @@ namespace AutoLoadCombination
             _Rg_DL = 1.2;
             _Rgn_DL = 1.0;
 
+            _FTable = new DataTable();
             _FTable.Columns.Add("PartialF_ctr",System.Type.GetType("System.Double"));//控制时分项系数列
             _FTable.Columns.Add("PartialF", System.Type.GetType("System.Double"));//不控制时分项系数列（恒载项取1.2）
             _FTable.Columns.Add("CombinationF", System.Type.GetType("System.Double"));//组合值系数列
@@ -69,6 +87,28 @@ namespace AutoLoadCombination
             int i = this.LCindex(type);//取得行索引
             return (double)_FTable.Rows[i]["PartialF_ctr"];
         }
+
+        /// <summary>
+        /// 查得活载使用年限调整系数
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns>系数值</returns>
+        public double getLamd_LL(LCType type)
+        {
+            int i = this.LCindex(type);//取得行索引
+            return (double)_FTable.Rows[i]["Lamd_LL"];
+        }
+        /// <summary>
+        /// 查得组合值系数
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns>系数值</returns>
+        public double getCombinationF(LCType type)
+        {
+            int i = this.LCindex(type);//取得行索引
+            return (double)_FTable.Rows[i]["CombinationF"];
+        }
+
 
         /// <summary>
         /// 由工况类型取得行数的对应关系

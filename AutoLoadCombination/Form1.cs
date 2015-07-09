@@ -18,6 +18,10 @@ namespace AutoLoadCombination
         List<BLoadCase> List_TL = new List<BLoadCase>();//温度作用列表
 
         BLoadCombTable BLT = new BLoadCombTable();//荷载组合结果表
+
+        int NumWL = 1;//风工况数量
+        int NumTL = 1;//温度作用数量
+
         public Form1()
         {
             InitializeComponent();
@@ -46,16 +50,7 @@ namespace AutoLoadCombination
             //清除BLT表中所有组合
             BLT.ClearComb(LCKind.GEN);
 
-            double Rg_DL = 1.2;//恒载分项系数（不利）
-            double Rgc_DL = 1.35;//恒载控制时分项系数
-            double Rgn_DL = 1.0;//恒载有利时，不大于1.0
-
-            double Rg_LL = 1.4;//可变荷载分项系数
-            double Lamd_LL = 1.0;//活荷载使用年限调整系数
-
-            double Fi_LL = 0.7;//活载组合值系数
-            double Fi_WL = 0.6;//风载组合值系数
-            double Fi_TL = 0.6;//温度作用组合值系数
+            LCFactor FF = new LCFactor();//默认组合系数表
 
             //由活载控制的基本组合
             List<BLoadCase> List_V = new List<BLoadCase>();//所有可变荷载工况列表
@@ -88,20 +83,24 @@ namespace AutoLoadCombination
                 LComb.KIND = LCKind.GEN;
                 foreach (BLoadCase lc in List_DL)//恒
                 {
-                    BLCFactGroup lcf_DL = new BLCFactGroup(lc, Rg_DL);
+                    BLCFactGroup lcf_DL = new BLCFactGroup(lc, FF.Rg_DL);
                     LComb.AddLCFactGroup(lcf_DL);
                 }
 
                 int num_LL = c[i].Length;
 
-                BLCFactGroup lcf_zLL = new BLCFactGroup(c[i][0], Rg_LL * Lamd_LL);
+                BLCFactGroup lcf_zLL = new BLCFactGroup(c[i][0],
+                    FF.getPartialF_ctr(c[i][0].LCType) * FF.getLamd_LL(c[i][0].LCType));
                 LComb.AddLCFactGroup(lcf_zLL);//添加控制活荷载工况
 
                 if (num_LL > 1)
                 {
                     for (int j = 1; j < num_LL; j++)
                     {
-                        BLCFactGroup lcf_LL = new BLCFactGroup(c[i][j], Rg_LL * Lamd_LL * Fi_LL);
+                        LCType lct = c[i][j].LCType;
+                        BLCFactGroup lcf_LL = new BLCFactGroup(c[i][j],
+                            FF.getPartialF_ctr(lct) * FF.getLamd_LL(lct) * 
+                            FF.getCombinationF(lct));
                         LComb.AddLCFactGroup(lcf_LL);//添加组合活荷载
                     }
                 }
@@ -119,7 +118,7 @@ namespace AutoLoadCombination
             gridOut.ReadOnly = true;
             //数据绑定
             gridOut.DataSource = BLT.getComTable_G();
-            gridOut.Columns[1].Width = 200;
+            gridOut.Columns[1].Width = 250;
         }
 
         /// <summary>
@@ -152,6 +151,31 @@ namespace AutoLoadCombination
             LC.ANALType = (comboBox_W.SelectedIndex==0) ? ANAL.ST : ANAL.CB;
             LC.LCType = LCType.W;
             List_WL.Add(LC);
+
+            LC = new BLoadCase(tb_T1.Text);
+            LC.LCType = LCType.T;
+            List_TL.Add(LC);
+        }
+
+        private void npd_WL_ValueChanged(object sender, EventArgs e)
+        {
+            NumWL = (int)npd_WL.Value;//WL数量修改
+            if (NumWL <= 1)
+                return;
+
+            int os_x = tb_W1.Width + 6;//偏移量           
+            Point p1 = tb_W1.Location;//第一个控件位置
+            for (int i = 2; i <= NumWL; i++)
+            {
+                TextBox tbn = new TextBox();
+                tbn.Name = string.Format("tb_W{0}", i);
+                p1.Offset(os_x,0);
+                tbn.Location = p1;
+                tbn.Text = string.Format("W{0}",i);
+                tbn.Width = tb_W1.Width;
+                tbn.Height = tb_W1.Height;
+                this.groupBox3.Controls.Add(tbn);
+            }
         }
     }
 }
