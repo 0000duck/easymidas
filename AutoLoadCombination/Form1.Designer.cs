@@ -99,7 +99,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(458, 67);
+            this.groupBox1.Size = new System.Drawing.Size(387, 67);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "恒载指定";
@@ -150,7 +150,7 @@
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Location = new System.Drawing.Point(12, 85);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(458, 66);
+            this.groupBox2.Size = new System.Drawing.Size(387, 66);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "活载指定";
@@ -203,7 +203,7 @@
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Location = new System.Drawing.Point(12, 160);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(458, 95);
+            this.groupBox3.Size = new System.Drawing.Size(387, 95);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "风荷载指定";
@@ -276,7 +276,7 @@
             this.groupBox4.Controls.Add(this.label6);
             this.groupBox4.Location = new System.Drawing.Point(12, 261);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(458, 95);
+            this.groupBox4.Size = new System.Drawing.Size(387, 95);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "温度作用指定";
@@ -337,7 +337,7 @@
             this.groupBox5.Enabled = false;
             this.groupBox5.Location = new System.Drawing.Point(12, 362);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(458, 141);
+            this.groupBox5.Size = new System.Drawing.Size(387, 141);
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "地震作用指定";
@@ -463,18 +463,19 @@
             // gridOut
             // 
             this.gridOut.DataRowTemplate = this.dataRowTemplate1;
+            this.gridOut.Dock = System.Windows.Forms.DockStyle.Right;
             this.gridOut.FixedHeaderRows.Add(this.groupByRow1);
             this.gridOut.FixedHeaderRows.Add(this.columnManagerRow1);
-            this.gridOut.Location = new System.Drawing.Point(485, 12);
+            this.gridOut.Location = new System.Drawing.Point(414, 0);
             this.gridOut.Name = "gridOut";
-            this.gridOut.Size = new System.Drawing.Size(487, 491);
+            this.gridOut.Size = new System.Drawing.Size(487, 568);
             this.gridOut.TabIndex = 7;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 568);
+            this.ClientSize = new System.Drawing.Size(901, 568);
             this.Controls.Add(this.gridOut);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
