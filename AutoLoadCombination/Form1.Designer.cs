@@ -309,6 +309,7 @@
             0,
             0,
             0});
+            this.npd_TL.ValueChanged += new System.EventHandler(this.npd_TL_ValueChanged);
             // 
             // label6
             // 

@@ -131,6 +131,16 @@ namespace AutoLoadCombination
             this.comboBox_LL.SelectedIndex = 0;
             this.comboBox_Eh.SelectedIndex = 2;
             this.comboBox_Ev.SelectedIndex = 2;
+
+            //NumericUpDown控件添加事件
+            this.npd_WL.Maximum = 4;
+            this.npd_WL.Minimum = 1;
+            this.npd_WL.ReadOnly = true;
+
+            this.npd_TL.Maximum = 4;
+            this.npd_TL.Minimum = 1;
+            this.npd_TL.ReadOnly = true;
+            
         }
         /// <summary>
         /// 更新输入数据
@@ -159,23 +169,58 @@ namespace AutoLoadCombination
 
         private void npd_WL_ValueChanged(object sender, EventArgs e)
         {
+            int Num_old = NumWL;//上次输入框数量
             NumWL = (int)npd_WL.Value;//WL数量修改
-            if (NumWL <= 1)
-                return;
 
             int os_x = tb_W1.Width + 6;//偏移量           
             Point p1 = tb_W1.Location;//第一个控件位置
-            for (int i = 2; i <= NumWL; i++)
+            //清理控制
+            for (int j = 1; j <= Num_old; j++)
+            {
+                string tt=string.Format("tb_W{0}", j);
+                (this.groupBox3.Controls.Find(tt, true)[0] as TextBox).Dispose();
+            }
+
+            for (int i = 1; i <= NumWL; i++)
             {
                 TextBox tbn = new TextBox();
                 tbn.Name = string.Format("tb_W{0}", i);
-                p1.Offset(os_x,0);
                 tbn.Location = p1;
+                p1.Offset(os_x, 0);
                 tbn.Text = string.Format("W{0}",i);
                 tbn.Width = tb_W1.Width;
                 tbn.Height = tb_W1.Height;
                 this.groupBox3.Controls.Add(tbn);
             }
         }
+
+        private void npd_TL_ValueChanged(object sender, EventArgs e)
+        {
+            int Num_old = NumTL;//上次输入框数量
+            NumTL = (int)npd_TL.Value;//TL数量修改
+
+            int os_x = tb_T1.Width + 6;//偏移量           
+            Point p1 = tb_T1.Location;//第一个控件位置
+            //清理控制
+            for (int j = 1; j <= Num_old; j++)
+            {
+                string tt = string.Format("tb_T{0}", j);
+                (this.groupBox4.Controls.Find(tt, true)[0] as TextBox).Dispose();
+            }
+
+            for (int i = 1; i <= NumTL; i++)
+            {
+                TextBox tbn = new TextBox();
+                tbn.Name = string.Format("tb_T{0}", i);
+                tbn.Location = p1;
+                p1.Offset(os_x, 0);
+                tbn.Text = string.Format("T{0}", i);
+                tbn.Width = tb_T1.Width;
+                tbn.Height = tb_T1.Height;
+                this.groupBox4.Controls.Add(tbn);
+            }
+        }
+
+
     }
 }
