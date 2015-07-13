@@ -463,7 +463,6 @@
             // gridOut
             // 
             this.gridOut.DataRowTemplate = this.dataRowTemplate1;
-            this.gridOut.Dock = System.Windows.Forms.DockStyle.Right;
             this.gridOut.FixedHeaderRows.Add(this.groupByRow1);
             this.gridOut.FixedHeaderRows.Add(this.columnManagerRow1);
             this.gridOut.Location = new System.Drawing.Point(414, 0);

@@ -37,18 +37,18 @@ namespace AutoLoadCombination
 
         private void button1_Click(object sender, EventArgs e)
         {
+            //清除BLT表中所有组合
+            BLT.ClearComb(LCKind.GEN);
+
             CreatLoadComb();
-            //显示数据
-           
+            //显示数据          
             gridOut.DataSource = BLT.getComTable_G();
         }
         /// <summary>
         /// todo:自动生成荷载组合
         /// </summary>
         private void CreatLoadComb()
-        {
-            //清除BLT表中所有组合
-            BLT.ClearComb(LCKind.GEN);
+        {           
 
             LCFactor FF = new LCFactor();//默认组合系数表
 
@@ -116,9 +116,13 @@ namespace AutoLoadCombination
         private void initGridOut()
         {
             gridOut.ReadOnly = true;
+            gridOut.BackColor = Color.LightBlue;
+            gridOut.Location = new Point(410, 10);
+            gridOut.Size = new System.Drawing.Size(480,500);
             //数据绑定
             gridOut.DataSource = BLT.getComTable_G();
-            gridOut.Columns[1].Width = 250;
+            gridOut.Columns[0].Width = 50;
+            gridOut.Columns[1].Width = 300;
         }
 
         /// <summary>
@@ -126,6 +130,8 @@ namespace AutoLoadCombination
         /// </summary>
         private void initForm()
         {
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;//窗口不可调
+
             this.comboBox_W.SelectedIndex = 0;
             this.comboBox_DL.SelectedIndex = 0;
             this.comboBox_LL.SelectedIndex = 0;
@@ -147,24 +153,39 @@ namespace AutoLoadCombination
         /// </summary>
         private void updateInput()
         {
+            List_DL.Clear();//清理
             BLoadCase LC = new BLoadCase(tb_DL.Text);
             LC.ANALType = (comboBox_DL.SelectedIndex == 0) ? ANAL.ST : ANAL.CB;
             LC.LCType = LCType.D;
             List_DL.Add(LC);
 
+            List_LL.Clear();//清理
             LC = new BLoadCase(tb_LL.Text);
             LC.ANALType = (comboBox_LL.SelectedIndex == 0) ? ANAL.ST : ANAL.CB;
             LC.LCType = LCType.L;
             List_LL.Add(LC);
 
-            LC = new BLoadCase(tb_W1.Text);
-            LC.ANALType = (comboBox_W.SelectedIndex==0) ? ANAL.ST : ANAL.CB;
-            LC.LCType = LCType.W;
-            List_WL.Add(LC);
-
-            LC = new BLoadCase(tb_T1.Text);
-            LC.LCType = LCType.T;
-            List_TL.Add(LC);
+            List_WL.Clear();//清理
+            //更新风载
+            for (int i = 1; i <= NumWL; i++)
+            {
+                string tt = string.Format("tb_W{0}", i);
+                TextBox tb=this.groupBox3.Controls.Find(tt, true)[0] as TextBox;
+                LC = new BLoadCase(tb.Text);
+                LC.ANALType = (comboBox_W.SelectedIndex == 0) ? ANAL.ST : ANAL.CB;
+                LC.LCType = LCType.W;
+                List_WL.Add(LC);
+            }
+            List_TL.Clear();//清理
+            //更新温度
+            for (int i = 1; i <= NumTL; i++)
+            {
+                string tt = string.Format("tb_T{0}", i);
+                TextBox tb = this.groupBox4.Controls.Find(tt, true)[0] as TextBox;
+                LC = new BLoadCase(tb.Text);
+                LC.LCType = LCType.T;
+                List_TL.Add(LC);
+            }                
         }
 
         private void npd_WL_ValueChanged(object sender, EventArgs e)
@@ -192,6 +213,8 @@ namespace AutoLoadCombination
                 tbn.Height = tb_W1.Height;
                 this.groupBox3.Controls.Add(tbn);
             }
+            //更新数据
+            updateInput();
         }
 
         private void npd_TL_ValueChanged(object sender, EventArgs e)
@@ -219,6 +242,9 @@ namespace AutoLoadCombination
                 tbn.Height = tb_T1.Height;
                 this.groupBox4.Controls.Add(tbn);
             }
+
+            //更新数据
+            updateInput();
         }
 
 
