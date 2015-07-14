@@ -68,6 +68,7 @@
             this.dataRowTemplate1 = new Xceed.Grid.DataRow();
             this.groupByRow1 = new Xceed.Grid.GroupByRow();
             this.columnManagerRow1 = new Xceed.Grid.ColumnManagerRow();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -85,9 +86,9 @@
             // 
             this.button1.Location = new System.Drawing.Point(12, 523);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 25);
+            this.button1.Size = new System.Drawing.Size(87, 25);
             this.button1.TabIndex = 0;
-            this.button1.Text = "生成";
+            this.button1.Text = "生成基本组合";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -470,11 +471,22 @@
             this.gridOut.Size = new System.Drawing.Size(487, 568);
             this.gridOut.TabIndex = 7;
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(105, 528);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(132, 16);
+            this.checkBox1.TabIndex = 16;
+            this.checkBox1.Text = "包括由永久荷载控制";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(901, 568);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.gridOut);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
@@ -501,6 +513,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataRowTemplate1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.columnManagerRow1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -546,6 +559,7 @@
         private Xceed.Grid.DataRow dataRowTemplate1;
         private Xceed.Grid.GroupByRow groupByRow1;
         private Xceed.Grid.ColumnManagerRow columnManagerRow1;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 
