@@ -52,7 +52,6 @@
             this.npd_TL = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.comboBox_Ev = new System.Windows.Forms.ComboBox();
             this.tb_Ez = new System.Windows.Forms.TextBox();
@@ -68,7 +67,10 @@
             this.dataRowTemplate1 = new Xceed.Grid.DataRow();
             this.groupByRow1 = new Xceed.Grid.GroupByRow();
             this.columnManagerRow1 = new Xceed.Grid.ColumnManagerRow();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.cb_DLCtr = new System.Windows.Forms.CheckBox();
+            this.cb_W = new System.Windows.Forms.CheckBox();
+            this.cb_T = new System.Windows.Forms.CheckBox();
+            this.cb_DLFavour = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -100,7 +102,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(387, 67);
+            this.groupBox1.Size = new System.Drawing.Size(387, 48);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "恒载指定";
@@ -108,7 +110,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(219, 30);
+            this.label10.Location = new System.Drawing.Point(219, 20);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(41, 12);
             this.label10.TabIndex = 9;
@@ -121,14 +123,14 @@
             this.comboBox_DL.Items.AddRange(new object[] {
             "静力(ST)",
             "组合(CB)"});
-            this.comboBox_DL.Location = new System.Drawing.Point(266, 27);
+            this.comboBox_DL.Location = new System.Drawing.Point(266, 17);
             this.comboBox_DL.Name = "comboBox_DL";
             this.comboBox_DL.Size = new System.Drawing.Size(106, 20);
             this.comboBox_DL.TabIndex = 8;
             // 
             // tb_DL
             // 
-            this.tb_DL.Location = new System.Drawing.Point(93, 27);
+            this.tb_DL.Location = new System.Drawing.Point(93, 17);
             this.tb_DL.Name = "tb_DL";
             this.tb_DL.Size = new System.Drawing.Size(100, 21);
             this.tb_DL.TabIndex = 1;
@@ -137,7 +139,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(22, 30);
+            this.label1.Location = new System.Drawing.Point(22, 20);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(65, 12);
             this.label1.TabIndex = 0;
@@ -149,9 +151,9 @@
             this.groupBox2.Controls.Add(this.comboBox_LL);
             this.groupBox2.Controls.Add(this.tb_LL);
             this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Location = new System.Drawing.Point(12, 85);
+            this.groupBox2.Location = new System.Drawing.Point(12, 64);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(387, 66);
+            this.groupBox2.Size = new System.Drawing.Size(387, 47);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "活载指定";
@@ -159,7 +161,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(219, 30);
+            this.label11.Location = new System.Drawing.Point(219, 20);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(41, 12);
             this.label11.TabIndex = 9;
@@ -172,14 +174,14 @@
             this.comboBox_LL.Items.AddRange(new object[] {
             "静力(ST)",
             "组合(CB)"});
-            this.comboBox_LL.Location = new System.Drawing.Point(266, 27);
+            this.comboBox_LL.Location = new System.Drawing.Point(266, 17);
             this.comboBox_LL.Name = "comboBox_LL";
             this.comboBox_LL.Size = new System.Drawing.Size(106, 20);
             this.comboBox_LL.TabIndex = 8;
             // 
             // tb_LL
             // 
-            this.tb_LL.Location = new System.Drawing.Point(93, 27);
+            this.tb_LL.Location = new System.Drawing.Point(93, 17);
             this.tb_LL.Name = "tb_LL";
             this.tb_LL.Size = new System.Drawing.Size(100, 21);
             this.tb_LL.TabIndex = 1;
@@ -188,7 +190,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(22, 30);
+            this.label2.Location = new System.Drawing.Point(22, 20);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(65, 12);
             this.label2.TabIndex = 0;
@@ -196,23 +198,23 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.cb_W);
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.comboBox_W);
             this.groupBox3.Controls.Add(this.tb_W1);
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.npd_WL);
             this.groupBox3.Controls.Add(this.label3);
-            this.groupBox3.Location = new System.Drawing.Point(12, 160);
+            this.groupBox3.Location = new System.Drawing.Point(12, 116);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(387, 95);
+            this.groupBox3.Size = new System.Drawing.Size(387, 83);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "风荷载指定";
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(163, 32);
+            this.label9.Location = new System.Drawing.Point(163, 26);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(41, 12);
             this.label9.TabIndex = 7;
@@ -225,14 +227,14 @@
             this.comboBox_W.Items.AddRange(new object[] {
             "静力(ST)",
             "组合(CB)"});
-            this.comboBox_W.Location = new System.Drawing.Point(210, 29);
+            this.comboBox_W.Location = new System.Drawing.Point(210, 23);
             this.comboBox_W.Name = "comboBox_W";
             this.comboBox_W.Size = new System.Drawing.Size(106, 20);
             this.comboBox_W.TabIndex = 4;
             // 
             // tb_W1
             // 
-            this.tb_W1.Location = new System.Drawing.Point(93, 59);
+            this.tb_W1.Location = new System.Drawing.Point(93, 53);
             this.tb_W1.Name = "tb_W1";
             this.tb_W1.Size = new System.Drawing.Size(39, 21);
             this.tb_W1.TabIndex = 6;
@@ -241,7 +243,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(22, 62);
+            this.label4.Location = new System.Drawing.Point(22, 56);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(53, 12);
             this.label4.TabIndex = 5;
@@ -249,7 +251,7 @@
             // 
             // npd_WL
             // 
-            this.npd_WL.Location = new System.Drawing.Point(93, 28);
+            this.npd_WL.Location = new System.Drawing.Point(93, 22);
             this.npd_WL.Name = "npd_WL";
             this.npd_WL.Size = new System.Drawing.Size(39, 21);
             this.npd_WL.TabIndex = 4;
@@ -263,7 +265,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(22, 30);
+            this.label3.Location = new System.Drawing.Point(22, 24);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(65, 12);
             this.label3.TabIndex = 0;
@@ -271,20 +273,20 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.cb_T);
             this.groupBox4.Controls.Add(this.tb_T1);
             this.groupBox4.Controls.Add(this.label5);
             this.groupBox4.Controls.Add(this.npd_TL);
             this.groupBox4.Controls.Add(this.label6);
-            this.groupBox4.Location = new System.Drawing.Point(12, 261);
+            this.groupBox4.Location = new System.Drawing.Point(12, 205);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(387, 95);
+            this.groupBox4.Size = new System.Drawing.Size(387, 79);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "温度作用指定";
             // 
             // tb_T1
             // 
-            this.tb_T1.Location = new System.Drawing.Point(93, 59);
+            this.tb_T1.Location = new System.Drawing.Point(93, 52);
             this.tb_T1.Name = "tb_T1";
             this.tb_T1.Size = new System.Drawing.Size(39, 21);
             this.tb_T1.TabIndex = 6;
@@ -293,7 +295,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(22, 62);
+            this.label5.Location = new System.Drawing.Point(22, 55);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(53, 12);
             this.label5.TabIndex = 5;
@@ -301,7 +303,7 @@
             // 
             // npd_TL
             // 
-            this.npd_TL.Location = new System.Drawing.Point(93, 28);
+            this.npd_TL.Location = new System.Drawing.Point(93, 21);
             this.npd_TL.Name = "npd_TL";
             this.npd_TL.Size = new System.Drawing.Size(39, 21);
             this.npd_TL.TabIndex = 4;
@@ -315,7 +317,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(22, 30);
+            this.label6.Location = new System.Drawing.Point(22, 23);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(77, 12);
             this.label6.TabIndex = 0;
@@ -323,7 +325,6 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.label15);
             this.groupBox5.Controls.Add(this.label14);
             this.groupBox5.Controls.Add(this.comboBox_Ev);
             this.groupBox5.Controls.Add(this.tb_Ez);
@@ -336,26 +337,17 @@
             this.groupBox5.Controls.Add(this.numericUpDown3);
             this.groupBox5.Controls.Add(this.label8);
             this.groupBox5.Enabled = false;
-            this.groupBox5.Location = new System.Drawing.Point(12, 362);
+            this.groupBox5.Location = new System.Drawing.Point(12, 290);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(387, 141);
+            this.groupBox5.Size = new System.Drawing.Size(387, 116);
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "地震作用指定";
             // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(22, 83);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(317, 12);
-            this.label15.TabIndex = 15;
-            this.label15.Text = "----------------------------------------------------";
-            // 
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(138, 111);
+            this.label14.Location = new System.Drawing.Point(138, 90);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(41, 12);
             this.label14.TabIndex = 14;
@@ -370,14 +362,14 @@
             "组合(CB)",
             "反应谱(RS)",
             "偶然偏心反应谱(ES)"});
-            this.comboBox_Ev.Location = new System.Drawing.Point(185, 108);
+            this.comboBox_Ev.Location = new System.Drawing.Point(185, 87);
             this.comboBox_Ev.Name = "comboBox_Ev";
             this.comboBox_Ev.Size = new System.Drawing.Size(106, 20);
             this.comboBox_Ev.TabIndex = 13;
             // 
             // tb_Ez
             // 
-            this.tb_Ez.Location = new System.Drawing.Point(93, 108);
+            this.tb_Ez.Location = new System.Drawing.Point(93, 87);
             this.tb_Ez.Name = "tb_Ez";
             this.tb_Ez.Size = new System.Drawing.Size(39, 21);
             this.tb_Ez.TabIndex = 12;
@@ -386,7 +378,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(22, 111);
+            this.label13.Location = new System.Drawing.Point(22, 90);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(65, 12);
             this.label13.TabIndex = 11;
@@ -471,22 +463,59 @@
             this.gridOut.Size = new System.Drawing.Size(487, 568);
             this.gridOut.TabIndex = 7;
             // 
-            // checkBox1
+            // cb_DLCtr
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(105, 528);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(132, 16);
-            this.checkBox1.TabIndex = 16;
-            this.checkBox1.Text = "包括由永久荷载控制";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.cb_DLCtr.AutoSize = true;
+            this.cb_DLCtr.Location = new System.Drawing.Point(20, 450);
+            this.cb_DLCtr.Name = "cb_DLCtr";
+            this.cb_DLCtr.Size = new System.Drawing.Size(132, 16);
+            this.cb_DLCtr.TabIndex = 16;
+            this.cb_DLCtr.Text = "包括由永久荷载控制";
+            this.cb_DLCtr.UseVisualStyleBackColor = true;
+            // 
+            // cb_W
+            // 
+            this.cb_W.AutoSize = true;
+            this.cb_W.Checked = true;
+            this.cb_W.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_W.Location = new System.Drawing.Point(7, 1);
+            this.cb_W.Name = "cb_W";
+            this.cb_W.Size = new System.Drawing.Size(84, 16);
+            this.cb_W.TabIndex = 8;
+            this.cb_W.Text = "风荷载指定";
+            this.cb_W.UseVisualStyleBackColor = true;
+            this.cb_W.CheckedChanged += new System.EventHandler(this.cb_W_CheckedChanged);
+            // 
+            // cb_T
+            // 
+            this.cb_T.AutoSize = true;
+            this.cb_T.Checked = true;
+            this.cb_T.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_T.Location = new System.Drawing.Point(8, 1);
+            this.cb_T.Name = "cb_T";
+            this.cb_T.Size = new System.Drawing.Size(96, 16);
+            this.cb_T.TabIndex = 9;
+            this.cb_T.Text = "温度作用指定";
+            this.cb_T.UseVisualStyleBackColor = true;
+            this.cb_T.CheckedChanged += new System.EventHandler(this.cb_T_CheckedChanged);
+            // 
+            // cb_DLFavour
+            // 
+            this.cb_DLFavour.AutoSize = true;
+            this.cb_DLFavour.Location = new System.Drawing.Point(20, 472);
+            this.cb_DLFavour.Name = "cb_DLFavour";
+            this.cb_DLFavour.Size = new System.Drawing.Size(120, 16);
+            this.cb_DLFavour.TabIndex = 17;
+            this.cb_DLFavour.Text = "永久荷载有利组合";
+            this.cb_DLFavour.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(901, 568);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.cb_DLFavour);
+            this.Controls.Add(this.cb_DLCtr);
             this.Controls.Add(this.gridOut);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
@@ -547,7 +576,6 @@
         private System.Windows.Forms.ComboBox comboBox_DL;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.ComboBox comboBox_LL;
-        private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.ComboBox comboBox_Ev;
         private System.Windows.Forms.TextBox tb_Ez;
@@ -559,7 +587,10 @@
         private Xceed.Grid.DataRow dataRowTemplate1;
         private Xceed.Grid.GroupByRow groupByRow1;
         private Xceed.Grid.ColumnManagerRow columnManagerRow1;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox cb_DLCtr;
+        private System.Windows.Forms.CheckBox cb_W;
+        private System.Windows.Forms.CheckBox cb_T;
+        private System.Windows.Forms.CheckBox cb_DLFavour;
     }
 }
 

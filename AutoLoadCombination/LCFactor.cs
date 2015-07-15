@@ -55,21 +55,21 @@ namespace AutoLoadCombination
 
             dr = _FTable.NewRow();//活载
             dr["PartialF_ctr"] = 1.4;
-            dr["PartialF"] = 1.0;
+            dr["PartialF"] = 1.4;
             dr["CombinationF"] = 0.7;
             dr["Lamd_LL"] = 1.0;
             _FTable.Rows.Add(dr);
 
             dr = _FTable.NewRow();//风载
             dr["PartialF_ctr"] = 1.4;
-            dr["PartialF"] = 1.0;
+            dr["PartialF"] = 1.4;
             dr["CombinationF"] = 0.6;
             dr["Lamd_LL"] = 1.0;
             _FTable.Rows.Add(dr);
 
             dr = _FTable.NewRow();//温度
             dr["PartialF_ctr"] = 1.4;
-            dr["PartialF"] = 1.0;
+            dr["PartialF"] = 1.4;
             dr["CombinationF"] = 0.6;
             dr["Lamd_LL"] = 1.0;
             _FTable.Rows.Add(dr);
@@ -86,6 +86,17 @@ namespace AutoLoadCombination
         {
             int i = this.LCindex(type);//取得行索引
             return (double)_FTable.Rows[i]["PartialF_ctr"];
+        }
+
+        /// <summary>
+        /// 查得不控制时的分项系数
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns>系数值</returns>
+        public double getPartialF(LCType type)
+        {
+            int i = this.LCindex(type);//取得行索引
+            return (double)_FTable.Rows[i]["PartialF"];
         }
 
         /// <summary>

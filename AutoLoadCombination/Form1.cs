@@ -17,6 +17,8 @@ namespace AutoLoadCombination
         List<BLoadCase> List_WL = new List<BLoadCase>();//风载工部列表
         List<BLoadCase> List_TL = new List<BLoadCase>();//温度作用列表
 
+        LCFactor FF = new LCFactor();//默认组合系数表
+
         BLoadCombTable BLT = new BLoadCombTable();//荷载组合结果表
 
         int NumWL = 1;//风工况数量
@@ -39,18 +41,71 @@ namespace AutoLoadCombination
         {
             //清除BLT表中所有组合
             BLT.ClearComb(LCKind.GEN);
-
-            CreatLoadComb();
+            //生成恒载控制组合
+            if (cb_DLCtr.Checked)
+                CreatFundamentalComb_DL();
+            //默认生成恒载不利组合
+            CreatFundamentalComb_VL(false);
+            //如果指定，再追加生成恒载有利组合；
+            if (cb_DLFavour.Checked)
+                CreatFundamentalComb_VL(true);
             //显示数据          
             gridOut.DataSource = BLT.getComTable_G();
         }
-        /// <summary>
-        /// todo:自动生成荷载组合
-        /// </summary>
-        private void CreatLoadComb()
-        {           
 
-            LCFactor FF = new LCFactor();//默认组合系数表
+        /// <summary>
+        /// 生成基本组合:由永久荷载控制
+        /// </summary>
+        private void CreatFundamentalComb_DL()
+        {
+
+            //由活载控制的基本组合
+            List<BLoadCase> List_V = new List<BLoadCase>();//所有可变荷载工况列表
+            List_V.AddRange(List_LL);//活
+            List_V.AddRange(List_WL);//风
+            List_V.AddRange(List_TL);//温
+
+            List<BLoadCase[]> c = new List<BLoadCase[]>();//可变荷载组合列表
+            for (int i = 1; i <= List_V.Count; i++)
+            {
+                List<BLoadCase[]> ci = PermutationAndCombination<BLoadCase>.GetCombination(List_V.ToArray(), i);
+                c.AddRange(ci);               
+            }
+            //生成完整组合
+            for (int i = 0; i < c.Count; i++)
+            {
+                LCType ctrT = LCType.D;//控制工况类型:恒载
+                BLoadCombG LComb = new BLoadCombG(ctrT);
+                LComb.NAME = "C1";//临时取个名
+                LComb.KIND = LCKind.GEN;
+                foreach (BLoadCase lc in List_DL)//恒
+                {
+                    double F_DL = FF.getPartialF_ctr(LCType.D) ;
+                    BLCFactGroup lcf_DL = new BLCFactGroup(lc, F_DL);
+                    LComb.AddLCFactGroup(lcf_DL);
+                }
+
+                int num_LL = c[i].Length;
+
+                for (int j = 0; j <num_LL; j++)
+                {
+                    LCType lct = c[i][j].LCType;
+                    BLCFactGroup lcf_LL = new BLCFactGroup(c[i][j],
+                        FF.getPartialF(lct) * FF.getLamd_LL(lct) *
+                        FF.getCombinationF(lct));
+                    LComb.AddLCFactGroup(lcf_LL);//添加组合活荷载
+                }
+
+                LComb.DESC = LComb.ToString();//指定组合描述
+                BLT.AddEnforce(LComb);
+            }
+        }
+        /// <summary>
+        /// 生成基本组合:由可变荷载控制
+        /// </summary>
+        /// <param name="DL_Favour">恒载是否有利</param>
+        private void CreatFundamentalComb_VL(bool DL_Favour)
+        {           
 
             //由活载控制的基本组合
             List<BLoadCase> List_V = new List<BLoadCase>();//所有可变荷载工况列表
@@ -83,7 +138,12 @@ namespace AutoLoadCombination
                 LComb.KIND = LCKind.GEN;
                 foreach (BLoadCase lc in List_DL)//恒
                 {
-                    BLCFactGroup lcf_DL = new BLCFactGroup(lc, FF.Rg_DL);
+                    double F_DL = 1.0;
+                    if (DL_Favour)
+                        F_DL = FF.Rgn_DL;//恒载有利；
+                    else
+                        F_DL = FF.Rg_DL;//恒载不利;
+                    BLCFactGroup lcf_DL = new BLCFactGroup(lc,F_DL);
                     LComb.AddLCFactGroup(lcf_DL);
                 }
 
@@ -167,25 +227,32 @@ namespace AutoLoadCombination
 
             List_WL.Clear();//清理
             //更新风载
-            for (int i = 1; i <= NumWL; i++)
+            if (cb_W.Checked)
             {
-                string tt = string.Format("tb_W{0}", i);
-                TextBox tb=this.groupBox3.Controls.Find(tt, true)[0] as TextBox;
-                LC = new BLoadCase(tb.Text);
-                LC.ANALType = (comboBox_W.SelectedIndex == 0) ? ANAL.ST : ANAL.CB;
-                LC.LCType = LCType.W;
-                List_WL.Add(LC);
+                for (int i = 1; i <= NumWL; i++)
+                {
+                    string tt = string.Format("tb_W{0}", i);
+                    TextBox tb = this.groupBox3.Controls.Find(tt, true)[0] as TextBox;
+                    LC = new BLoadCase(tb.Text);
+                    LC.ANALType = (comboBox_W.SelectedIndex == 0) ? ANAL.ST : ANAL.CB;
+                    LC.LCType = LCType.W;
+                    List_WL.Add(LC);
+                }
             }
+            
             List_TL.Clear();//清理
             //更新温度
-            for (int i = 1; i <= NumTL; i++)
+            if (cb_T.Checked)
             {
-                string tt = string.Format("tb_T{0}", i);
-                TextBox tb = this.groupBox4.Controls.Find(tt, true)[0] as TextBox;
-                LC = new BLoadCase(tb.Text);
-                LC.LCType = LCType.T;
-                List_TL.Add(LC);
-            }                
+                for (int i = 1; i <= NumTL; i++)
+                {
+                    string tt = string.Format("tb_T{0}", i);
+                    TextBox tb = this.groupBox4.Controls.Find(tt, true)[0] as TextBox;
+                    LC = new BLoadCase(tb.Text);
+                    LC.LCType = LCType.T;
+                    List_TL.Add(LC);
+                }   
+            }                         
         }
 
         private void npd_WL_ValueChanged(object sender, EventArgs e)
@@ -243,6 +310,32 @@ namespace AutoLoadCombination
                 this.groupBox4.Controls.Add(tbn);
             }
 
+            //更新数据
+            updateInput();
+        }
+
+        private void cb_W_CheckedChanged(object sender, EventArgs e)
+        {
+            foreach(Control cr in groupBox3.Controls)
+            {
+                if (cr is CheckBox)
+                    continue;
+                else
+                    cr.Enabled = cb_W.Checked;
+            }
+            //更新数据
+            updateInput();
+        }
+
+        private void cb_T_CheckedChanged(object sender, EventArgs e)
+        {
+            foreach (Control cr in groupBox4.Controls)
+            {
+                if (cr is CheckBox)
+                    continue;
+                else
+                    cr.Enabled = cb_T.Checked;
+            }
             //更新数据
             updateInput();
         }
