@@ -79,6 +79,8 @@
             this.tb_leng1 = new System.Windows.Forms.TextBox();
             this.tb_GammaRe = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -602,11 +604,31 @@
             this.label17.TabIndex = 12;
             this.label17.Text = "抗震调整\r\n系数γre";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(305, 497);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(131, 12);
+            this.label1.TabIndex = 34;
+            this.label1.Text = "程序：李黎明  2011.03";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(307, 511);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(101, 12);
+            this.label18.TabIndex = 35;
+            this.label18.Text = "www.lubanren.net";
+            // 
             // SetCheckingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(474, 545);
+            this.Controls.Add(this.label18);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.bt_ParaOut);
             this.Controls.Add(this.button5);
@@ -689,5 +711,7 @@
         private System.Windows.Forms.TextBox tb_leng1;
         private System.Windows.Forms.TextBox tb_GammaRe;
         private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label18;
     }
 }
