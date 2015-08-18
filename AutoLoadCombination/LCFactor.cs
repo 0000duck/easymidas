@@ -8,7 +8,7 @@ using MidasGenModel.model;
 namespace AutoLoadCombination
 {
     /// <summary>
-    /// 荷载工部有关各种系数类，用于存储分项系数、组合值系数、准永久值系数等
+    /// 荷载工况有关各种系数类，用于存储分项系数、组合值系数、准永久值系数等
     /// </summary>
     class LCFactor
     {

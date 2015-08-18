@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MidasGenModel.model;
+using System.IO;
+using System.Diagnostics;
 
 namespace AutoLoadCombination
 {
@@ -207,6 +209,8 @@ namespace AutoLoadCombination
             this.npd_TL.Minimum = 1;
             this.npd_TL.ReadOnly = true;
             
+            //按扭
+            this.bt_WriteMGT.Enabled = false;
         }
         /// <summary>
         /// 更新输入数据
@@ -338,6 +342,29 @@ namespace AutoLoadCombination
             }
             //更新数据
             updateInput();
+        }
+
+        /// <summary>
+        /// 当数据行变化时触发的事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void gridOut_DataRowsChanged(object sender, EventArgs e)
+        {
+            if (gridOut.DataRows.Count == 0)
+                bt_WriteMGT.Enabled = false;
+            else
+                bt_WriteMGT.Enabled = true;
+        }
+
+        private void bt_WriteMGT_Click(object sender, EventArgs e)
+        {
+            string CurPath = System.Environment.CurrentDirectory;
+            string fn = "loadcom.tmp";//文件名
+            string FileName = CurPath + "\\" + fn;
+            this.BLT.WriteMGT(FileName);//写出文件
+
+            Process.Start("notepad.exe", FileName);
         }
 
 

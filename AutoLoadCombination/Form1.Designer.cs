@@ -40,6 +40,7 @@
             this.tb_LL = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.cb_W = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
             this.comboBox_W = new System.Windows.Forms.ComboBox();
             this.tb_W1 = new System.Windows.Forms.TextBox();
@@ -47,6 +48,7 @@
             this.npd_WL = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.cb_T = new System.Windows.Forms.CheckBox();
             this.tb_T1 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.npd_TL = new System.Windows.Forms.NumericUpDown();
@@ -68,9 +70,8 @@
             this.groupByRow1 = new Xceed.Grid.GroupByRow();
             this.columnManagerRow1 = new Xceed.Grid.ColumnManagerRow();
             this.cb_DLCtr = new System.Windows.Forms.CheckBox();
-            this.cb_W = new System.Windows.Forms.CheckBox();
-            this.cb_T = new System.Windows.Forms.CheckBox();
             this.cb_DLFavour = new System.Windows.Forms.CheckBox();
+            this.bt_WriteMGT = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -211,6 +212,19 @@
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             // 
+            // cb_W
+            // 
+            this.cb_W.AutoSize = true;
+            this.cb_W.Checked = true;
+            this.cb_W.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_W.Location = new System.Drawing.Point(7, 1);
+            this.cb_W.Name = "cb_W";
+            this.cb_W.Size = new System.Drawing.Size(84, 16);
+            this.cb_W.TabIndex = 8;
+            this.cb_W.Text = "风荷载指定";
+            this.cb_W.UseVisualStyleBackColor = true;
+            this.cb_W.CheckedChanged += new System.EventHandler(this.cb_W_CheckedChanged);
+            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -283,6 +297,19 @@
             this.groupBox4.Size = new System.Drawing.Size(387, 79);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
+            // 
+            // cb_T
+            // 
+            this.cb_T.AutoSize = true;
+            this.cb_T.Checked = true;
+            this.cb_T.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_T.Location = new System.Drawing.Point(8, 1);
+            this.cb_T.Name = "cb_T";
+            this.cb_T.Size = new System.Drawing.Size(96, 16);
+            this.cb_T.TabIndex = 9;
+            this.cb_T.Text = "温度作用指定";
+            this.cb_T.UseVisualStyleBackColor = true;
+            this.cb_T.CheckedChanged += new System.EventHandler(this.cb_T_CheckedChanged);
             // 
             // tb_T1
             // 
@@ -462,6 +489,7 @@
             this.gridOut.Name = "gridOut";
             this.gridOut.Size = new System.Drawing.Size(487, 568);
             this.gridOut.TabIndex = 7;
+            this.gridOut.DataRowsChanged += new System.EventHandler(this.gridOut_DataRowsChanged);
             // 
             // cb_DLCtr
             // 
@@ -473,32 +501,6 @@
             this.cb_DLCtr.Text = "包括由永久荷载控制";
             this.cb_DLCtr.UseVisualStyleBackColor = true;
             // 
-            // cb_W
-            // 
-            this.cb_W.AutoSize = true;
-            this.cb_W.Checked = true;
-            this.cb_W.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_W.Location = new System.Drawing.Point(7, 1);
-            this.cb_W.Name = "cb_W";
-            this.cb_W.Size = new System.Drawing.Size(84, 16);
-            this.cb_W.TabIndex = 8;
-            this.cb_W.Text = "风荷载指定";
-            this.cb_W.UseVisualStyleBackColor = true;
-            this.cb_W.CheckedChanged += new System.EventHandler(this.cb_W_CheckedChanged);
-            // 
-            // cb_T
-            // 
-            this.cb_T.AutoSize = true;
-            this.cb_T.Checked = true;
-            this.cb_T.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_T.Location = new System.Drawing.Point(8, 1);
-            this.cb_T.Name = "cb_T";
-            this.cb_T.Size = new System.Drawing.Size(96, 16);
-            this.cb_T.TabIndex = 9;
-            this.cb_T.Text = "温度作用指定";
-            this.cb_T.UseVisualStyleBackColor = true;
-            this.cb_T.CheckedChanged += new System.EventHandler(this.cb_T_CheckedChanged);
-            // 
             // cb_DLFavour
             // 
             this.cb_DLFavour.AutoSize = true;
@@ -509,11 +511,22 @@
             this.cb_DLFavour.Text = "永久荷载有利组合";
             this.cb_DLFavour.UseVisualStyleBackColor = true;
             // 
+            // bt_WriteMGT
+            // 
+            this.bt_WriteMGT.Location = new System.Drawing.Point(114, 525);
+            this.bt_WriteMGT.Name = "bt_WriteMGT";
+            this.bt_WriteMGT.Size = new System.Drawing.Size(75, 23);
+            this.bt_WriteMGT.TabIndex = 18;
+            this.bt_WriteMGT.Text = "导出MGT";
+            this.bt_WriteMGT.UseVisualStyleBackColor = true;
+            this.bt_WriteMGT.Click += new System.EventHandler(this.bt_WriteMGT_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(901, 568);
+            this.Controls.Add(this.bt_WriteMGT);
             this.Controls.Add(this.cb_DLFavour);
             this.Controls.Add(this.cb_DLCtr);
             this.Controls.Add(this.gridOut);
@@ -591,6 +604,7 @@
         private System.Windows.Forms.CheckBox cb_W;
         private System.Windows.Forms.CheckBox cb_T;
         private System.Windows.Forms.CheckBox cb_DLFavour;
+        private System.Windows.Forms.Button bt_WriteMGT;
     }
 }
 

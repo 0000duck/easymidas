@@ -596,6 +596,31 @@ namespace MidasGenModel.model
             }
             return res; 
         }
+        /// <summary>
+        /// 取得组合中的工况系数对数据，mgt格式的第二行之后
+        /// </summary>
+        /// <returns>行数组，两行数据大小为2</returns>
+        public string[] getMGTLine()
+        {
+            int i=_LoadCombData.Count;//总数
+            int iLine=(int)Math.Ceiling(i/5.0);
+            string[] res = new string[iLine];
+            for (int j = 0; j < iLine; j++)
+            {
+                string Line1 = "";
+                for (int k = j * 5; (k < i)&&(k<(5*j+5)); k++)
+                {
+                    Line1 += string.Format("{0},{1},{2}",_LoadCombData[k].ANAL.ToString(),
+                        _LoadCombData[k].LCNAME,_LoadCombData[k].FACT);
+                    if (k != (i - 1) && k != (5 * j + 4))//如果不是行尾
+                    {
+                        Line1 += ",";
+                    }
+                }
+                res[j] = Line1;
+            }
+            return res;
+        }
         #endregion
     }
 
@@ -925,6 +950,41 @@ namespace MidasGenModel.model
             }
             
             return dt;
+        }
+
+        /// <summary>
+        /// 写出荷载组合mgt命令到文件
+        /// </summary>
+        /// <param name="FileN">文件路径</param>
+        public void WriteMGT(string FileN)
+        {
+            FileStream fs = File.Open(FileN, FileMode.Create);
+            StreamWriter wt = new StreamWriter(fs, Encoding.GetEncoding("gb2312"));
+
+            wt.WriteLine(";---------------------------------------------------------------------------");
+            wt.WriteLine(";  midas Gen Text(MGT) File.");
+            wt.WriteLine(";  EasyMidas Created at " + System.DateTime.Now);
+            wt.WriteLine(";  http://www.lubanren.com");
+            wt.WriteLine(";---------------------------------------------------------------------------");
+            wt.WriteLine();
+
+            wt.WriteLine("*LOADCOMB    ; Combinations");
+            foreach (string lc in this._ComGen)
+            {
+                BLoadCombG curCom = _LoadCombData_G[lc] as BLoadCombG;
+                string isAct = curCom.bACTIVE ? "ACTIVE" : "INACTIVE";//是否激活
+                string isES = curCom.bES ? "1" : "0";//是否地震
+                wt.WriteLine("   NAME={0}, GEN, {1}, {2}, {3},{4}, 0, 0",
+                    lc,isAct,isES,curCom.iTYPE,curCom.ToString());
+                string[] comdataMgt = curCom.getMGTLine();//取得工况系数对数据
+                foreach (string cdm in comdataMgt)
+                {
+                    wt.WriteLine("        "+cdm);
+                }
+            }
+
+            wt.Close();
+            fs.Close();
         }
         #endregion
     }
