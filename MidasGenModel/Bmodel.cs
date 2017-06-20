@@ -279,9 +279,19 @@ namespace MidasGenModel.model
             double y0 = pt2_Axis.Y - pt1_Axis.Y;
             double z0 = pt2_Axis.Z - pt1_Axis.Z;
             Vector3 vf = Vector3.Normalize(new Vector3(x0, y0, z0));//单位化向量
-            Vector3 vr = vf.CrossProduct(new Vector3(1, 0, 0));
+            //[bug修复]：20170620
+            //归避当vf正好等于(1,0,0)时计算错误的情况
+            Vector3 vr = new Vector3();
+            if (vf == new Vector3 (1,0,0))
+            {
+                vr = vf.CrossProduct(new Vector3(0, 1, 0));
+            }
+            else
+            {
+                vr = vf.CrossProduct(new Vector3(1, 0, 0));
+            }
             Vector3 vup = vf.CrossProduct(vr);
-
+            //[Bug修复结束]
             RtwMatrix m = new RtwMatrix(3, 3);
             m[0, 0] = (float)vr.X;
             m[1, 0] = (float)vr.Y;
@@ -2270,7 +2280,7 @@ namespace MidasGenModel.model
             FileStream stream = File.Open(inp, FileMode.Create);
             StreamWriter writer = new StreamWriter(stream);
             writer.WriteLine("/COM,Midas2Ansys INP File Created at " + System.DateTime.Now);
-            writer.WriteLine("/COM,*******http://www.lubanren.com********");
+            writer.WriteLine("/COM,*******http://www.lubanren.net********");
 
             #region 宏定义
             writer.WriteLine("\n!SPC截面宏定义...并执行");
