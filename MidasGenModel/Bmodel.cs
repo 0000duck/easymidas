@@ -282,7 +282,8 @@ namespace MidasGenModel.model
             //[bug修复]：20170620
             //归避当vf正好等于(1,0,0)时计算错误的情况
             Vector3 vr = new Vector3();
-            if (vf == new Vector3 (1,0,0))
+            //如果vf和x轴共线，即叉乘等于零，则使用Y轴
+            if (vf.CrossProduct(new Vector3 (1,0,0)).Equals(new Vector3(0,0,0)))
             {
                 vr = vf.CrossProduct(new Vector3(0, 1, 0));
             }
