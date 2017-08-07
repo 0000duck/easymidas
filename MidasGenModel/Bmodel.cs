@@ -279,13 +279,14 @@ namespace MidasGenModel.model
             double y0 = pt2_Axis.Y - pt1_Axis.Y;
             double z0 = pt2_Axis.Z - pt1_Axis.Z;
             Vector3 vf = Vector3.Normalize(new Vector3(x0, y0, z0));//单位化向量
-            //[bug修复]：20170806
+            //[bug修复]：20170807
             //归避当vf正好等于(1,0,0)时计算错误的情况
             Vector3 vr = new Vector3();
             //如果vf和x轴共线，即叉乘等于零，则使用Y轴
             //判断平行或夹角小于0.00001时使用Y轴进行叉乘
             if (vf.CrossProduct(new Vector3 (1,0,0)).Equals(new Vector3(0,0,0))||
-                vf.Angle(new Vector3 (1,0,0))<=0.00001)
+                vf.Angle(new Vector3 (1,0,0))<=0.00001|| 
+                Math.Abs( vf.Angle(new Vector3(1, 0, 0))-Math.PI) <= 0.00001)
             {
                 vr = vf.CrossProduct(new Vector3(0, 1, 0));
             }
